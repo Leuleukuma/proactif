@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ProActif — Le sport en entreprise qui fait du bien à vos équipes</title>
+<link rel="icon" href="assets/logo-proactif.png" type="image/png" />
+<meta name="description" content="ProActif intervient sur site pour animer des séances d'activité physique avec vos équipes. Moins de stress, moins d'absentéisme, plus de cohésion. Digne-les-Bains & Alpes-de-Haute-Provence." />
+
+<!-- ============================================================
+     POLICES — Spectral (serif display) + Libre Franklin (sans)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Franklin:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   1. TOKENS — Couleurs, typo, espacements de la marque ProActif
+   ============================================================ */
+:root{
+  /* Palette */
+  --green:        #4a7a5c;   /* vert ProActif (logo, accents) */
+  --green-deep:   #38614a;   /* vert foncé (hover, fonds) */
+  --green-soft:   #e7ede7;   /* vert très clair (fonds de cartes) */
+  --green-tint:   #d8e2d9;
+  --ink:          #1f2421;   /* anthracite (texte principal) */
+  --ink-soft:     #4b524b;   /* texte secondaire */
+  --muted:        #6f766e;   /* texte tertiaire */
+  --cream:        #f4f2ea;   /* fond crème */
+  --cream-deep:   #ece9df;
+  --white:        #ffffff;
+  --line:         #dcdacf;   /* filets / séparateurs */
+
+  /* Typo */
+  --serif: "Spectral", Georgia, "Times New Roman", serif;
+  --sans:  "Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Mise en page */
+  --maxw: 1180px;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 18px 50px -28px rgba(31,36,33,.45);
+  --shadow-soft: 0 10px 30px -22px rgba(31,36,33,.4);
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+::selection{background:var(--green);color:#fff}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+section{position:relative}
+
+/* Eyebrow / labels en capitales (style des intertitres de la marque) */
+.eyebrow{
+  font-family:var(--sans);
+  font-weight:700;
+  font-size:.78rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--green);
+  display:inline-flex;
+  align-items:center;
+  gap:.6rem;
+}
+.eyebrow::before{
+  content:"";width:26px;height:2px;background:var(--green);display:inline-block;
+}
+
+/* Titres */
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;letter-spacing:-.01em;color:var(--ink)}
+.h-display{font-size:clamp(2.4rem,5.2vw,4.1rem);font-weight:600}
+.h-section{font-size:clamp(1.9rem,3.6vw,2.9rem)}
+.lead{font-size:clamp(1.05rem,1.5vw,1.25rem);color:var(--ink-soft);max-width:60ch}
+.serif-em{color:var(--green);font-style:italic}
+
+/* ============================================================
+   3. BOUTONS — micro-interactions
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  font-family:var(--sans);font-weight:600;font-size:.97rem;
+  padding:.95rem 1.7rem;border-radius:100px;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),color .25s var(--ease);
+  will-change:transform;white-space:nowrap;
+}
+.btn svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 24px -10px rgba(74,122,92,.7)}
+.btn-primary:hover{background:var(--green-deep);transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(56,97,74,.65)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--ink);box-shadow:var(--shadow-soft)}
+.btn-light:hover{transform:translateY(-2px);color:var(--green)}
+.btn-on-dark{background:#fff;color:var(--green-deep)}
+.btn-on-dark:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(0,0,0,.4)}
+
+/* ============================================================
+   4. LOGO / WORDMARK ProActif
+   ============================================================ */
+.brand{display:inline-flex;align-items:center;gap:.62rem}
+.brand .word{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:-.02em;color:var(--ink);line-height:1}
+.brand .word b{font-weight:600;color:var(--green)} /* le A en vert */
+.brand .mark{width:36px;height:36px;flex:none;display:block}
+
+/* ============================================================
+   5. HEADER (sticky)
+   ============================================================ */
+header.site{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),padding .3s var(--ease);
+  padding:18px 0;
+}
+header.site.scrolled{
+  background:rgba(244,242,234,.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 1px 0 rgba(31,36,33,.07);
+  padding:11px 0;
+}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{
+  font-size:.92rem;font-weight:500;color:var(--ink-soft);position:relative;padding:4px 0;
+  transition:color .2s var(--ease);
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--green);
+  transition:width .28s var(--ease);
+}
+.nav-links a:hover,.nav-links a.active{color:var(--ink)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-cta{display:flex;align-items:center;gap:14px}
+
+/* Hamburger mobile */
+.burger{display:none;width:42px;height:42px;border-radius:10px;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.burger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .3s var(--ease),opacity .3s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* Menu mobile (drawer) */
+.mobile-menu{
+  position:fixed;inset:0 0 0 auto;width:min(86vw,360px);z-index:99;
+  background:var(--cream);box-shadow:-20px 0 60px -30px rgba(0,0,0,.4);
+  transform:translateX(100%);transition:transform .4s var(--ease);
+  padding:96px 30px 40px;display:flex;flex-direction:column;gap:6px;
+}
+.mobile-menu.open{transform:translateX(0)}
+.mobile-menu a{padding:14px 0;font-size:1.15rem;font-family:var(--serif);border-bottom:1px solid var(--line);color:var(--ink)}
+.mobile-menu .btn{margin-top:20px}
+.scrim{position:fixed;inset:0;background:rgba(31,36,33,.4);z-index:98;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.scrim.open{opacity:1;visibility:visible}
+
+/* ============================================================
+   6. HERO
+   ============================================================ */
+.hero{padding:150px 0 90px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{margin:18px 0 22px}
+.hero .lead{margin-bottom:34px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:26px;align-items:center;color:var(--muted);font-size:.9rem}
+.hero-trust .item{display:flex;align-items:center;gap:.5rem;font-weight:500}
+.hero-trust svg{width:18px;height:18px;color:var(--green);flex:none}
+
+.hero-visual{position:relative}
+.hero-visual .frame{
+  border-radius:var(--radius);overflow:hidden;background:#fff;
+  box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.04);
+}
+.hero-visual .frame img{width:100%;height:100%;object-fit:cover}
+/* badge flottant sur le visuel */
+.float-badge{
+  position:absolute;left:-26px;bottom:34px;background:#fff;border-radius:16px;
+  padding:16px 20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;
+  border:1px solid rgba(0,0,0,.04);
+}
+.float-badge .num{font-family:var(--serif);font-size:1.9rem;color:var(--green);font-weight:600;line-height:1}
+.float-badge .lbl{font-size:.78rem;color:var(--ink-soft);font-weight:500;max-width:13ch;line-height:1.3}
+.hero-blob{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(74,122,92,.13),transparent 70%);top:-120px;right:-160px;z-index:-1}
+
+/* ============================================================
+   7. PROBLÈME (chiffres)
+   ============================================================ */
+.problem{padding:96px 0;background:var(--ink);color:#eef0ec}
+.problem h2{color:#fff}
+.problem .lead{color:#c7ccc6}
+.problem-head{max-width:760px;margin-bottom:54px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.stat{
+  border-top:2px solid rgba(255,255,255,.16);padding-top:26px;
+}
+.stat .big{font-family:var(--serif);font-size:clamp(2.6rem,5vw,3.6rem);font-weight:600;color:var(--green-soft);line-height:1;letter-spacing:-.02em}
+.stat .big .unit{font-size:.5em;color:#9fb3a2}
+.stat .desc{margin-top:14px;color:#c7ccc6;font-size:.98rem;max-width:30ch}
+.problem .source{margin-top:38px;font-size:.8rem;color:#8d948c;font-style:italic}
+
+/* ============================================================
+   8. SOLUTION
+   ============================================================ */
+.solution{padding:104px 0}
+.solution-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:start}
+.solution h2{margin:16px 0 22px}
+.sol-list{list-style:none;display:flex;flex-direction:column;gap:18px;margin-top:30px}
+.sol-list.sol-list-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:34px;
+  margin-top:60px;padding-top:42px;border-top:1px solid var(--line);
+}
+.sol-list li{display:flex;gap:16px;align-items:flex-start}
+.sol-list .tick{flex:none;width:30px;height:30px;border-radius:9px;background:var(--green-soft);display:grid;place-items:center;margin-top:2px}
+.sol-list .tick svg{width:16px;height:16px;color:var(--green-deep)}
+.sol-list strong{display:block;font-weight:600;color:var(--ink);font-size:1.02rem}
+.sol-list span{color:var(--ink-soft);font-size:.95rem}
+
+.sol-visual{position:relative;border-radius:var(--radius);overflow:hidden}
+/* placeholder image clairement identifié */
+.ph{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:
+    repeating-linear-gradient(135deg,var(--cream-deep) 0 14px,var(--cream) 14px 28px);
+  border:1px dashed var(--line);
+  display:grid;place-items:center;color:var(--muted);
+}
+.ph .ph-tag{
+  font-family:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+  font-size:.78rem;letter-spacing:.02em;background:rgba(255,255,255,.82);
+  padding:8px 14px;border-radius:8px;border:1px solid var(--line);color:var(--ink-soft);
+  text-align:center;max-width:80%;
+}
+
+/* ============================================================
+   9. BÉNÉFICES (cartes)
+   ============================================================ */
+.benefits{padding:104px 0;background:var(--white)}
+.section-head{max-width:680px;margin:0 auto 56px;text-align:center}
+.section-head .lead{margin:18px auto 0}
+.bene-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.bcard{
+  background:var(--cream);border-radius:var(--radius);padding:32px 26px 30px;
+  border:1px solid rgba(0,0,0,.03);position:relative;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.bcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.bcard .ic{width:54px;height:54px;border-radius:14px;background:#fff;display:grid;place-items:center;margin-bottom:22px;box-shadow:var(--shadow-soft)}
+.bcard .ic svg{width:26px;height:26px;color:var(--green)}
+.bcard h3{font-size:1.18rem;margin-bottom:10px}
+.bcard p{font-size:.93rem;color:var(--ink-soft)}
+.bcard .corner{position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--green-soft);opacity:.6;transition:transform .4s var(--ease)}
+.bcard:hover .corner{transform:scale(1.5)}
+.bcard>*{position:relative;z-index:1}
+
+/* ============================================================
+   10. COMMENT ÇA MARCHE (étapes)
+   ============================================================ */
+.process{padding:104px 0;background:var(--cream-deep)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;position:relative;margin-top:54px}
+.step{position:relative;text-align:center}
+.step .n{
+  font-family:var(--serif);font-size:1.1rem;font-weight:600;color:#fff;
+  width:48px;height:48px;border-radius:50%;background:var(--green);display:grid;place-items:center;
+  margin:0 auto 24px;position:relative;z-index:2;box-shadow:0 8px 20px -10px rgba(74,122,92,.8);
+}
+.step h3{font-size:1.3rem;margin-bottom:12px}
+.step p{color:var(--ink-soft);font-size:.96rem;max-width:24ch;margin-left:auto;margin-right:auto}
+/* ligne pointillée entre étapes */
+.steps::before{
+  content:"";position:absolute;top:24px;left:12.5%;right:12.5%;height:2px;
+  background-image:linear-gradient(to right,var(--green) 50%,transparent 0);
+  background-size:12px 2px;background-repeat:repeat-x;opacity:.5;z-index:1;
+}
+
+/* ============================================================
+   11. FORMATS DE SÉANCES (cartes)
+   ============================================================ */
+.formats{padding:104px 0}
+.fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.fcard{
+  background:var(--white);border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);border:1px solid rgba(0,0,0,.04);
+  display:flex;flex-direction:column;padding:30px 26px 28px;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.fcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.fcard .chip{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:22px}
+.fcard .chip.g1{background:linear-gradient(140deg,#6f9a7d,#4a7a5c)}
+.fcard .chip.g2{background:linear-gradient(140deg,#5b8a6c,#38614a)}
+.fcard .chip.g3{background:linear-gradient(140deg,#7aa688,#56876a)}
+.fcard .chip.g4{background:linear-gradient(140deg,#3f5d4d,#2b3a31)}
+.fcard .chip svg{width:28px;height:28px;color:#fff}
+.fcard h3{font-size:1.22rem;margin-bottom:8px;line-height:1.2}
+.fcard .pitch{font-size:.9rem;color:var(--ink-soft);margin-bottom:18px;line-height:1.5}
+.fcard ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:auto}
+.fcard li{display:flex;gap:10px;align-items:center;font-size:.93rem;color:var(--ink-soft)}
+.fcard li svg{width:15px;height:15px;color:var(--green);flex:none}
+
+/* ============================================================
+   12. À PROPOS
+   ============================================================ */
+.about{padding:104px 0;background:var(--white)}
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
+.about-photo{aspect-ratio:4/5;border-radius:var(--radius)}
+.about h2{margin:16px 0 22px}
+.about p{color:var(--ink-soft);margin-bottom:18px;font-size:1.04rem}
+.about .sign{font-family:var(--serif);font-size:1.4rem;color:var(--green);font-style:italic;margin-top:8px}
+.about-creds{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.cred{display:flex;align-items:center;gap:10px;background:var(--cream);border-radius:100px;padding:9px 18px;font-size:.88rem;font-weight:500;color:var(--ink)}
+.cred svg{width:17px;height:17px;color:var(--green)}
+
+/* ============================================================
+   13. TÉMOIGNAGES
+   ============================================================ */
+.testimonials{padding:104px 0;background:var(--ink);color:#eef0ec}
+.testimonials h2{color:#fff}
+.testimonials .section-head .lead{color:#c7ccc6}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tcard{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius);padding:34px 30px;display:flex;flex-direction:column;
+}
+.tcard .quote-ic{font-family:var(--serif);font-size:3.4rem;line-height:.6;color:var(--green);height:32px}
+.tcard blockquote{font-size:1.02rem;color:#e3e6e1;margin:14px 0 26px;flex:1;line-height:1.6}
+.tcard .who{display:flex;align-items:center;gap:14px;margin-top:auto}
+.tcard .ava{width:46px;height:46px;border-radius:50%;flex:none;background:repeating-linear-gradient(135deg,#3a463d 0 8px,#2f3a32 8px 16px);display:grid;place-items:center;font-family:ui-monospace,monospace;font-size:.6rem;color:#8d948c;text-align:center}
+.tcard .who .nm{font-weight:600;color:#fff;font-size:.95rem;font-family:var(--sans)}
+.tcard .who .rl{font-size:.82rem;color:#9fa69e}
+
+/* ============================================================
+   14. FAQ
+   ============================================================ */
+.faq{padding:104px 0}
+.faq-wrap{max-width:820px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:26px 4px;text-align:left;font-family:var(--serif);font-size:1.22rem;color:var(--ink);font-weight:600;
+}
+.faq-q .pm{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;transition:background .25s,border-color .25s,transform .3s var(--ease)}
+.faq-q .pm svg{width:15px;height:15px;color:var(--green);transition:transform .3s var(--ease)}
+.faq-item.open .faq-q .pm{background:var(--green);border-color:var(--green)}
+.faq-item.open .faq-q .pm svg{color:#fff;transform:rotate(45deg)}
+.faq-a{overflow:hidden;max-height:0;transition:max-height .4s var(--ease)}
+.faq-a p{padding:0 4px 26px;color:var(--ink-soft);font-size:1rem;max-width:68ch}
+
+/* ============================================================
+   15. CTA FINAL + FORMULAIRE
+   ============================================================ */
+.contact{padding:104px 0 0;background:linear-gradient(180deg,var(--cream),var(--green-deep) 62%)}
+.contact-card{
+  background:#fff;border-radius:26px;box-shadow:var(--shadow);overflow:hidden;
+  display:grid;grid-template-columns:.85fr 1.15fr;
+}
+.contact-aside{background:var(--green-deep);color:#eaf1ec;padding:54px 44px;display:flex;flex-direction:column}
+.contact-aside h2{color:#fff;font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:18px}
+.contact-aside p{color:#c5d6ca;margin-bottom:30px}
+.contact-aside .pts{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:auto}
+.contact-aside .pts li{display:flex;gap:12px;align-items:flex-start;font-size:.96rem;color:#eaf1ec}
+.contact-aside .pts svg{width:20px;height:20px;color:#a9d3b6;flex:none;margin-top:1px}
+
+.form{padding:50px 46px 54px}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{margin-bottom:18px;position:relative}
+.field label{display:block;font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:7px}
+.field label .req{color:var(--green)}
+.field input,.field select,.field textarea{
+  width:100%;font-family:var(--sans);font-size:.97rem;color:var(--ink);
+  padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--cream);
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.field textarea{resize:vertical;min-height:110px}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 4px rgba(74,122,92,.12);
+}
+.field.err input,.field.err select,.field.err textarea{border-color:#c0533f;background:#fcf2ef}
+.field .msg{font-size:.78rem;color:#c0533f;margin-top:6px;display:none}
+.field.err .msg{display:block}
+.form-submit{margin-top:8px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.form-note{font-size:.8rem;color:var(--muted);max-width:34ch}
+.form-error{margin-top:14px;font-size:.86rem;color:#c0533f;background:#fcf2ef;border:1px solid #e7c4ba;border-radius:10px;padding:12px 14px}
+.form-error a{color:#c0533f;text-decoration:underline}
+/* message de confirmation */
+.form-success{
+  display:none;text-align:center;padding:40px 20px;
+}
+.form-success.show{display:block;animation:pop .5s var(--ease)}
+.form-success .ck{width:74px;height:74px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;margin:0 auto 22px}
+.form-success .ck svg{width:34px;height:34px;color:var(--green-deep)}
+.form-success h3{font-size:1.7rem;margin-bottom:12px}
+.form-success p{color:var(--ink-soft);max-width:44ch;margin:0 auto}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+
+/* ============================================================
+   16. FOOTER
+   ============================================================ */
+footer.site{background:var(--green-deep);color:#d7e4db;padding:64px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.13)}
+footer .brand .word{color:#fff}
+footer .brand .word b{color:#a9d3b6}
+footer .brand .mark{width:46px;height:46px;background:var(--cream);border-radius:50%;padding:3px}
+.foot-about{margin-top:18px;color:#bcd0c2;font-size:.92rem;max-width:34ch}
+footer h4{font-family:var(--sans);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:#a9d3b6;margin-bottom:18px;font-weight:700}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+footer ul a,footer .ci{color:#d7e4db;font-size:.93rem;transition:color .2s}
+footer ul a:hover{color:#fff}
+.foot-contact .ci{display:flex;gap:11px;align-items:flex-start;margin-bottom:13px}
+.foot-contact .ci svg{width:17px;height:17px;color:#a9d3b6;flex:none;margin-top:3px}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-top:24px;font-size:.84rem;color:#9bb6a3}
+.foot-bottom a{color:#9bb6a3}
+.foot-bottom a:hover{color:#fff}
+
+/* ============================================================
+   17. ANIMATIONS AU SCROLL
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
+.reveal.d4{transition-delay:.32s}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1!important;transform:none!important}
+}
+
+/* ============================================================
+   18. RESPONSIVE
+   ============================================================ */
+@media (max-width:1000px){
+  .hero-grid,.solution-grid,.about-grid{grid-template-columns:1fr;gap:44px}
+  .hero-visual{order:-1}
+  .bene-grid{grid-template-columns:repeat(2,1fr)}
+  .fmt-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-card{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .nav-links,.nav-cta .btn{display:none}
+  .burger{display:flex}
+  .stat-grid,.steps,.tg{grid-template-columns:1fr}
+  .sol-list.sol-list-row{grid-template-columns:1fr;gap:22px}
+  .steps::before{display:none}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:34px}
+}
+@media (max-width:560px){
+  .hero{padding:124px 0 70px}
+  .bene-grid{grid-template-columns:1fr}
+  .fmt-grid{grid-template-columns:1fr}
+  .form .row{grid-template-columns:1fr}
+  .form,.contact-aside{padding:36px 26px}
+  .foot-grid{grid-template-columns:1fr}
+  .float-badge{left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site" id="site-header">
+  <div class="wrap nav-row">
+    <a href="#hero" class="brand" aria-label="ProActif — accueil">
+      <img class="mark" src="assets/logo-proactif.png" alt="" aria-hidden="true" />
+      <span class="word">Pro<b>A</b>ctif</span>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#probleme">Le constat</a></li>
+        <li><a href="#solution">L'approche</a></li>
+        <li><a href="#benefices">Bénéfices</a></li>
+        <li><a href="#formats">Nos solutions</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary">Être recontacté</a>
+      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Menu mobile -->
+<div class="scrim" id="scrim"></div>
+<aside class="mobile-menu" id="mobile-menu">
+  <a href="#probleme">Le constat</a>
+  <a href="#solution">L'approche</a>
+  <a href="#benefices">Bénéfices</a>
+  <a href="#formats">Nos solutions</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact" class="btn btn-primary">Réserver un appel découverte</a>
+</aside>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="hero-blob"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow reveal" style="width: 600px">Coaching sportif en entreprise · Alpes-de-Haute-Provence</span>
+      <h1 class="h-display reveal d1">Des équipes en pleine forme,<br/>une entreprise <span class="serif-em">plus performante</span>.</h1>
+      <p class="lead reveal d2">ProActif intervient directement dans vos locaux pour animer des séances d'activité physique avec vos équipes.  
+Moins de stress, moins d'absentéisme, plus de cohésion, sans aucune contrainte logistique pour vous.</p>
+      <div class="hero-ctas reveal d3">
+        <a href="#contact" class="btn btn-primary">
+          Réserver un appel découverte
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#solution" class="btn btn-ghost">Découvrir l'approche</a>
+      </div>
+      <div class="hero-trust reveal d4">
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Intervention sur site</span>
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Zéro matériel à prévoir</span>
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Tous niveaux</span>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal d2">
+      <div class="frame">
+        <!-- IMAGE : illustration d'ambiance sport en entreprise (fournie) -->
+        <img src="assets/hero-sport-bureau.png" alt="Salariés pratiquant une activité physique encadrée dans les locaux de leur entreprise" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROBLÈME — chiffres marquants
+     ============================================================ -->
+<section class="problem" id="probleme">
+  <div class="wrap">
+    <div class="problem-head">
+      <span class="eyebrow reveal" style="color:#a9d3b6">Le constat</span>
+      <h2 class="h-section reveal d1" style="margin-top:16px">La sédentarité au bureau coûte cher — <span style="color:#a9d3b6">bien plus qu'on ne l'imagine.</span></h2>
+      <p class="lead reveal d2" style="margin-top:18px">Stress chronique, fatigue, douleurs liées aux postures, baisse d'énergie : les journées passées assis pèsent sur la santé de vos collaborateurs… et sur la vie de l'entreprise.</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat reveal">
+        <div class="big"><span data-count="4000" data-sep>0</span><span class="unit"> € / an</span></div>
+        <p class="desc">Coût moyen estimé de l'absentéisme, par salarié et par an, pour l'employeur.</p>
+      </div>
+      <div class="stat reveal d1">
+        <div class="big"><span data-count="87">0</span><span class="unit"> %</span></div>
+        <p class="desc">des maladies professionnelles reconnues sont des troubles musculo-squelettiques (TMS).</p>
+      </div>
+      <div class="stat reveal d2">
+        <div class="big"><span data-count="7">0</span><span class="unit"> h / jour</span></div>
+        <p class="desc">de position assise en moyenne pour un salarié de bureau, bien au-delà des seuils recommandés.</p>
+      </div>
+    </div>
+    <p class="source reveal">
+</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SOLUTION — l'approche ProActif
+     ============================================================ -->
+<section class="solution" id="solution">
+  <div class="wrap">
+    <div class="solution-grid">
+    <div class="sol-visual reveal">
+      <div class="frame" style="border-radius:var(--radius);overflow:hidden;background:#f6f4ee;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.04)">
+        <img src="assets/approche-seance.png" alt="Séance de sport collective animée par un coach ProActif dans les locaux d'une entreprise" style="width:100%;height:100%;object-fit:cover;display:block" />
+      </div>
+    </div>
+    <div class="sol-text">
+      <span class="eyebrow reveal">L'approche ProActif</span>
+      <h2 class="h-section reveal d1" style="width: 570px">Le sport-santé qui s'invite dans vos bureaux, sans bouleverser votre organisation.</h2>
+      <p class="lead reveal d2">Pas de salle de sport, pas de logistique, pas de tenue spécifique. 
+J'arrive avec tout le nécessaire et j'anime des séances pensées pour le quotidien de l'entreprise : courtes, accessibles à tous les niveaux et adaptées à votre espace.</p>
+    </div>
+    </div>
+    <ul class="sol-list sol-list-row">
+      <li class="reveal d2"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Directement sur site</strong><span>Dans vos locaux, sur le temps qui vous arrange : pause, début ou fin de journée.</span></div></li>
+      <li class="reveal d3"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Sur-mesure</strong><span>Un programme construit à partir de vos enjeux, de vos contraintes et du profil de vos équipes.</span></div></li>
+      <li class="reveal d4"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Accessible à tous</strong><span>Aucune condition physique requise. Chaque séance s'adapte au rythme de chacun.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     BÉNÉFICES — cartes
+     ============================================================ -->
+<section class="benefits" id="benefices">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal" style="justify-content:center">Pourquoi investir dans le bien-être</span>
+      <h2 class="h-section reveal d1" style="margin-top:16px">Un investissement qui se ressent dans toute l'entreprise.</h2>
+      <p class="lead reveal d2">Bouger ensemble, régulièrement, transforme le quotidien de vos équipes — et les indicateurs de votre entreprise.</p>
+    </div>
+    <div class="bene-grid">
+      <div class="bcard reveal"><div class="corner"></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+        <h3>Moins d'absentéisme</h3>
+        <p>Des salariés en meilleure santé physique et mentale, présents et disponibles tout au long de l'année.</p>
+      </div>
+      <div class="bcard reveal d1"><div class="corner"></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 14c2.5 0 5 1.6 5 4.5"/></svg></div>
+        <h3>Des équipes plus soudées</h3>
+        <p>Un moment partagé hors du cadre habituel qui crée du lien, casse les silos et renforce la cohésion.</p>
+      </div>
+      <div class="bcard reveal d2"><div class="corner"></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg></div>
+        <h3>Plus de concentration</h3>
+        <p>L'activité physique régulière libère le stress, recharge l'énergie et aiguise la concentration au travail.</p>
+      </div>
+      <div class="bcard reveal d3"><div class="corner"></div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6L12 17.8 6.6 19.6l1.2-6L3.3 9.4l6.1-.8z"/></svg></div>
+        <h3>Marque employeur renforcée</h3>
+        <p>Une politique bien-être concrète qui valorise votre entreprise, fidélise les talents et facilite le recrutement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     COMMENT ÇA MARCHE — 3 étapes
+     ============================================================ -->
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal" style="justify-content:center">Comment ça marche</span>
+      <h2 class="h-section reveal d1" style="margin: 16px auto 0; max-width: 720px; font-size: 45px; text-align: center; font-weight: 100; font-family: Spectral; letter-spacing: -0.5px">4 étapes pour construire un programme aligné sur vos réalités</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n">1</div>
+        <h3>Écoute</h3>
+        <p>Nous prenons le temps de comprendre votre contexte, vos contraintes et vos objectifs.</p>
+      </div>
+      <div class="step reveal d1">
+        <div class="n">2</div>
+        <h3>Conception</h3>
+        <p>Nous construisons une proposition sur-mesure, adaptée à vos équipes et à vos locaux.</p>
+      </div>
+      <div class="step reveal d2">
+        <div class="n">3</div>
+        <h3>Mise en place</h3>
+        <p>Le coach intervient sur site selon le rythme défini ensemble.</p>
+      </div>
+      <div class="step reveal d3">
+        <div class="n">4</div>
+        <h3>Ajustement</h3>
+        <p>Nous échangeons régulièrement avec vous pour faire évoluer le programme dans le temps.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:50px" class="reveal d2">
+      <a href="#contact" class="btn btn-primary">Lancer la première étape</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FORMATS DE SÉANCES — 3 cartes (aucun prix)
+     ============================================================ -->
+<section class="formats" id="formats">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal" style="justify-content:center">Nos solutions</span>
+      <h2 class="h-section reveal d1" style="margin-top: 16px; white-space: nowrap; display: inline-block; max-width: none; margin: 10px 0px 0px; padding: 0px 5px 0px 0px">Des solutions ciblées pour chaque enjeu.</h2>
+      <p class="lead reveal d2">Quatre axes d'intervention, combinables et adaptés aux priorités de vos équipes.</p>
+    </div>
+    <div class="fmt-grid">
+      <div class="fcard reveal">
+        <div class="chip g1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V5z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Prévention des TMS</h3>
+        <p class="pitch">Moins de douleurs et de tensions liées au poste de travail.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réveil musculaire</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Étirements ciblés</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Posture</li>
+        </ul>
+      </div>
+      <div class="fcard reveal d1">
+        <div class="chip g2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/><path d="M8 12h2.2l1-2 1.6 4 1-2H16"/></svg>
+        </div>
+        <h3>Gestion du stress</h3>
+        <p class="pitch">Relâcher la pression et regagner en sérénité au quotidien.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Relaxation active</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Respiration</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Cardio basse intensité</li>
+        </ul>
+      </div>
+      <div class="fcard reveal d2">
+        <div class="chip g3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
+        </div>
+        <h3>Énergie & productivité</h3>
+        <p class="pitch">Plus de tonus et de concentration tout au long de la journée.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Renforcement musculaire</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Mobilité</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>HIIT</li>
+        </ul>
+      </div>
+      <div class="fcard reveal d3">
+        <div class="chip g4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.5"/><circle cx="16" cy="8" r="2.5"/><path d="M3 19c0-3 2.2-5 5-5s5 2 5 5M13 19c0-3 2.2-5 5-5"/></svg>
+        </div>
+        <h3>Cohésion d'équipe</h3>
+        <p class="pitch">Renforcer les liens et l'esprit collectif en s'amusant.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Ateliers collectifs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Défis bien-être</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Team building actif</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal" style="justify-content:center">Questions fréquentes</span>
+      <h2 class="h-section reveal d1" style="margin-top:16px">Tout ce qu'il faut savoir avant de se lancer.</h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item reveal">
+        <button class="faq-q">Faut-il prévoir du matériel ou un équipement particulier ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><p>Non, rien à prévoir de votre côté. J'apporte tout le nécessaire et les séances sont conçues pour se pratiquer en tenue de ville. Un simple espace dégagé suffit — une salle de réunion ou un open space fonctionnent très bien.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Combien de temps dure une séance ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><p>Les formats sont volontairement courts pour s'intégrer dans une journée de travail. La durée exacte se définit ensemble selon vos contraintes et le format choisi : un réveil musculaire ou une pause active restent brefs, un atelier de cohésion peut être plus long.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Combien de participants peut-on accueillir ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><p>Des petites équipes aux groupes plus importants, les séances s'adaptent. Pour les grands effectifs, on organise plusieurs créneaux ou plusieurs groupes afin que chacun profite pleinement de l'intervention.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Où se déroulent les séances ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><p>Directement dans vos locaux, à Digne-les-Bains et dans tout le département des Alpes de Haute Provence. Nous nous déplaçons sur site : c'est tout l'intérêt de ProActif, vos équipes n'ont pas à se déplacer ni à perdre de temps.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Comment s'organise la mise en place ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><p>Tout commence par un appel découverte. On définit ensemble vos objectifs, le format et le rythme, puis on programme une séance test. À partir de là, on installe un programme régulier que l'on fait évoluer dans le temps. Vous n'avez quasiment rien à gérer.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA FINAL + FORMULAIRE DE CONTACT
+     ============================================================ -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <!-- Colonne gauche -->
+      <div class="contact-aside">
+        <span class="eyebrow" style="color:#a9d3b6">Passons à l'action</span>
+        <h2 style="margin-top:14px">Réservez votre appel découverte.</h2>
+        <p>Un échange de quelques minutes, sans engagement, pour voir comment ProActif peut s'adapter à votre entreprise. Je vous recontacte rapidement.</p>
+        <ul class="pts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réponse sous 24 à 48 h ouvrées</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Sans engagement de votre part</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Un échange à l'écoute de vos besoins</li>
+        </ul>
+      </div>
+
+      <!-- Colonne droite : formulaire -->
+      <div class="form-col">
+        <form class="form" id="contact-form" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="f-nom">Nom & prénom <span class="req">*</span></label>
+              <input type="text" id="f-nom" name="nom" autocomplete="name" />
+              <span class="msg">Merci d'indiquer votre nom.</span>
+            </div>
+            <div class="field">
+              <label for="f-entreprise">Entreprise <span class="req">*</span></label>
+              <input type="text" id="f-entreprise" name="entreprise" autocomplete="organization" />
+              <span class="msg">Merci d'indiquer votre entreprise.</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="f-email">Email professionnel <span class="req">*</span></label>
+              <input type="email" id="f-email" name="email" autocomplete="email" />
+              <span class="msg">Merci d'indiquer un email valide.</span>
+            </div>
+            <div class="field">
+              <label for="f-tel">Téléphone</label>
+              <input type="tel" id="f-tel" name="telephone" autocomplete="tel" />
+              <span class="msg">Numéro non valide.</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-effectif">Nombre de salariés</label>
+            <select id="f-effectif" name="effectif">
+              <option value="">Sélectionnez…</option>
+              <option>1 à 10</option>
+              <option>11 à 50</option>
+              <option>51 à 200</option>
+              <option>201 à 500</option>
+              <option>Plus de 500</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-message">Votre message</label>
+            <textarea id="f-message" name="message" placeholder="Parlez-moi de vos équipes, de vos enjeux, de ce que vous aimeriez mettre en place…"></textarea>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary" id="contact-submit">
+              Envoyer ma demande
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <span class="form-note">En envoyant ce formulaire, vous acceptez d'être recontacté par ProActif.</span>
+          </div>
+          <p class="form-error" id="form-error" hidden>Une erreur est survenue lors de l'envoi. Merci de réessayer, ou de m'écrire directement à <a href="mailto:contact@proactif.fr">contact@proactif.fr</a>.</p>
+        </form>
+
+        <!-- Message de confirmation -->
+        <div class="form-success" id="form-success">
+          <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></div>
+          <h3>Demande bien reçue !</h3>
+          <p>Merci de votre confiance. Je reviens vers vous très vite pour convenir d'un créneau d'échange. À très bientôt !</p>
+        </div>
+      </div>
+    </div>
+    <div style="height:64px"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#hero" class="brand">
+          <img class="mark" src="assets/logo-proactif.png" alt="" aria-hidden="true" />
+          <span class="word">Pro<b>A</b>ctif</span>
+        </a>
+        <p class="foot-about">Le sport-santé en entreprise, directement dans vos locaux. Pour des équipes plus en forme, plus soudées et plus engagées.</p>
+      </div>
+      <div>
+        <h4>Le site</h4>
+        <ul>
+          <li><a href="#solution">L'approche</a></li>
+          <li><a href="#benefices">Bénéfices</a></li>
+          <li><a href="#formats">Nos solutions</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Zone d'intervention</h4>
+        <ul>
+          <li class="ci">Digne-les-Bains</li>
+          <li class="ci">Alpes-de-Haute-Provence</li>
+          <li class="ci">Déplacements sur site</li>
+        </ul>
+      </div>
+      <div class="foot-contact">
+        <h4>Contact</h4>
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><a href="tel:+33678321380">06 78 32 13 80</a></div>
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg><a href="mailto:contact@proactif.fr">contact@proactif.fr</a></div>
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Digne-les-Bains (04)</span></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> ProActif. Tous droits réservés.</span>
+      <span><a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JS — interactions
+     ============================================================ -->
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Header : ombre/fond au scroll ---- */
+  var header = document.getElementById('site-header');
+  function onScroll(){
+    if(window.scrollY > 24){ header.classList.add('scrolled'); }
+    else { header.classList.remove('scrolled'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---- Menu mobile ---- */
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('mobile-menu');
+  var scrim = document.getElementById('scrim');
+  function setMenu(open){
+    burger.classList.toggle('open', open);
+    menu.classList.toggle('open', open);
+    scrim.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true':'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', function(){ setMenu(!menu.classList.contains('open')); });
+  scrim.addEventListener('click', function(){ setMenu(false); });
+  menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+
+  /* ---- Smooth scroll avec décalage du header ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = this.getAttribute('href');
+      if(id.length < 2) return;
+      var target = document.querySelector(id);
+      if(!target) return;
+      e.preventDefault();
+      var y = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({top:y, behavior:'smooth'});
+    });
+  });
+
+  /* ---- Révélations au scroll (IntersectionObserver) ---- */
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---- Compteurs animés ---- */
+  function animateCount(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var sep = el.hasAttribute('data-sep');
+    var dur = 1400, start = null;
+    function fmt(n){
+      n = Math.round(n);
+      if(sep) return n.toLocaleString('fr-FR');
+      return n;
+    }
+    function tick(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      el.textContent = fmt(target*eased) + suffix;
+      if(p<1) requestAnimationFrame(tick);
+      else el.textContent = fmt(target) + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+  var counters = document.querySelectorAll('[data-count]');
+  if('IntersectionObserver' in window){
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ animateCount(en.target); cio.unobserve(en.target); }
+      });
+    }, {threshold:0.6});
+    counters.forEach(function(el){ cio.observe(el); });
+  } else {
+    counters.forEach(function(el){ animateCount(el); });
+  }
+
+  /* ---- Scrollspy : lien de nav actif ---- */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function spy(){
+    var pos = window.scrollY + 120;
+    var current = -1;
+    sections.forEach(function(sec, i){ if(sec && sec.offsetTop <= pos) current = i; });
+    navLinks.forEach(function(a, i){ a.classList.toggle('active', i===current); });
+  }
+  window.addEventListener('scroll', spy, {passive:true});
+  spy();
+
+  /* ---- FAQ accordéon ---- */
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function(){
+      var open = item.classList.contains('open');
+      // fermer les autres
+      document.querySelectorAll('.faq-item.open').forEach(function(o){
+        if(o!==item){ o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = null; }
+      });
+      if(open){ item.classList.remove('open'); a.style.maxHeight = null; }
+      else { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+    });
+  });
+
+  /* ============================================================
+     ENVOI DU FORMULAIRE — via Web3Forms (aucun serveur à héberger)
+     ------------------------------------------------------------
+     POUR ACTIVER LA RÉCEPTION DES DEMANDES :
+     1. Va sur https://web3forms.com, entre ton email professionnel,
+        tu reçois gratuitement une "access key" par email.
+     2. Colle cette clé ci-dessous, à la place de COLLE_TA_CLE_ICI.
+     Les demandes du formulaire arriveront alors directement dans ta
+     boite mail. (Offre gratuite : 250 envois par mois.)
+     ============================================================ */
+  var WEB3FORMS_KEY = "COLLE_TA_CLE_ICI";
+
+  var form = document.getElementById('contact-form');
+  var success = document.getElementById('form-success');
+  var submitBtn = document.getElementById('contact-submit');
+  var errorBox = document.getElementById('form-error');
+  function showError(field, on){ field.classList.toggle('err', on); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(errorBox) errorBox.hidden = true;
+
+    var valid = true;
+    var nom = document.getElementById('f-nom');
+    var ent = document.getElementById('f-entreprise');
+    var mail = document.getElementById('f-email');
+    var tel = document.getElementById('f-tel');
+
+    var nomOk = nom.value.trim().length > 1; showError(nom.closest('.field'), !nomOk); valid = valid && nomOk;
+    var entOk = ent.value.trim().length > 0; showError(ent.closest('.field'), !entOk); valid = valid && entOk;
+    var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()); showError(mail.closest('.field'), !mailOk); valid = valid && mailOk;
+    // téléphone facultatif : valide seulement s'il est rempli
+    var telVal = tel.value.trim();
+    var telOk = telVal === '' || /^[+0-9 ().-]{6,}$/.test(telVal); showError(tel.closest('.field'), !telOk); valid = valid && telOk;
+
+    if(!valid){
+      var firstErr = form.querySelector('.field.err input, .field.err select');
+      if(firstErr) firstErr.focus();
+      return;
+    }
+
+    // 1. On empaquette les champs du formulaire
+    var payload = {
+      access_key: WEB3FORMS_KEY,
+      subject: "Nouvelle demande depuis le site ProActif",
+      from_name: "Site ProActif",
+      nom: nom.value.trim(),
+      entreprise: ent.value.trim(),
+      email: mail.value.trim(),
+      telephone: telVal,
+      effectif: document.getElementById('f-effectif').value,
+      message: document.getElementById('f-message').value.trim()
+    };
+
+    // 2. État "envoi en cours" : on bloque le bouton pour éviter les doubles envois
+    var originalLabel = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Envoi en cours…";
+
+    // 3. On envoie les données à Web3Forms, qui les relaie par email
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if(res.success){
+        // Succès : on remplace le formulaire par le message de confirmation
+        form.style.display = 'none';
+        success.classList.add('show');
+      } else {
+        throw new Error(res.message || "Echec de l'envoi");
+      }
+    })
+    .catch(function(){
+      // En cas d'échec réseau ou de clé invalide : on réaffiche le bouton + un message
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalLabel;
+      if(errorBox) errorBox.hidden = false;
+    });
+  });
+
+  // efface l'erreur dès que l'utilisateur corrige
+  form.querySelectorAll('input,select,textarea').forEach(function(el){
+    el.addEventListener('input', function(){ var f = el.closest('.field'); if(f) f.classList.remove('err'); });
+  });
+
+  /* ---- Année dynamique ---- */
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
