@@ -789,6 +789,8 @@ J'arrive avec tout le nécessaire et j'anime des séances pensées pour le quoti
       <!-- Colonne droite : formulaire -->
       <div class="form-col">
         <form class="form" id="contact-form" novalidate>
+          <!-- Anti-spam : champ piege invisible (honeypot). Invisible pour les humains ; un robot qui le coche est rejete par Web3Forms. -->
+          <input type="checkbox" name="botcheck" id="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="row">
             <div class="field">
               <label for="f-nom">Nom & prénom <span class="req">*</span></label>
@@ -889,7 +891,7 @@ J'arrive avec tout le nécessaire et j'anime des séances pensées pour le quoti
     </div>
     <div class="foot-bottom">
       <span>© <span id="year">2026</span> ProActif. Tous droits réservés.</span>
-      <span><a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></span>
+      <span><a href="#">Mentions légales</a> · <a href="confidentialite.html">Politique de confidentialité</a></span>
     </div>
   </div>
 </footer>
@@ -1021,7 +1023,7 @@ J'arrive avec tout le nécessaire et j'anime des séances pensées pour le quoti
      Les demandes du formulaire arriveront alors directement dans ta
      boite mail. (Offre gratuite : 250 envois par mois.)
      ============================================================ */
-  var WEB3FORMS_KEY = "COLLE_TA_CLE_ICI";
+  var WEB3FORMS_KEY = "ca2b4be9-0e61-4951-828c-ed996cd82566";
 
   var form = document.getElementById('contact-form');
   var success = document.getElementById('form-success');
@@ -1057,6 +1059,7 @@ J'arrive avec tout le nécessaire et j'anime des séances pensées pour le quoti
       access_key: WEB3FORMS_KEY,
       subject: "Nouvelle demande depuis le site ProActif",
       from_name: "Site ProActif",
+      botcheck: document.getElementById('botcheck').checked,
       nom: nom.value.trim(),
       entreprise: ent.value.trim(),
       email: mail.value.trim(),

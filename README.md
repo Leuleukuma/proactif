@@ -27,11 +27,16 @@ CTA + formulaire de contact · Footer.
 - **Chiffres du "constat"** (4 000 €, 87 %, 7 h) : ordres de grandeur d'études de
   référence, à vérifier et sourcer avant publication.
 - **Mentions légales / Politique de confidentialité** : liens vides à compléter (footer).
-- **Formulaire** : branché sur Web3Forms (envoi par email, sans serveur). Il reste
-  UNE étape pour l'activer : va sur https://web3forms.com, entre ton email pro, copie
-  l'"access key" reçue, et colle-la dans `index.html` à la place de
-  `COLLE_TA_CLE_ICI` (cherche `WEB3FORMS_KEY` dans le fichier). Tant que la clé n'est
-  pas renseignée, l'envoi affichera un message d'erreur. Offre gratuite : 250 envois/mois.
+- **Formulaire** : actif. Branché sur Web3Forms (sans serveur), les demandes arrivent
+  sur `contact@proactifcoaching.fr`. Protection anti-spam par honeypot (champ piège
+  `botcheck` invisible). Pour changer l'adresse de réception : générer une nouvelle clé
+  sur web3forms.com et remplacer `WEB3FORMS_KEY` dans `index.html`.
+- **Mentions légales** : page encore à créer. Il manque la raison sociale, le SIRET et
+  l'adresse postale (voir l'encadré "À compléter" dans `confidentialite.html`).
+- **Politique de confidentialité** : page `confidentialite.html` créée et liée depuis le
+  footer. À finaliser avec les infos légales manquantes.
+- **Polices Google Fonts** : chargées depuis les serveurs Google (transmet l'IP du
+  visiteur). Pour une conformité RGPD stricte, envisager de les héberger en local.
 - **Témoignages** : section volontairement retirée tant qu'il n'y a pas de clients.
 
 ## Évolutions possibles
