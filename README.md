@@ -35,8 +35,9 @@ CTA + formulaire de contact · Footer.
   l'adresse postale (voir l'encadré "À compléter" dans `confidentialite.html`).
 - **Politique de confidentialité** : page `confidentialite.html` créée et liée depuis le
   footer. À finaliser avec les infos légales manquantes.
-- **Polices Google Fonts** : chargées depuis les serveurs Google (transmet l'IP du
-  visiteur). Pour une conformité RGPD stricte, envisager de les héberger en local.
+- **Polices** : Spectral et Libre Franklin sont hébergées en local dans `fonts/`
+  (plus d'appel à Google Fonts), pour la conformité RGPD. La feuille `fonts/fonts.css`
+  est chargée par les pages du site.
 - **Témoignages** : section volontairement retirée tant qu'il n'y a pas de clients.
 
 ## Évolutions possibles
