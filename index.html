@@ -173,11 +173,17 @@ header.site.scrolled{
    6. HERO
    ============================================================ */
 .hero{padding:150px 0 90px;position:relative;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero-grid{display:block}
+.hero-text{max-width:860px;margin:0 auto;text-align:center}
+.hero .h-display{font-size:clamp(2.1rem,4.4vw,3.2rem)}
+.hero-text .eyebrow{justify-content:center}
+.hero .lead{margin-left:auto;margin-right:auto}
+.hero-ctas{justify-content:center}
+.hero-trust{justify-content:center}
 .hero h1{margin:18px 0 22px}
 .hero .lead{margin-bottom:34px}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
-.hero-trust{display:flex;flex-wrap:wrap;gap:26px;align-items:center;color:var(--muted);font-size:.9rem}
+.hero-trust{display:flex;flex-wrap:wrap;gap:26px;align-items:center;color:var(--muted);font-size:.9rem;margin-bottom:28px}
 .hero-trust .item{display:flex;align-items:center;gap:.5rem;font-weight:500}
 .hero-trust svg{width:18px;height:18px;color:var(--green);flex:none}
 
@@ -484,7 +490,7 @@ footer ul a:hover{color:#fff}
         <li><a href="#probleme">Le constat</a></li>
         <li><a href="#solution">L'approche</a></li>
         <li><a href="#benefices">Bénéfices</a></li>
-        <li><a href="#formats">Nos solutions</a></li>
+        <li><a href="#formats">Mes solutions</a></li>
         <li><a href="#apropos">À propos</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -505,7 +511,7 @@ footer ul a:hover{color:#fff}
   <a href="#probleme">Le constat</a>
   <a href="#solution">L'approche</a>
   <a href="#benefices">Bénéfices</a>
-  <a href="#formats">Nos solutions</a>
+  <a href="#formats">Mes solutions</a>
   <a href="#apropos">À propos</a>
   <a href="#faq">FAQ</a>
   <a href="#contact" class="btn btn-primary">Réserver un appel découverte</a>
@@ -519,27 +525,19 @@ footer ul a:hover{color:#fff}
   <div class="wrap hero-grid">
     <div class="hero-text">
       <span class="eyebrow reveal">Coaching sportif en entreprise · Alpes-de-Haute-Provence</span>
-      <h1 class="h-display reveal d1">Des équipes en pleine forme,<br/>une entreprise <span class="serif-em">plus performante</span>.</h1>
-      <p class="lead reveal d2">ProActif intervient directement dans vos locaux pour animer des séances d'activité physique avec vos équipes.  
-Moins de stress, moins d'absentéisme, plus de cohésion, sans aucune contrainte logistique pour vous.</p>
-      <div class="hero-ctas reveal d3">
+      <h1 class="h-display reveal d1">Des équipes en pleine&nbsp;forme,<br/>une entreprise <span class="serif-em">plus performante</span>.</h1>
+      <p class="lead reveal d2">Je fais bouger vos équipes, directement dans vos locaux.<br/>Moins de stress, moins d'absentéisme, plus de cohésion.</p>
+      <div class="hero-trust reveal d3">
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Intervention sur site</span>
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Zéro matériel à prévoir</span>
+        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Tous niveaux</span>
+      </div>
+      <div class="hero-ctas reveal d4">
         <a href="#contact" class="btn btn-primary">
           Réserver un appel découverte
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a href="#solution" class="btn btn-ghost">Découvrir l'approche</a>
-      </div>
-      <div class="hero-trust reveal d4">
-        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Intervention sur site</span>
-        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Zéro matériel à prévoir</span>
-        <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Tous niveaux</span>
-      </div>
-    </div>
-
-    <div class="hero-visual reveal d2">
-      <div class="frame">
-        <!-- IMAGE : illustration d'ambiance sport en entreprise (fournie) -->
-        <img src="assets/hero-sport-bureau.png" alt="Salariés pratiquant une activité physique encadrée dans les locaux de leur entreprise" />
       </div>
     </div>
   </div>
@@ -648,22 +646,22 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
       <div class="step reveal">
         <div class="n">1</div>
         <h3>Écoute</h3>
-        <p>Nous prenons le temps de comprendre votre contexte, vos contraintes et vos objectifs.</p>
+        <p>Je prends le temps de comprendre votre contexte, vos contraintes et vos objectifs.</p>
       </div>
       <div class="step reveal d1">
         <div class="n">2</div>
         <h3>Conception</h3>
-        <p>Nous construisons une proposition sur-mesure, adaptée à vos équipes et à vos locaux.</p>
+        <p>Je construis une proposition sur-mesure, adaptée à vos équipes et à vos locaux.</p>
       </div>
       <div class="step reveal d2">
         <div class="n">3</div>
         <h3>Mise en place</h3>
-        <p>Le coach intervient sur site selon le rythme défini ensemble.</p>
+        <p>J'interviens sur site selon le rythme défini ensemble.</p>
       </div>
       <div class="step reveal d3">
         <div class="n">4</div>
         <h3>Ajustement</h3>
-        <p>Nous échangeons régulièrement avec vous pour faire évoluer le programme dans le temps.</p>
+        <p>J'échange régulièrement avec vous pour faire évoluer le programme dans le temps.</p>
       </div>
     </div>
     <div style="text-align:center;margin-top:50px" class="reveal d2">
@@ -678,7 +676,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
 <section class="formats" id="formats">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow reveal" style="justify-content:center">Nos solutions</span>
+      <span class="eyebrow reveal" style="justify-content:center">Mes solutions</span>
       <h2 class="h-section reveal d1" style="margin-top:16px">Des solutions ciblées pour chaque enjeu.</h2>
       <p class="lead reveal d2">Quatre axes d'intervention, combinables et adaptés aux priorités de vos équipes.</p>
     </div>
@@ -777,15 +775,15 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
       </div>
       <div class="faq-item reveal">
         <button class="faq-q">Combien de participants peut-on accueillir ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Des petites équipes aux groupes plus importants, les séances s'adaptent. Pour les grands effectifs, on organise plusieurs créneaux ou plusieurs groupes afin que chacun profite pleinement de l'intervention.</p></div>
+        <div class="faq-a"><p>Des petites équipes aux groupes plus importants, les séances s'adaptent. Pour les grands effectifs, j'organise plusieurs créneaux ou plusieurs groupes afin que chacun profite pleinement de l'intervention.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-q">Où se déroulent les séances ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Directement dans vos locaux, à Digne-les-Bains et dans tout le département des Alpes de Haute Provence. Nous nous déplaçons sur site : c'est tout l'intérêt de ProActif, vos équipes n'ont pas à se déplacer ni à perdre de temps.</p></div>
+        <div class="faq-a"><p>Directement dans vos locaux, à Digne-les-Bains et dans tout le département des Alpes de Haute Provence. Je me déplace sur site : c'est tout l'intérêt de ProActif, vos équipes n'ont pas à se déplacer ni à perdre de temps.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-q">Comment s'organise la mise en place ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Tout commence par un appel découverte. On définit ensemble vos objectifs, le format et le rythme, puis on programme une séance test. À partir de là, on installe un programme régulier que l'on fait évoluer dans le temps. Vous n'avez quasiment rien à gérer.</p></div>
+        <div class="faq-a"><p>Tout commence par un appel découverte. On définit ensemble vos objectifs, le format et le rythme, puis je programme une séance test. À partir de là, j'installe un programme régulier que je fais évoluer dans le temps. Vous n'avez quasiment rien à gérer.</p></div>
       </div>
     </div>
   </div>
@@ -801,7 +799,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
       <div class="contact-aside">
         <span class="eyebrow" style="color:#a9d3b6">Passons à l'action</span>
         <h2 style="margin-top:14px">Réservez votre appel découverte.</h2>
-        <p>Un échange de quelques minutes, sans engagement, pour voir comment ProActif peut s'adapter à votre entreprise. Je vous recontacte rapidement.</p>
+        <p>Un échange de quelques minutes, sans engagement, pour voir comment je peux m'adapter à votre entreprise. Je vous recontacte rapidement.</p>
         <ul class="pts">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réponse sous 24 à 48 h ouvrées</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Sans engagement de votre part</li>
@@ -893,7 +891,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
         <ul>
           <li><a href="#solution">L'approche</a></li>
           <li><a href="#benefices">Bénéfices</a></li>
-          <li><a href="#formats">Nos solutions</a></li>
+          <li><a href="#formats">Mes solutions</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
