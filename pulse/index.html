@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ProActif Pulse — Prototype</title>
+<link rel="stylesheet" href="pulse.css" />
+<style>
+  html, body { margin:0; }
+  body{ background: radial-gradient(1200px 600px at 80% -10%, #efeadd 0, transparent 60%), #e9e6da; font-family:var(--sans); color:var(--ink); -webkit-font-smoothing:antialiased; }
+  .studio{ max-width:1500px; margin:0 auto; padding:40px 40px 90px; }
+  .studio-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:8px; flex-wrap:wrap; }
+  .sec-label{ display:flex; align-items:center; gap:12px; margin:54px 0 22px; }
+  .sec-num{ width:30px; height:30px; border-radius:9px; background:var(--ink); color:#fff; font-family:var(--serif); font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:center; }
+  .frame-cap{ font-family:var(--sans); font-weight:600; font-size:12.5px; color:var(--ink-2); text-align:center; margin-top:14px; }
+  .mob-wrap{ display:flex; gap:38px; align-items:flex-start; flex-wrap:wrap; }
+  .idx{ width:236px; flex-shrink:0; position:sticky; top:24px; }
+  .idx h3{ font-family:var(--serif); font-weight:600; font-size:15px; color:var(--ink); margin:0 0 4px; }
+  .idx p{ font-family:var(--sans); font-size:12px; color:var(--ink-2); margin:0 0 16px; line-height:1.4; }
+  .idx-item{ width:100%; text-align:left; display:flex; align-items:center; gap:12px; background:transparent; border:none; cursor:pointer; padding:11px 12px; border-radius:13px; font-family:var(--sans); font-weight:600; font-size:13.5px; color:var(--ink-2); transition:all .14s ease; }
+  .idx-item:hover{ background:#fff; color:var(--ink); }
+  .idx-item.on{ background:var(--ink); color:#fff; }
+  .idx-item .n{ width:22px; height:22px; border-radius:7px; background:var(--green-soft); color:var(--green-dark); font-family:var(--serif); font-weight:600; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .idx-item.on .n{ background:rgba(255,255,255,.2); color:#fff; }
+  .browser-frame{ border-radius:12px; overflow:hidden; box-shadow:0 30px 80px rgba(31,36,33,.22), 0 0 0 1px rgba(31,36,33,.06); }
+  .open-mobile{ display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:var(--ink); color:#fff; font-family:var(--sans); font-weight:600; font-size:13px; padding:10px 16px; border-radius:var(--r-pill); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="pulse-app.js"></script>
+<script>
+"use strict";
+const icon = Pulse.icon, wordmark = Pulse.wordmark, SCREENS = Pulse.SCREENS;
+
+function iosStatusBar(){
+  const c='#000';
+  return '<div style="display:flex;gap:154px;align-items:center;justify-content:center;padding:21px 24px 19px;box-sizing:border-box;position:relative;z-index:20;width:100%"><div style="flex:1;height:22px;display:flex;align-items:center;justify-content:center;padding-top:1.5px"><span style="font-family:-apple-system,\'SF Pro\',system-ui;font-weight:590;font-size:17px;line-height:22px;color:'+c+'">9:41</span></div><div style="flex:1;height:22px;display:flex;align-items:center;justify-content:center;gap:7px;padding-top:1px;padding-right:1px"><svg width="19" height="12" viewBox="0 0 19 12"><rect x="0" y="7.5" width="3.2" height="4.5" rx="0.7" fill="'+c+'"/><rect x="4.8" y="5" width="3.2" height="7" rx="0.7" fill="'+c+'"/><rect x="9.6" y="2.5" width="3.2" height="9.5" rx="0.7" fill="'+c+'"/><rect x="14.4" y="0" width="3.2" height="12" rx="0.7" fill="'+c+'"/></svg><svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 3.2C10.8 3.2 12.9 4.1 14.4 5.6L15.5 4.5C13.7 2.7 11.2 1.5 8.5 1.5C5.8 1.5 3.3 2.7 1.5 4.5L2.6 5.6C4.1 4.1 6.2 3.2 8.5 3.2Z" fill="'+c+'"/><path d="M8.5 6.8C9.9 6.8 11.1 7.3 12 8.2L13.1 7.1C11.8 5.9 10.2 5.1 8.5 5.1C6.8 5.1 5.2 5.9 3.9 7.1L5 8.2C5.9 7.3 7.1 6.8 8.5 6.8Z" fill="'+c+'"/><circle cx="8.5" cy="10.5" r="1.5" fill="'+c+'"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="'+c+'" stroke-opacity="0.35" fill="none"/><rect x="2" y="2" width="20" height="9" rx="2" fill="'+c+'"/><path d="M25 4.5V8.5C25.8 8.2 26.5 7.2 26.5 6.5C26.5 5.8 25.8 4.8 25 4.5Z" fill="'+c+'" fill-opacity="0.4"/></svg></div></div>';
+}
+function iosFrameHTML(){
+  return '<div style="width:402px;height:874px;border-radius:48px;overflow:hidden;position:relative;background:#F2F2F7;box-shadow:0 40px 80px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.12);font-family:-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased">'
+    + '<div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:126px;height:37px;border-radius:24px;background:#000;z-index:50"></div>'
+    + '<div style="position:absolute;top:0;left:0;right:0;z-index:10">'+iosStatusBar()+'</div>'
+    + '<div style="height:100%;display:flex;flex-direction:column"><div id="phoneScroll" style="flex:1;overflow:auto"></div></div>'
+    + '<div style="position:absolute;bottom:0;left:0;right:0;z-index:60;height:34px;display:flex;justify-content:center;align-items:flex-end;padding-bottom:8px;pointer-events:none"><div style="width:139px;height:5px;border-radius:100px;background:rgba(0,0,0,0.25)"></div></div>'
+    + '</div>';
+}
+function chromeTab(title, active){
+  if(active){
+    return '<div style="position:relative;height:34px;align-self:flex-end;padding:0 12px;display:flex;align-items:center;gap:8px;background:#35363a;border-radius:8px 8px 0 0;min-width:120px;max-width:220px;font-family:system-ui,sans-serif;font-size:12px;color:#e8eaed"><svg width="8" height="10" viewBox="0 0 8 10" style="position:absolute;bottom:0;left:-8px"><path d="M0 10C2 9 6 8 8 0V10H0Z" fill="#35363a"/></svg><svg width="8" height="10" viewBox="0 0 8 10" style="position:absolute;bottom:0;right:-8px;transform:scaleX(-1)"><path d="M0 10C2 9 6 8 8 0V10H0Z" fill="#35363a"/></svg><div style="width:14px;height:14px;border-radius:50%;background:#5f6368;flex-shrink:0"></div><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+title+'</span></div>';
+  }
+  return '<div style="position:relative;height:34px;align-self:flex-end;padding:0 12px;display:flex;align-items:center;gap:8px;background:transparent;border-radius:8px 8px 0 0;min-width:120px;max-width:220px;font-family:system-ui,sans-serif;font-size:12px;color:#9aa0a6"><div style="width:14px;height:14px;border-radius:50%;background:#5f6368;flex-shrink:0"></div><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+title+'</span></div>';
+}
+function chromeFrameHTML(){
+  const iconDot = '<div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center"><div style="width:16px;height:16px;border-radius:50%;background:#9aa0a6;opacity:0.4"></div></div>';
+  return '<div class="browser-frame">'
+    + '<div style="display:flex;align-items:center;height:44px;background:#202124;padding-right:8px"><div style="display:flex;gap:8px;padding:0 14px"><div style="width:12px;height:12px;border-radius:50%;background:#ff5f57"></div><div style="width:12px;height:12px;border-radius:50%;background:#febc2e"></div><div style="width:12px;height:12px;border-radius:50%;background:#28c840"></div></div><div style="display:flex;align-items:flex-end;height:100%;padding-left:4px;flex:1">'+chromeTab('ProActif Pulse — Atelier Nord',true)+chromeTab('Nouvel onglet',false)+'</div></div>'
+    + '<div style="height:40px;background:#35363a;display:flex;align-items:center;gap:4px;padding:0 8px">'+iconDot+'<div style="flex:1;height:30px;border-radius:15px;background:#282a2d;display:flex;align-items:center;gap:8px;padding:0 14px;margin:0 6px"><div style="width:12px;height:12px;border-radius:50%;background:#9aa0a6;opacity:0.4"></div><span style="flex:1;color:#e8eaed;font-size:13px;font-family:system-ui,sans-serif">app.proactif.fr/atelier-nord/engagement</span></div>'+iconDot+'</div>'
+    + '<div style="background:var(--cream)"><div id="dashRoot"></div></div>'
+    + '</div>';
+}
+function studioHTML(){
+  const sideRows = [['bolt','Check-in express animé'],['flame','Série & gamification'],['book','Bibliothèque filtrable']]
+    .map(r=>'<div class="row" style="gap:10px">'+icon(r[0],{size:17,color:'var(--green-dark)'})+'<span class="t-label" style="font-weight:500;font-size:13px">'+r[1]+'</span></div>').join('');
+  return '<div class="studio">'
+    + '<div class="studio-head"><div>'+wordmark(26)+'<h1 class="t-display" style="font-size:38px;margin-top:16px">Prototype <span class="t-em">navigable</span></h1><p class="t-body" style="margin-top:8px;max-width:560px">Deux interfaces, un seul design system. L’app salarié garde les équipes actives entre les séances ; le dashboard RH transforme l’engagement en preuve de valeur.</p></div><div class="card" style="padding:14px 18px;display:flex;gap:22px"><div class="col"><span class="t-num" style="font-size:22px">6</span><span class="t-meta" style="font-size:11px">écrans mobile</span></div><div style="width:1px;background:var(--line)"></div><div class="col"><span class="t-num" style="font-size:22px">1</span><span class="t-meta" style="font-size:11px">dashboard RH</span></div></div></div>'
+    + '<div class="sec-label"><div class="sec-num">1</div><div><div class="t-kicker">App salarié · mobile-first</div><h2 class="t-h1" style="margin-top:3px">Côté salarié — <span class="t-em">simple, motivant</span></h2></div></div>'
+    + '<div class="mob-wrap"><div class="idx"><h3>Parcours</h3><p>Cliquez un écran pour l’ouvrir dans le téléphone — ou naviguez directement dedans.</p><div id="idxList" style="display:flex;flex-direction:column;gap:3px"></div><a class="open-mobile" style="margin-top:16px" href="mobile.html" target="_blank">'+icon('arrowR',{size:16,color:'#fff'})+' Ouvrir en plein écran</a></div>'
+    + '<div>'+iosFrameHTML()+'<div class="frame-cap" id="frameCap"></div></div>'
+    + '<div style="flex:1;min-width:220px;max-width:280px;padding-top:8px"><div class="card" style="padding:20px">'+icon('pulse',{size:26,color:'var(--green)'})+'<h3 style="font-family:var(--serif);font-weight:600;font-size:17px;margin:12px 0 8px">Friction minimale</h3><p class="t-body" style="font-size:14px">Connexion sans mot de passe, check-in en 20 secondes, gros boutons et ton tutoyé. Tout est pensé pour revenir chaque jour.</p><div class="divider" style="margin:16px 0"></div><div style="display:flex;flex-direction:column;gap:10px">'+sideRows+'</div></div></div></div>'
+    + '<div class="sec-label"><div class="sec-num">2</div><div><div class="t-kicker">Dashboard RH · desktop</div><h2 class="t-h1" style="margin-top:3px">Côté RH — <span class="t-em">clair, rassurant</span></h2></div></div>'
+    + chromeFrameHTML()
+    + '<div class="frame-cap">Navigateur · Tableau de bord équipe (données anonymisées)</div>'
+    + '</div>';
+}
+
+function renderIdx(){
+  const cur = Pulse.getScreen();
+  document.getElementById('idxList').innerHTML = SCREENS.map((s,i)=>'<button class="idx-item'+(cur===s.id?' on':'')+'" data-screen="'+s.id+'"><span class="n">'+(i+1)+'</span>'+s.label+'</button>').join('');
+}
+function setCap(){
+  const cur = Pulse.getScreen();
+  const found = SCREENS.find(s=>s.id===cur);
+  document.getElementById('frameCap').textContent = 'iPhone · ' + (found ? found.label : '');
+}
+
+document.getElementById('root').innerHTML = studioHTML();
+Pulse.mountMobile(document.getElementById('phoneScroll'), { onScreen:function(){ renderIdx(); setCap(); } });
+Pulse.mountDashboard(document.getElementById('dashRoot'));
+document.getElementById('idxList').addEventListener('click', function(e){ const b = e.target.closest('[data-screen]'); if(b) Pulse.setScreen(b.dataset.screen); });
+renderIdx(); setCap();
+</script>
+</body>
+</html>
