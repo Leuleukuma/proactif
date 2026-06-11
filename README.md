@@ -22,8 +22,8 @@ CTA + formulaire de contact · Footer.
 
 ## À personnaliser avant publication
 
-- **Coordonnées** : email `contact@proactifcoaching.fr` et téléphone
-  `06 78 32 13 80`, confirmés. (Footer)
+- **Coordonnées** : email `contact@proactifcoaching.fr` (footer). Téléphone
+  retiré du site à la demande de Quentin (non publié).
 - **Chiffres du "constat"** (4 000 €, 87 %, 7 h) : ordres de grandeur d'études de
   référence, à vérifier et sourcer avant publication.
 - **Mentions légales / Politique de confidentialité** : liens vides à compléter (footer).
