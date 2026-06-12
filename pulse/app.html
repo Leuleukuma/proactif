@@ -35,7 +35,7 @@
   // état de départ propre pour un vrai utilisateur (la maquette utilisait des valeurs de démo)
   if(backend){
     Pulse.setBackend(backend);
-    Pulse.hydrate({ streak:0, checkedInToday:false, history:[], challenge:{ title:'Bouge 5 min, 3× par jour', done:0, goal:21 } });
+    Pulse.hydrate(backend.cleanProfile());
   }
 
   let start = 'onboarding';

@@ -241,6 +241,7 @@ function onboardingHTML(){
 
 function homeHTML(){
   const name = mob.name, team = mob.team, streak = mob.streak, c = mob.challenge;
+  const ns = (mob.nextSession !== undefined) ? mob.nextSession : { title:'Jeudi 14h00', place:'Salle de réunion · avec Léa' };
   const quick = [EXERCISES[2], EXERCISES[4]];
   const pct = Math.round(c.done / c.goal * 100);
   const cta = mob.checkedInToday
@@ -253,7 +254,7 @@ function homeHTML(){
   + '<div class="app-main noscroll screen">'
   + '<div style="padding-top:56px"><div class="row between" style="align-items:flex-start"><div><div class="t-kicker" style="color:var(--ink-2);letter-spacing:.1em">Mardi 7 juin</div><h1 class="t-display" style="margin:6px 0 0">Bonjour <span class="t-em">'+esc(name)+'</span></h1></div><button data-nav="progress" style="border:none;cursor:pointer;background:var(--green);color:#fff;width:46px;height:46px;border-radius:50%;font-family:var(--serif);font-weight:600;font-size:18px;box-shadow:var(--sh-green)">'+esc(name.slice(0,1).toUpperCase())+'</button></div>'
   + '<div class="row" style="gap:18px;margin-top:16px">'+statPill('flame', streak+' j', 'série en cours')+'<div style="width:1px;height:30px;background:var(--line)"></div>'+statPill('user', esc(team), 'ton équipe')+'</div></div>'
-  + '<button data-nav="progress" class="card rise rise-1" style="width:100%;text-align:left;cursor:pointer;margin-top:18px;padding:16px;display:flex;align-items:center;gap:14px"><div style="width:46px;height:46px;border-radius:13px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('calendar',{size:22,color:'var(--green-dark)'})+'</div><div style="flex:1"><div class="t-kicker">Prochaine séance</div><div class="t-title" style="margin-top:2px">Jeudi 14h00</div><div class="t-meta" style="margin-top:1px">Salle de réunion · avec Léa</div></div>'+icon('chevR',{size:18,color:'var(--ink-2)'})+'</button>'
+  + '<button data-nav="progress" class="card rise rise-1" style="width:100%;text-align:left;cursor:pointer;margin-top:18px;padding:16px;display:flex;align-items:center;gap:14px"><div style="width:46px;height:46px;border-radius:13px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('calendar',{size:22,color:'var(--green-dark)'})+'</div><div style="flex:1"><div class="t-kicker">Prochaine séance</div><div class="t-title" style="margin-top:2px">'+(ns?ns.title:'Aucune séance programmée')+'</div><div class="t-meta" style="margin-top:1px">'+(ns?ns.place:'À planifier avec ton coach')+'</div></div>'+icon('chevR',{size:18,color:'var(--ink-2)'})+'</button>'
   + '<div class="card-green rise rise-2" style="margin-top:14px;padding:20px;position:relative;overflow:hidden"><div style="position:absolute;right:-18px;top:-18px;opacity:.16">'+icon('target',{size:120,color:'#fff',stroke:1.2})+'</div><div class="t-kicker" style="color:rgba(255,255,255,.8)">Défi de la semaine</div><h2 class="t-h1" style="color:#fff;margin:8px 0 0;font-size:22px;max-width:230px">'+c.title+'</h2><div class="row between" style="margin-top:18px;margin-bottom:8px"><span style="font-family:var(--sans);font-weight:600;font-size:13px;color:rgba(255,255,255,.92)">'+c.done+' / '+c.goal+' check-ins actifs</span><span style="font-family:var(--serif);font-weight:600;font-size:14px;color:#fff">'+pct+'%</span></div><div class="bar bar-on-green"><i style="width:'+pct+'%"></i></div><button data-nav="challenges" style="margin-top:16px;background:rgba(255,255,255,.16);color:#fff;border:none;border-radius:var(--r-pill);padding:10px 16px;font-family:var(--sans);font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px">Voir le défi '+icon('chevR',{size:15,color:'#fff'})+'</button></div>'
   + cta
   + '<div class="row between" style="margin-top:26px;margin-bottom:12px"><h2 class="t-h2">Pour bouger maintenant</h2><button data-nav="library" style="background:none;border:none;cursor:pointer;color:var(--green);font-family:var(--sans);font-weight:600;font-size:13px">Tout voir</button></div>'
@@ -294,8 +295,8 @@ function screenHead(kicker, title, em){
 }
 
 function challengesHTML(){
-  const streak = mob.streak, c = mob.challenge, badges = BADGES;
-  const nextTier = 30, current = 21 + streak;
+  const streak = mob.streak, c = mob.challenge, badges = mob.badges || BADGES;
+  const nextTier = 30, current = streak;
   const tierPct = Math.min(100, Math.round(current / nextTier * 100));
   const unlocked = badges.filter(b=>b.unlocked).length;
   const pct = Math.round(c.done / c.goal * 100);
@@ -344,15 +345,16 @@ function exerciseHTML(){
 }
 
 function progressHTML(){
-  const name = mob.name, team = mob.team, streak = mob.streak, badges = BADGES;
-  const doneCount = 12 + mob.doneEx.size;
+  const name = mob.name, team = mob.team, streak = mob.streak, badges = mob.badges || BADGES;
+  const doneCount = ((mob.exosBase != null) ? mob.exosBase : 12) + mob.doneEx.size;
   const unlocked = badges.filter(b=>b.unlocked);
   const trio = [{n:streak,l:'jours de série',i:'flame'},{n:doneCount,l:'exos réalisés',i:'dumbbell'},{n:unlocked.length,l:'badges',i:'medal'}]
     .map(s=>'<div class="card" style="padding:15px 10px;text-align:center"><div style="display:flex;justify-content:center">'+icon(s.i,{size:22,color:'var(--green)'})+'</div><div style="font-family:var(--serif);font-weight:700;font-size:26px;color:var(--ink);margin-top:6px">'+s.n+'</div><div class="t-meta" style="font-size:10.5px;line-height:1.2">'+s.l+'</div></div>').join('');
   const badgesRow = badges.map(b=>'<div class="badge '+(b.unlocked?'on':'off')+'" style="flex-shrink:0;width:64px"><div class="badge-disc">'+(b.unlocked?icon(b.icon,{size:25,color:'#fff'}):icon('lock',{size:20,color:'#a7b3a8'}))+'</div><div class="t-meta" style="font-size:10px;color:'+(b.unlocked?'var(--ink)':'#9aa39b')+'">'+b.label+'</div></div>').join('');
-  const histData = (mob.history && mob.history.length) ? mob.history : HISTORY;
-  const hist = histData.map((h,i)=>'<div><div class="row between" style="padding:13px 0"><div class="row" style="gap:12px"><span style="font-size:22px">'+h.mood+'</span><span class="t-label" style="font-size:14px">'+h.day+'</span></div><div class="row" style="gap:14px"><span class="t-meta">'+icon('bolt',{size:13,color:'var(--green)'})+' '+h.energy+'</span><span class="t-meta">'+icon('waves',{size:13,color:'var(--sky)'})+' '+h.stress+'</span></div></div>'+(i<histData.length-1?'<div class="divider"></div>':'')+'</div>').join('');
-  const sess = SESSIONS_FOLLOWED.map(s=>'<div class="card" style="padding:14px;display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;border-radius:12px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('check',{size:20,color:'var(--green)',stroke:2.4})+'</div><div style="flex:1"><div class="t-title" style="font-size:15px">'+s.title+'</div><div class="t-meta">'+s.date+' · '+s.coach+'</div></div></div>').join('');
+  const histData = (mob.history !== undefined) ? mob.history : HISTORY;
+  const hist = histData.length ? histData.map((h,i)=>'<div><div class="row between" style="padding:13px 0"><div class="row" style="gap:12px"><span style="font-size:22px">'+h.mood+'</span><span class="t-label" style="font-size:14px">'+h.day+'</span></div><div class="row" style="gap:14px"><span class="t-meta">'+icon('bolt',{size:13,color:'var(--green)'})+' '+h.energy+'</span><span class="t-meta">'+icon('waves',{size:13,color:'var(--sky)'})+' '+h.stress+'</span></div></div>'+(i<histData.length-1?'<div class="divider"></div>':'')+'</div>').join('') : '<div class="t-meta" style="padding:13px 0">Aucun check-in pour l\'instant.</div>';
+  const sessions = (mob.sessions !== undefined) ? mob.sessions : SESSIONS_FOLLOWED;
+  const sess = sessions.length ? sessions.map(s=>'<div class="card" style="padding:14px;display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;border-radius:12px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('check',{size:20,color:'var(--green)',stroke:2.4})+'</div><div style="flex:1"><div class="t-title" style="font-size:15px">'+s.title+'</div><div class="t-meta">'+s.date+' · '+s.coach+'</div></div></div>').join('') : '<div class="t-meta" style="padding:4px 0">Aucune séance suivie pour l\'instant.</div>';
   return ''
   + '<div class="app-main noscroll screen">'
   + '<div style="padding-top:56px;display:flex;align-items:center;gap:14px"><div style="width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--serif);font-weight:600;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-green)">'+esc(name.slice(0,1).toUpperCase())+'</div><div style="flex:1"><h1 class="t-h1">'+esc(name)+'</h1><div class="t-meta" style="margin-top:2px">Équipe '+esc(team)+' · Atelier Nord</div></div><button style="background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer">'+icon('settings',{size:19,color:'var(--ink-2)'})+'</button></div>'

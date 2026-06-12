@@ -5,6 +5,27 @@
   "use strict";
   const MOODS = ['😣','😕','😐','🙂','😄'];
 
+  const BADGE_DEFS = [
+    { id:'b1', label:'Premier pas', icon:'leaf',  hint:'1er check-in' },
+    { id:'b2', label:'Série de 7',  icon:'flame', hint:'7 jours d’affilée' },
+    { id:'b3', label:'Matinal',     icon:'sun',   hint:'5 check-ins avant 9h' },
+    { id:'b4', label:'Souffle zen', icon:'lungs', hint:'10 respirations' },
+    { id:'b5', label:'Dos d’acier', icon:'back',  hint:'15 exos anti-dos' },
+    { id:'b6', label:'Assidu',      icon:'medal', hint:'30 jours actifs' }
+  ];
+  function computeBadges(m){
+    const u = { b1: m.total>=1, b2: m.streak>=7, b3: m.morning>=5, b4:false, b5:false, b6: m.distinctDays>=30 };
+    return BADGE_DEFS.map(function(b){ return { id:b.id, label:b.label, icon:b.icon, hint:b.hint, unlocked: !!u[b.id] }; });
+  }
+  function cleanProfile(){
+    return {
+      streak:0, checkedInToday:false, history:[],
+      badges: computeBadges({ total:0, streak:0, morning:0, distinctDays:0 }),
+      sessions: [], exosBase: 0, nextSession: null,
+      challenge: { title:'Bouge 5 min, 3× par jour', done:0, goal:21 }
+    };
+  }
+
   function todayStr(){
     const d = new Date();
     return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -83,21 +104,29 @@
         const { data: cks } = await sb.from('checkins').select('*').order('created_at', { ascending: false });
         const list = cks || [];
         const daySet = new Set(list.map(c => c.day));
+        const streak = computeStreak(daySet);
+        const total = list.length;
+        const morning = list.filter(c => { try { return new Date(c.created_at).getHours() < 9; } catch(e){ return false; } }).length;
         return {
           name: m.name,
           team: m.team,
-          streak: computeStreak(daySet),
+          streak: streak,
           checkedInToday: daySet.has(todayStr()),
           history: list.slice(0, 5).map(c => ({
             day: dayLabel(c.day), mood: MOODS[c.mood] || '🙂', energy: c.energy, stress: c.stress, done: true
-          }))
+          })),
+          badges: computeBadges({ total: total, streak: streak, morning: morning, distinctDays: daySet.size }),
+          sessions: [],
+          exosBase: 0,
+          nextSession: null,
+          challenge: { title: 'Bouge 5 min, 3× par jour', done: Math.min(21, total), goal: 21 }
         };
       }catch(e){ console.error('Pulse loadMe:', e.message || e); return null; }
     }
 
     function reset(){ localStorage.removeItem(LS); }
 
-    return { join: join, saveCheckin: saveCheckin, loadMe: loadMe, reset: reset };
+    return { join: join, saveCheckin: saveCheckin, loadMe: loadMe, cleanProfile: cleanProfile, reset: reset };
   }
 
   window.createPulseBackend = createBackend;
