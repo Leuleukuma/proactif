@@ -124,3 +124,60 @@ input[type=range].rng::-moz-range-thumb{ width:34px; height:34px; border:none; b
 .rise-1{ animation-delay:.05s; } .rise-2{ animation-delay:.12s; } .rise-3{ animation-delay:.2s; } .rise-4{ animation-delay:.28s; }
 @media (prefers-reduced-motion: reduce){ .pop,.rise,.screen{ animation:none; } }
 .screen{ animation:rise .32s ease; }
+
+/* ====== Animations d'exercice (hero de la fiche) ====== */
+.ex-hero{ height:230px; position:relative; overflow:hidden; }
+.ex-hero-media{ width:100%; height:100%; object-fit:cover; display:block; }
+.ex-anim{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(140deg,#ffffff,var(--green-soft)); }
+
+/* --- respiration (cercle synchronisé + phases) --- */
+.exa-breath{ position:relative; width:160px; height:160px; display:flex; align-items:center; justify-content:center; }
+.exa-breath .halo{ position:absolute; width:130px; height:130px; border-radius:50%; background:radial-gradient(circle at 50% 42%, #7aa489, var(--green)); box-shadow:0 16px 36px rgba(74,122,92,.35); }
+.exa-breath .lab{ position:relative; z-index:1; width:100%; height:100%; }
+.exa-breath .lab span{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-family:var(--serif); font-weight:600; font-size:17px; color:#fff; white-space:nowrap; opacity:0; }
+.b55 .halo{ animation:breathe55 10s ease-in-out infinite; }
+.b55 .p1{ animation:lab55a 10s ease-in-out infinite; }
+.b55 .p2{ animation:lab55b 10s ease-in-out infinite; }
+@keyframes breathe55{ 0%{transform:scale(.58)} 50%{transform:scale(1)} 100%{transform:scale(.58)} }
+@keyframes lab55a{ 0%{opacity:0} 6%{opacity:1} 44%{opacity:1} 50%{opacity:0} 100%{opacity:0} }
+@keyframes lab55b{ 0%,50%{opacity:0} 56%{opacity:1} 94%{opacity:1} 100%{opacity:0} }
+.b478 .halo{ animation:breathe478 19s ease-in-out infinite; }
+.b478 .p1{ animation:lab478a 19s linear infinite; }
+.b478 .p2{ animation:lab478b 19s linear infinite; }
+.b478 .p3{ animation:lab478c 19s linear infinite; }
+@keyframes breathe478{ 0%{transform:scale(.58)} 21%{transform:scale(1)} 58%{transform:scale(1)} 100%{transform:scale(.58)} }
+@keyframes lab478a{ 0%{opacity:0} 3%{opacity:1} 18%{opacity:1} 22%{opacity:0} 100%{opacity:0} }
+@keyframes lab478b{ 0%,22%{opacity:0} 26%{opacity:1} 55%{opacity:1} 59%{opacity:0} 100%{opacity:0} }
+@keyframes lab478c{ 0%,59%{opacity:0} 63%{opacity:1} 96%{opacity:1} 100%{opacity:0} }
+
+/* --- yeux (20-20-20) --- */
+.exa-eye .pupil{ animation:look 4s ease-in-out infinite; transform-origin:center; }
+@keyframes look{ 0%,100%{ transform:translateX(-22px) scale(1); } 25%{ transform:translateX(0) scale(.78); } 50%{ transform:translateX(22px) scale(1); } 75%{ transform:translateX(0) scale(.78); } }
+
+/* --- nuque & trapèzes (tête qui s'incline) --- */
+.exa-neck{ display:flex; flex-direction:column; align-items:center; }
+.exa-neck .head{ width:42px; height:42px; border-radius:50%; background:var(--green-dark); transform-origin:50% 142%; animation:neck 4s ease-in-out infinite; }
+.exa-neck .shoulders{ width:104px; height:28px; border-radius:16px; background:var(--green); margin-top:8px; }
+@keyframes neck{ 0%,100%{ transform:rotate(-22deg); } 50%{ transform:rotate(22deg); } }
+
+/* --- bas du dos (inclinaison latérale) --- */
+.exa-body{ display:flex; flex-direction:column; align-items:center; gap:7px; transform-origin:50% 100%; }
+.exa-body .head{ width:34px; height:34px; border-radius:50%; background:var(--green-dark); }
+.exa-body .torso{ width:42px; height:74px; border-radius:20px; background:var(--green); }
+.exa-body.sidebend{ animation:sidebend 4.6s ease-in-out infinite; }
+@keyframes sidebend{ 0%,100%{ transform:rotate(-15deg); } 50%{ transform:rotate(15deg); } }
+
+/* --- activation jambes (squat) --- */
+.exa-squat{ display:flex; flex-direction:column; align-items:center; gap:7px; animation:squat 1.9s ease-in-out infinite; }
+.exa-squat .head{ width:32px; height:32px; border-radius:50%; background:var(--green-dark); }
+.exa-squat .torso{ width:40px; height:64px; border-radius:18px; background:var(--green); }
+@keyframes squat{ 0%,100%{ transform:translateY(-13px); } 50%{ transform:translateY(14px) scaleY(.9); } }
+
+/* --- réveil articulaire (rotations) --- */
+.exa-orbit{ position:relative; width:104px; height:104px; }
+.exa-orbit .center{ position:absolute; left:50%; top:50%; width:34px; height:34px; border-radius:50%; background:var(--green); transform:translate(-50%,-50%); }
+.exa-orbit .ring{ position:absolute; inset:0; animation:spin 3s linear infinite; }
+.exa-orbit .ring i{ position:absolute; left:50%; width:16px; height:16px; border-radius:50%; background:var(--green-dark); margin-left:-8px; }
+.exa-orbit .ring i:nth-child(1){ top:0; }
+.exa-orbit .ring i:nth-child(2){ bottom:0; }
+@keyframes spin{ to{ transform:rotate(360deg); } }

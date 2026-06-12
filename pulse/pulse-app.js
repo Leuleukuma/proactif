@@ -46,6 +46,9 @@ function icon(name, opts){
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="'+stroke+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0">'+inner+'</svg>';
 }
 
+// Echappe les entrees utilisateur avant injection dans le HTML (anti-XSS)
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
 /* ----------------------- Data ----------------------- */
 const TEAMS = ['Marketing', 'Produit', 'Tech', 'Commercial', 'RH', 'Support'];
 const CATEGORIES = [
@@ -147,6 +150,55 @@ function onboardingVisual(h){
     + '</div>';
 }
 
+/* ----------------------- Animations d'exercice (hero) ----------------------- */
+// Pour brancher une vraie video (ex. clip type Lyfta) sur un exercice :
+// ajoute un champ video sur l'objet de EXERCISES, ex. video:'videos/e1.mp4'
+// La video (muette, en boucle) remplace alors automatiquement l'animation.
+// Chaque exercice a une animation dediee (par id, pas par categorie).
+const EX_ANIM = { e1:'sidebend', e2:'catcow', e3:'breath478', e4:'breath55', e5:'joints', e6:'squat', e7:'eye', e8:'neck' };
+function exAnimBreath(kind){
+  if(kind==='478'){
+    return '<div class="ex-anim"><div class="exa-breath b478"><div class="halo"></div><div class="lab"><span class="p1">Inspire</span><span class="p2">Retiens</span><span class="p3">Expire</span></div></div></div>';
+  }
+  return '<div class="ex-anim"><div class="exa-breath b55"><div class="halo"></div><div class="lab"><span class="p1">Inspire</span><span class="p2">Expire</span></div></div></div>';
+}
+function exAnimEye(){
+  return '<div class="ex-anim"><svg class="exa-eye" width="150" height="84" viewBox="0 0 150 84" fill="none"><path d="M8 42 C 40 8, 110 8, 142 42 C 110 76, 40 76, 8 42 Z" stroke="#38614a" stroke-width="3.5" fill="#fff"/><g class="pupil"><circle cx="75" cy="42" r="17" fill="#e7ede7"/><circle cx="75" cy="42" r="11" fill="#38614a"/><circle cx="80" cy="37" r="3.4" fill="#fff"/></g></svg></div>';
+}
+function exAnimNeck(){
+  return '<div class="ex-anim"><div class="exa-neck"><span class="head"></span><span class="shoulders"></span></div></div>';
+}
+function exAnimSideBend(){
+  return '<div class="ex-anim"><div class="exa-body sidebend"><span class="head"></span><span class="torso"></span></div></div>';
+}
+function exAnimSquat(){
+  return '<div class="ex-anim"><div class="exa-squat"><span class="head"></span><span class="torso"></span></div></div>';
+}
+function exAnimJoints(){
+  return '<div class="ex-anim"><div class="exa-orbit"><span class="center"></span><span class="ring"><i></i><i></i></span></div></div>';
+}
+function exAnimCatCow(){
+  return '<div class="ex-anim"><svg width="170" height="120" viewBox="0 0 170 120" fill="none">'
+    + '<path stroke="#4a7a5c" stroke-width="14" stroke-linecap="round" fill="none" d="M30 78 Q 85 38 140 78"><animate attributeName="d" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" values="M30 78 Q 85 38 140 78;M30 70 Q 85 104 140 70;M30 78 Q 85 38 140 78"/></path>'
+    + '<circle cx="30" r="13" fill="#38614a"><animate attributeName="cy" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" values="78;70;78"/></circle>'
+    + '<circle cx="140" r="9" fill="#7aa489"><animate attributeName="cy" dur="4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.4 0 0.2 1;0.4 0 0.2 1" values="78;70;78"/></circle>'
+    + '</svg></div>';
+}
+function exHero(ex){
+  if(ex.video){ return '<video class="ex-hero-media" src="'+ex.video+'" autoplay muted loop playsinline></video>'; }
+  switch(EX_ANIM[ex.id]){
+    case 'breath478': return exAnimBreath('478');
+    case 'breath55':  return exAnimBreath('55');
+    case 'eye':       return exAnimEye();
+    case 'neck':      return exAnimNeck();
+    case 'sidebend':  return exAnimSideBend();
+    case 'squat':     return exAnimSquat();
+    case 'joints':    return exAnimJoints();
+    case 'catcow':    return exAnimCatCow();
+    default:          return exVisual(ex,230,0);
+  }
+}
+
 /* ----------------------- Shared pieces ----------------------- */
 function wordmark(size, light){
   size = size || 22;
@@ -179,7 +231,7 @@ function onboardingHTML(){
   +   '<div style="padding-top:70px">'+wordmark(24)+'</div>'
   +   onboardingVisual(158).replace('height:158px','height:158px;margin-top:28px')
   +   '<div style="margin-top:26px"><div class="t-kicker">Bienvenue</div><h1 class="t-display" style="margin:8px 0 0;font-size:27px">Rejoins le programme<br><span class="t-em">de ton entreprise</span></h1><p class="t-body" style="margin-top:10px">Reste actif·ve entre les séances, en 20 secondes par jour. Pas de mot de passe — juste toi et ton équipe.</p></div>'
-  +   '<div style="margin-top:22px"><label class="t-label" style="display:block;margin-bottom:8px">Ton prénom</label><input data-ob-name value="'+name.replace(/"/g,'&quot;')+'" placeholder="Camille" style="width:100%;height:54px;border-radius:var(--r-md);border:1px solid var(--line);background:#fff;padding:0 16px;font-family:var(--sans);font-size:16px;color:var(--ink);outline:none"></div>'
+  +   '<div style="margin-top:22px"><label class="t-label" style="display:block;margin-bottom:8px">Ton prénom</label><input data-ob-name value="'+esc(name)+'" placeholder="Camille" style="width:100%;height:54px;border-radius:var(--r-md);border:1px solid var(--line);background:#fff;padding:0 16px;font-family:var(--sans);font-size:16px;color:var(--ink);outline:none"></div>'
   +   '<div style="margin-top:18px"><label class="t-label" style="display:block;margin-bottom:9px">Ton équipe</label><div style="display:flex;flex-wrap:wrap;gap:8px">'+chips+'</div></div>'
   +   '<div style="flex:1"></div>'
   +   '<button class="btn btn-primary btn-block btn-lg" data-action="join" style="margin-top:26px;opacity:'+(ready?1:.5)+';pointer-events:'+(ready?'auto':'none')+'">C’est parti '+icon('arrowR',{size:20,color:'#fff'})+'</button>'
@@ -199,8 +251,8 @@ function homeHTML(){
   ).join('');
   return ''
   + '<div class="app-main noscroll screen">'
-  + '<div style="padding-top:56px"><div class="row between" style="align-items:flex-start"><div><div class="t-kicker" style="color:var(--ink-2);letter-spacing:.1em">Mardi 7 juin</div><h1 class="t-display" style="margin:6px 0 0">Bonjour <span class="t-em">'+name+'</span></h1></div><button data-nav="progress" style="border:none;cursor:pointer;background:var(--green);color:#fff;width:46px;height:46px;border-radius:50%;font-family:var(--serif);font-weight:600;font-size:18px;box-shadow:var(--sh-green)">'+name.slice(0,1).toUpperCase()+'</button></div>'
-  + '<div class="row" style="gap:18px;margin-top:16px">'+statPill('flame', streak+' j', 'série en cours')+'<div style="width:1px;height:30px;background:var(--line)"></div>'+statPill('user', team, 'ton équipe')+'</div></div>'
+  + '<div style="padding-top:56px"><div class="row between" style="align-items:flex-start"><div><div class="t-kicker" style="color:var(--ink-2);letter-spacing:.1em">Mardi 7 juin</div><h1 class="t-display" style="margin:6px 0 0">Bonjour <span class="t-em">'+esc(name)+'</span></h1></div><button data-nav="progress" style="border:none;cursor:pointer;background:var(--green);color:#fff;width:46px;height:46px;border-radius:50%;font-family:var(--serif);font-weight:600;font-size:18px;box-shadow:var(--sh-green)">'+esc(name.slice(0,1).toUpperCase())+'</button></div>'
+  + '<div class="row" style="gap:18px;margin-top:16px">'+statPill('flame', streak+' j', 'série en cours')+'<div style="width:1px;height:30px;background:var(--line)"></div>'+statPill('user', esc(team), 'ton équipe')+'</div></div>'
   + '<button data-nav="progress" class="card rise rise-1" style="width:100%;text-align:left;cursor:pointer;margin-top:18px;padding:16px;display:flex;align-items:center;gap:14px"><div style="width:46px;height:46px;border-radius:13px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('calendar',{size:22,color:'var(--green-dark)'})+'</div><div style="flex:1"><div class="t-kicker">Prochaine séance</div><div class="t-title" style="margin-top:2px">Jeudi 14h00</div><div class="t-meta" style="margin-top:1px">Salle de réunion · avec Léa</div></div>'+icon('chevR',{size:18,color:'var(--ink-2)'})+'</button>'
   + '<div class="card-green rise rise-2" style="margin-top:14px;padding:20px;position:relative;overflow:hidden"><div style="position:absolute;right:-18px;top:-18px;opacity:.16">'+icon('target',{size:120,color:'#fff',stroke:1.2})+'</div><div class="t-kicker" style="color:rgba(255,255,255,.8)">Défi de la semaine</div><h2 class="t-h1" style="color:#fff;margin:8px 0 0;font-size:22px;max-width:230px">'+c.title+'</h2><div class="row between" style="margin-top:18px;margin-bottom:8px"><span style="font-family:var(--sans);font-weight:600;font-size:13px;color:rgba(255,255,255,.92)">'+c.done+' / '+c.goal+' check-ins actifs</span><span style="font-family:var(--serif);font-weight:600;font-size:14px;color:#fff">'+pct+'%</span></div><div class="bar bar-on-green"><i style="width:'+pct+'%"></i></div><button data-nav="challenges" style="margin-top:16px;background:rgba(255,255,255,.16);color:#fff;border:none;border-radius:var(--r-pill);padding:10px 16px;font-family:var(--sans);font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px">Voir le défi '+icon('chevR',{size:15,color:'#fff'})+'</button></div>'
   + cta
@@ -286,7 +338,7 @@ function exerciseHTML(){
     : '<button class="btn btn-primary btn-block btn-lg" style="margin-top:24px" data-action="ex-done">'+icon('check',{size:20,color:'#fff',stroke:2.4})+' C’est fait</button>';
   return ''
   + '<div class="app-main noscroll screen" style="padding:0">'
-  + '<div style="position:relative">'+exVisual(ex,230,0)+'<button data-action="ex-back" style="position:absolute;top:54px;left:16px;background:rgba(255,255,255,.92);border:none;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh-sm)">'+icon('chevL',{size:20,color:'var(--ink)'})+'</button><button data-action="ex-back" style="position:absolute;top:54px;right:16px;background:rgba(255,255,255,.92);border:none;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh-sm)">'+icon('play',{size:18,color:'var(--green)'})+'</button></div>'
+  + '<div class="ex-hero">'+exHero(ex)+'<button data-action="ex-back" style="position:absolute;top:54px;left:16px;background:rgba(255,255,255,.92);border:none;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh-sm)">'+icon('chevL',{size:20,color:'var(--ink)'})+'</button><button data-action="ex-back" style="position:absolute;top:54px;right:16px;background:rgba(255,255,255,.92);border:none;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--sh-sm)">'+icon('play',{size:18,color:'var(--green)'})+'</button></div>'
   + '<div style="padding:20px 18px 24px"><div class="row" style="gap:8px"><div class="tag">'+cc.label+'</div><div class="tag" style="background:#fff;border:1px solid var(--line);color:var(--ink-2)">'+icon('clock',{size:12,color:'var(--ink-2)'})+' '+ex.dur+' min</div></div><h1 class="t-display" style="margin:14px 0 0;font-size:26px">'+ex.title+'</h1><p class="t-body" style="margin-top:8px">'+ex.intro+'</p><div class="divider" style="margin:20px 0"></div><h2 class="t-h2" style="margin-bottom:14px">Les étapes</h2><div style="display:flex;flex-direction:column;gap:14px">'+steps+'</div>'+doneBlock+'</div>'
   + '</div>';
 }
@@ -298,11 +350,12 @@ function progressHTML(){
   const trio = [{n:streak,l:'jours de série',i:'flame'},{n:doneCount,l:'exos réalisés',i:'dumbbell'},{n:unlocked.length,l:'badges',i:'medal'}]
     .map(s=>'<div class="card" style="padding:15px 10px;text-align:center"><div style="display:flex;justify-content:center">'+icon(s.i,{size:22,color:'var(--green)'})+'</div><div style="font-family:var(--serif);font-weight:700;font-size:26px;color:var(--ink);margin-top:6px">'+s.n+'</div><div class="t-meta" style="font-size:10.5px;line-height:1.2">'+s.l+'</div></div>').join('');
   const badgesRow = badges.map(b=>'<div class="badge '+(b.unlocked?'on':'off')+'" style="flex-shrink:0;width:64px"><div class="badge-disc">'+(b.unlocked?icon(b.icon,{size:25,color:'#fff'}):icon('lock',{size:20,color:'#a7b3a8'}))+'</div><div class="t-meta" style="font-size:10px;color:'+(b.unlocked?'var(--ink)':'#9aa39b')+'">'+b.label+'</div></div>').join('');
-  const hist = HISTORY.map((h,i)=>'<div><div class="row between" style="padding:13px 0"><div class="row" style="gap:12px"><span style="font-size:22px">'+h.mood+'</span><span class="t-label" style="font-size:14px">'+h.day+'</span></div><div class="row" style="gap:14px"><span class="t-meta">'+icon('bolt',{size:13,color:'var(--green)'})+' '+h.energy+'</span><span class="t-meta">'+icon('waves',{size:13,color:'var(--sky)'})+' '+h.stress+'</span></div></div>'+(i<HISTORY.length-1?'<div class="divider"></div>':'')+'</div>').join('');
+  const histData = (mob.history && mob.history.length) ? mob.history : HISTORY;
+  const hist = histData.map((h,i)=>'<div><div class="row between" style="padding:13px 0"><div class="row" style="gap:12px"><span style="font-size:22px">'+h.mood+'</span><span class="t-label" style="font-size:14px">'+h.day+'</span></div><div class="row" style="gap:14px"><span class="t-meta">'+icon('bolt',{size:13,color:'var(--green)'})+' '+h.energy+'</span><span class="t-meta">'+icon('waves',{size:13,color:'var(--sky)'})+' '+h.stress+'</span></div></div>'+(i<histData.length-1?'<div class="divider"></div>':'')+'</div>').join('');
   const sess = SESSIONS_FOLLOWED.map(s=>'<div class="card" style="padding:14px;display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;border-radius:12px;background:var(--green-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0">'+icon('check',{size:20,color:'var(--green)',stroke:2.4})+'</div><div style="flex:1"><div class="t-title" style="font-size:15px">'+s.title+'</div><div class="t-meta">'+s.date+' · '+s.coach+'</div></div></div>').join('');
   return ''
   + '<div class="app-main noscroll screen">'
-  + '<div style="padding-top:56px;display:flex;align-items:center;gap:14px"><div style="width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--serif);font-weight:600;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-green)">'+name.slice(0,1).toUpperCase()+'</div><div style="flex:1"><h1 class="t-h1">'+name+'</h1><div class="t-meta" style="margin-top:2px">Équipe '+team+' · Atelier Nord</div></div><button style="background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer">'+icon('settings',{size:19,color:'var(--ink-2)'})+'</button></div>'
+  + '<div style="padding-top:56px;display:flex;align-items:center;gap:14px"><div style="width:60px;height:60px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--serif);font-weight:600;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh-green)">'+esc(name.slice(0,1).toUpperCase())+'</div><div style="flex:1"><h1 class="t-h1">'+esc(name)+'</h1><div class="t-meta" style="margin-top:2px">Équipe '+esc(team)+' · Atelier Nord</div></div><button style="background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer">'+icon('settings',{size:19,color:'var(--ink-2)'})+'</button></div>'
   + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:18px">'+trio+'</div>'
   + '<div class="row between" style="margin-top:24px;margin-bottom:12px"><h2 class="t-h2">Tes badges</h2></div>'
   + '<div style="display:flex;gap:16px;overflow-x:auto;margin:0 -18px;padding:2px 18px 4px" class="noscroll">'+badgesRow+'</div>'
@@ -455,7 +508,7 @@ function dashboardHTML(){
 }
 
 /* ----------------------- Events & mount ----------------------- */
-let phoneEl = null, onScreenCb = null, dashEl = null;
+let phoneEl = null, onScreenCb = null, dashEl = null, backend = null;
 function renderMobile(){ if(phoneEl) phoneEl.innerHTML = mobileShellHTML(); }
 function setScreen(s){
   if(s==='checkin') resetCheckin();
@@ -464,9 +517,10 @@ function setScreen(s){
   if(onScreenCb) onScreenCb(s);
 }
 function doAction(a){
-  if(a==='join'){ mob.name = (mob.ob.name||'').trim() || 'Camille'; mob.team = mob.ob.team || 'Marketing'; setScreen('home'); }
+  if(a==='join'){ mob.name = (mob.ob.name||'').trim() || 'Camille'; mob.team = mob.ob.team || 'Marketing'; if(backend && backend.join){ backend.join(mob.name, mob.team); } setScreen('home'); }
   else if(a==='checkin-validate'){ mob.checkin.done = true; renderMobile(); }
   else if(a==='checkin-finish'){
+    if(backend && backend.saveCheckin){ backend.saveCheckin({ energy:mob.checkin.energy, stress:mob.checkin.stress, pain:mob.checkin.pain, mood:mob.checkin.mood }); }
     if(!mob.checkedInToday){ mob.checkedInToday = true; mob.streak++; mob.challenge.done = Math.min(mob.challenge.goal, mob.challenge.done+1); }
     resetCheckin(); mob.screen='home'; renderMobile(); if(onScreenCb) onScreenCb('home');
   }
@@ -513,9 +567,14 @@ function mountDashboard(el){
   renderDashboard();
 }
 
+function setBackend(b){ backend = b; }
+function hydrate(state){ if(state) Object.assign(mob, state); }
+
 return {
   mountMobile: mountMobile,
   mountDashboard: mountDashboard,
+  setBackend: setBackend,
+  hydrate: hydrate,
   icon: icon,
   wordmark: wordmark,
   SCREENS: SCREENS,

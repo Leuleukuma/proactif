@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#4a7a5c" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>ProActif Pulse</title>
+<link rel="stylesheet" href="pulse.css" />
+<style>
+  html, body { margin:0; height:100%; }
+  body{ background:#d9d6cb; font-family:var(--sans); -webkit-font-smoothing:antialiased; }
+  #app{
+    height:100dvh; max-width:480px; margin:0 auto;
+    background:var(--cream); overflow:hidden; position:relative;
+  }
+  @media (min-width:481px){ #app{ box-shadow:0 0 80px rgba(31,36,33,.18); } }
+  .app-head, .app-main{ padding-top:max(0px, env(safe-area-inset-top)); }
+  #pulse-loading{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:var(--cream); z-index:5; color:var(--ink-2); font-family:var(--sans); font-size:14px; }
+</style>
+</head>
+<body>
+<div id="app"><div id="pulse-loading">Chargement…</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="pulse-app.js"></script>
+<script src="pulse-backend.js"></script>
+<script>
+(async function(){
+  const el = document.getElementById('app');
+  const backend = window.createPulseBackend ? window.createPulseBackend() : null;
+
+  // état de départ propre pour un vrai utilisateur (la maquette utilisait des valeurs de démo)
+  if(backend){
+    Pulse.setBackend(backend);
+    Pulse.hydrate({ streak:0, checkedInToday:false, history:[], challenge:{ title:'Bouge 5 min, 3× par jour', done:0, goal:21 } });
+  }
+
+  let start = 'onboarding';
+  if(backend){
+    const me = await backend.loadMe();
+    if(me){ Pulse.hydrate(me); start = 'home'; }
+  }
+
+  const loader = document.getElementById('pulse-loading');
+  if(loader) loader.remove();
+  Pulse.mountMobile(el, { start: start });
+})();
+</script>
+</body>
+</html>
