@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Manrope:wght@400;600;700&display=swap">
+  <style>
+    body{margin:0;font-family:"Manrope",system-ui,sans-serif;background:#1f2421}
+    a{color:#a9d3b6}a:hover{color:#ffffff}
+  </style>
+</helmet>
+
+<div style="padding:96px 56px;background:#1f2421;min-height:620px">
+
+  <span style="display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:{{accent}}">
+    <i style="width:26px;height:2px;background:currentColor;display:block"></i>Constat
+  </span>
+
+  <h2 style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.08;font-size:44px;color:#ffffff;margin:18px 0 0;max-width:760px;text-wrap:pretty">
+    La sédentarité au bureau coûte cher, <span style="color:#a9d3b6">bien plus qu'on ne l'imagine.</span>
+  </h2>
+
+  <p style="color:#c7ccc6;font-size:1.02rem;line-height:1.6;margin:20px 0 0;max-width:680px">
+    Stress chronique, fatigue, douleurs liées aux postures, baisse d'énergie : les journées passées assis pèsent sur la santé de vos collaborateurs… et sur la vie de l'entreprise.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:30px;margin-top:54px">
+
+    <div style="border-top:2px solid {{accent}};padding-top:20px">
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.03em;font-size:{{taille}}px;line-height:1;color:{{accent}};font-variant-numeric:tabular-nums">4 000<span style="font-size:.5em"> € / an</span></div>
+      <p style="color:#c7ccc6;font-size:.98rem;line-height:1.55;margin:14px 0 0;max-width:30ch">Coût moyen estimé de l'absentéisme, par salarié et par an, pour l'employeur.</p>
+    </div>
+
+    <div style="border-top:2px solid {{accent}};padding-top:20px">
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.03em;font-size:{{taille}}px;line-height:1;color:{{accent}};font-variant-numeric:tabular-nums">87<span style="font-size:.5em"> %</span></div>
+      <p style="color:#c7ccc6;font-size:.98rem;line-height:1.55;margin:14px 0 0;max-width:30ch">des maladies professionnelles reconnues sont des troubles musculo-squelettiques (TMS).</p>
+    </div>
+
+    <div style="border-top:2px solid {{accent}};padding-top:20px">
+      <div style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.03em;font-size:{{taille}}px;line-height:1;color:{{accent}};font-variant-numeric:tabular-nums">37,8<span style="font-size:.5em"> %</span></div>
+      <p style="color:#c7ccc6;font-size:.98rem;line-height:1.55;margin:14px 0 0;max-width:30ch">des arrêts de plus de 30 jours viennent de troubles psychologiques, désormais première cause d'arrêt long.</p>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1180,"height":620},"accent":{"editor":"color","default":"#d4795e","options":["#d4795e","#2fbf71","#a9d3b6","#e08a68"],"section":"Couleur"},"taille":{"editor":"range","default":62,"min":40,"max":92,"step":2,"unit":"px","section":"Chiffres"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#d4795e',
+      taille: this.props.taille ?? 62
+    };
+  }
+}
+</script>
+</body>
+</html>

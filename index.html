@@ -33,9 +33,43 @@
   --white:        #ffffff;
   --line:         #dcdacf;   /* filets / séparateurs */
 
+  /* --- Accent (ajoute le 28/08/2026) : brique douce, complementaire du
+     vert. Trois variantes, imposees par les fonds du site.
+       --accent        sur creme ou blanc           5,27:1
+       --accent-light  sur anthracite               5,02:1  (l'accent plein
+                       n'y tient pas, il tombe a 2,67:1)
+       --accent-soft   fond de carte, accent dessus 4,90:1
+     Ne JAMAIS l'employer pour une alerte ou une erreur : un rouge, meme
+     terreux, porte deja ce sens et brouillerait le message. */
+  /* Brique avivee le 01/09/2026 pour un ton plus dynamique : #b8492e
+     au lieu de #a8452f. Toujours conforme, 4,65:1 sur creme (il fallait
+     rester au-dessus de 4,5 ; #c2472b tombait a 4,43). */
+  --accent:       #b8492e;
+  --accent-light: #d4795e;
+  --accent-soft:  #f6e7e2;
+
+  /* Vert VIF, ajoute le 01/09/2026. Il n'existait pas dans la charte.
+     Reserve aux FONDS SOMBRES, ou il donne 6,61:1 sur l'anthracite,
+     mais PLUS employe par les chiffres du constat depuis le 01/09/2026 :
+     Quentin les veut en brique. C'est `--accent-light` (#d4795e, 5,02:1)
+     qui les porte, et non la brique pleine, qui n'y tient qu'a 3,02:1,
+     tout juste le seuil du grand texte.
+     la ou le vert principal ne tient qu'a 3,17:1. C'est lui qui porte
+     le ton sportif : jetons, traits, chiffres sur fond fonce.
+     Ne JAMAIS le poser sur creme, il n'y vaut que 2,13:1. */
+  --green-vivid:  #2fbf71;
+  --green-glow:   rgba(47,191,113,.55);
+
   /* Typo */
-  --serif: "Spectral", Georgia, "Times New Roman", serif;
-  --sans:  "Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Grotesques depuis le 01/09/2026 : Archivo porte les titres, Manrope
+     le corps. Spectral, serif, donnait un ton editorial qui contredisait
+     la demande d'un rendu sportif. Les deux fichiers sont auto-heberges
+     dans /fonts, comme les precedents. */
+  /* Le logo garde Spectral, decide dans Claude Design le 01/09/2026 :
+     le mot-symbole reste en serif quand tout le reste passe en grotesque. */
+  --logo:  "Spectral", Georgia, "Times New Roman", serif;
+  --serif: "Archivo", "Segoe UI", -apple-system, sans-serif;
+  --sans:  "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Mise en page */
   --maxw: 1180px;
@@ -76,18 +110,21 @@ section{position:relative}
   font-size:.78rem;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:var(--green);
+  color:var(--accent);
   display:inline-flex;
   align-items:center;
   gap:.6rem;
 }
 .eyebrow::before{
-  content:"";width:26px;height:2px;background:var(--green);display:inline-block;
+  content:"";width:26px;height:2px;background:var(--accent);display:inline-block;
 }
 
 /* Titres */
-h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;letter-spacing:-.01em;color:var(--ink)}
+h1,h2,h3{font-family:var(--serif);font-weight:800;line-height:1.06;letter-spacing:-.03em;color:var(--ink)}
 .h-display{font-size:clamp(2.4rem,5.2vw,4.1rem);font-weight:600}
+/* text-wrap:balance repartit les mots sur les lignes et supprime les
+   orphelins, ces mots seuls sur la derniere ligne d'un titre. */
+.h-section,.h-display{text-wrap:balance}
 .h-section{font-size:clamp(1.9rem,3.6vw,2.9rem)}
 .lead{font-size:clamp(1.05rem,1.5vw,1.25rem);color:var(--ink-soft);max-width:60ch}
 .serif-em{color:var(--green);font-style:italic}
@@ -106,6 +143,21 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;letter-spacing
 .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 24px -10px rgba(74,122,92,.7)}
 .btn-primary:hover{background:var(--green-deep);transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(56,97,74,.65)}
 .btn-primary:hover svg{transform:translateX(4px)}
+/* --- Accessibilite, ajoute le 28/08/2026 apres audit ---
+   Seuls les champs du formulaire avaient un focus visible : au clavier, on
+   ne savait pas ou l'on se trouvait dans la navigation, les boutons ni les
+   liens. `:focus-visible` ne s'affiche qu'au clavier, jamais a la souris. */
+a:focus-visible,button:focus-visible,summary:focus-visible,
+.btn:focus-visible,.faq-q:focus-visible{
+  outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+/* Retour au clic : sans lui, rien ne confirme l'appui sur un ecran tactile. */
+.btn:active{transform:translateY(1px) scale(.985)}
+.faq-q:active{opacity:.7}
+/* Lien d'evitement : premier element au clavier, invisible a la souris. */
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);
+  color:var(--cream);padding:12px 20px;border-radius:0 0 8px 0;font-weight:700}
+.skip:focus{left:0}
+
 .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
 .btn-ghost:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px)}
 .btn-light{background:#fff;color:var(--ink);box-shadow:var(--shadow-soft)}
@@ -117,7 +169,7 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;letter-spacing
    4. LOGO / WORDMARK ProActif
    ============================================================ */
 .brand{display:inline-flex;align-items:center;gap:.62rem}
-.brand .word{font-family:var(--serif);font-weight:600;font-size:1.5rem;letter-spacing:-.02em;color:var(--ink);line-height:1}
+.brand .word{font-family:var(--logo);font-weight:600;font-size:1.55rem;letter-spacing:0;color:var(--ink);line-height:1}
 .brand .word b{font-weight:600;color:var(--green)} /* le A en vert */
 .brand .mark{width:36px;height:36px;flex:none;display:block}
 
@@ -142,11 +194,11 @@ header.site.scrolled{
   transition:color .2s var(--ease);
 }
 .nav-links a::after{
-  content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--green);
-  transition:width .28s var(--ease);
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--green);
+  transform:scaleX(0);transform-origin:left;transition:transform .28s var(--ease);
 }
 .nav-links a:hover,.nav-links a.active{color:var(--ink)}
-.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
 .nav-cta{display:flex;align-items:center;gap:14px}
 
 /* Hamburger mobile */
@@ -173,17 +225,44 @@ header.site.scrolled{
    6. HERO
    ============================================================ */
 .hero{padding:150px 0 90px;position:relative;overflow:hidden}
+/* Fond video du hero. Le voile creme garde le texte anthracite lisible :
+   la charte n'a que deux couples surs pour du texte, anthracite sur creme
+   et creme sur anthracite. On ne descend donc pas sous 0.84 d'opacite. */
+.hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-media video,.hero-media .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hero-media .fallback{display:none}
+.hero-media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(244,242,234,.66) 0%,rgba(244,242,234,.60) 50%,rgba(244,242,234,.80) 100%)}
+.hero > .wrap{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){
+  .hero-media video{display:none}
+  .hero-media .fallback{display:block}
+}
 .hero-grid{display:block}
 .hero-text{max-width:860px;margin:0 auto;text-align:center}
 .hero .h-display{font-size:clamp(2.1rem,4.4vw,3.2rem)}
-.hero-text .eyebrow{justify-content:center}
+/* Surtitre sans fond : mesure sur les 451 images de la video, aucun vert
+   ne tient sans encadrement (vert fonce 2,58:1, vert clair 1,81:1, et
+   meme en remontant le voile a 0,80 le vert fonce plafonne a 4,03:1).
+   L'anthracite donne 5,76:1. Seul le trait decoratif reste vert. */
+.hero-text .eyebrow{justify-content:center;font-size:1rem;color:var(--ink)}
+.hero-text .eyebrow::before{background:var(--accent)}
+/* 1.2rem = 19.2px : au-dela du seuil de 18.66px gras, le minimum de
+   contraste tombe donc a 3:1. Le vert fonce mesure 3.2:1 sur le voile a
+   0.70, le vert clair n'aurait ete qu'a 2.2:1. */
 .hero .lead{margin-left:auto;margin-right:auto}
 .hero-ctas{justify-content:center}
 .hero-trust{justify-content:center}
 .hero h1{margin:18px 0 22px}
 .hero .lead{margin-bottom:34px}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
-.hero-trust{display:flex;flex-wrap:wrap;gap:26px;align-items:center;color:var(--muted);font-size:.9rem;margin-bottom:28px}
+/* Sur le fond video, le bouton fantome disparaissait : son fond est
+   transparent et sa bordure --line (#dcdacf) se confond avec l'image.
+   On lui rend un fond creme et une bordure assez marquee pour qu'il
+   se lise encore comme un bouton. */
+.hero .btn-ghost{background:rgba(244,242,234,.86);border-color:rgba(31,36,33,.28)}
+.hero .btn-ghost:hover{background:rgba(244,242,234,.96)}
+.hero-trust{display:flex;flex-wrap:wrap;gap:26px;align-items:center;color:var(--ink);font-size:.9rem;font-weight:500;margin-bottom:28px}
 .hero-trust .item{display:flex;align-items:center;gap:.5rem;font-weight:500}
 .hero-trust svg{width:18px;height:18px;color:var(--green);flex:none}
 
@@ -206,6 +285,26 @@ header.site.scrolled{
 /* ============================================================
    7. PROBLÈME (chiffres)
    ============================================================ */
+
+/* ============================================================
+   8. SOLUTION
+   ============================================================ */
+/* Section « approche », refondue le 28/08/2026 : l'illustration n'est plus
+   une image encadree, elle EST le fond de la section, en full-bleed jusqu'aux
+   bords (pattern releve chez Josh Comeau et CSS-Tricks : le contenu reste a
+   largeur lisible pendant que le visuel deborde).
+
+   Trois contraintes ont dicte la composition :
+   1. Les 20 % gauche et 20 % droite de la banniere sont VIDES, le centre est
+      occupe a plus de 90 %. Verticalement l'occupation est uniforme : il n'y
+      a donc aucune bande libre ou poser du texte PAR-DESSUS les personnages.
+      Le texte se place au-dessus d'eux, pas sur eux.
+   2. Le beige de la banniere (#e5d6cb) est trop fonce pour le surtitre en
+      accent brique (4,16:1, sous le seuil). Le degrade creme -> beige eclaire
+      la zone du texte et le remonte a 5,27:1, tout en faisant le raccord.
+   3. La banniere est en 4:1 : sa hauteur vaut le quart de la largeur, d'ou le
+      padding-bas en vw. */
+/* --- LE CONSTAT : retiree puis remise le 01/09/2026, a la demande de Quentin --- */
 .problem{padding:96px 0;background:var(--ink);color:#eef0ec}
 .problem h2{color:#fff}
 .problem .lead{color:#c7ccc6}
@@ -214,23 +313,95 @@ header.site.scrolled{
 .stat{
   border-top:2px solid rgba(255,255,255,.16);padding-top:26px;
 }
-.stat .big{font-family:var(--serif);font-size:clamp(2.6rem,5vw,3.6rem);font-weight:600;color:var(--green-soft);line-height:1;letter-spacing:-.02em}
-.stat .big .unit{font-size:.5em;color:#9fb3a2}
+.stat .big{font-variant-numeric:tabular-nums;font-family:var(--serif);font-size:clamp(2.8rem,5.4vw,3.9rem);font-weight:800;color:var(--accent-light);line-height:1;letter-spacing:-.03em}
+.stat .big .unit{font-size:.5em;color:#c7ccc6}
 .stat .desc{margin-top:14px;color:#c7ccc6;font-size:.98rem;max-width:30ch}
 .problem .source{margin-top:38px;font-size:.8rem;color:#8d948c;font-style:italic}
 
-/* ============================================================
-   8. SOLUTION
-   ============================================================ */
-.solution{padding:104px 0}
-.solution-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:start}
+.solution{
+  padding:104px 0 clamp(40px,5vw,70px);
+  overflow:hidden;
+  position:relative;
+  /* L'illustration n'est plus un fond mais un ELEMENT DU FLUX
+     (`.sol-banniere`), depuis le 01/09/2026 : Quentin veut les quatre
+     benefices SOUS elle. En fond cale en bas, aucune position fixe ne
+     tenait, la hauteur des cartes changeant a chaque palier responsive.
+     Dans le flux, l'empilement se fait tout seul.
+     Ne reste ici que le degrade, qui prolonge l'image vers le haut ET
+     vers le bas : mesure faite sur le PNG, ses 20 dernieres lignes sont
+     identiques, la couleur ne varie qu'horizontalement. */
+  /* Degrade cale sur 118vw, EXACTEMENT la largeur de `.sol-banniere` : ses
+     neuf points reprennent au pixel pres les couleurs du bas du PNG (ecart
+     mesure : 0 sur les trois canaux). Etale sur 100vw, comme il l'etait, les
+     echelles ne coincidaient pas et l'image se detachait du fond par deux
+     lignes horizontales de 6 de luminance. Les 9vw restants de chaque cote
+     prennent la couleur de fond, identique aux deux extremites du degrade. */
+  /* Degrade vertical vert, decide dans Claude Design le 01/09/2026. Il
+     remplace le degrade horizontal decrit juste au-dessus, qui prolongeait
+     l'illustration. Voir la note rendue a Quentin sur le raccord. */
+  background:linear-gradient(180deg,#4A7A5C,#E7EDE7,#4A7A5C);
+  background-ancien:
+    linear-gradient(90deg,#e4d5ca 0%,#e9ddd4 12.5%,#efe6df 25%,#f5eeea 37.5%,
+                    #f7f1ee 50%,#f4eee9 62.5%,#efe5df 75%,#e9ddd5 87.5%,#e4d5ca 100%)
+      center/118vw 100% no-repeat,
+    #e4d5ca;
+}
+/* Le voile clair qui couvrait cette section a ete retire le 01/09/2026 :
+   il servait a garder le titre lisible par-dessus l'illustration de fond.
+   Celle-ci etant passee dans le flux, il n'eclaircissait plus que le fond,
+   pas la banniere, et creait deux demarcations horizontales mesurees a 4 et
+   6 de luminance en haut et en bas de l'image. */
+/* Grain leger : sans lui, l'aplat beige parait plastique a cote de
+   l'illustration qui, elle, a du trait. */
+.solution::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.solution > .wrap{position:relative;z-index:1;min-height:62vh}
+/* Pleine largeur, debordant le `.wrap` : 118vw reprend le cadrage
+   `118%` d'origine. `aspect-ratio` fige la hauteur d'apres les
+   dimensions reelles du PNG (2400x413), donc aucun saut de mise en
+   page au chargement. Le debordement est contenu par l'`overflow`
+   de la section. */
+.sol-banniere{width:118vw;margin:38px 0 0 calc(50% - 59vw);
+  aspect-ratio:2400/413;
+  background:url(assets/approche-banniere.png) center bottom/100% auto no-repeat}
+@media (max-width:760px){
+  /* En dessous de cette largeur la banniere devient trop petite pour qu'on
+     y distingue les personnages : on la zoome, le recadrage se faisant sur
+     le centre, qui est justement la partie pleine. */
+  .sol-banniere{width:250vw;margin-left:calc(50% - 125vw)}
+}
+/* Une seule colonne depuis le 28/08/2026 : la photo a laisse place a la
+   banniere illustree, posee en bande sous le texte. Son format 4:1 ne
+   pouvait pas tenir dans l'ancien cadre sans amputer les personnages des
+   deux extremites. */
+.solution-grid{display:block;max-width:1040px}
+
 .solution h2{margin:16px 0 22px}
 .sol-list{list-style:none;display:flex;flex-direction:column;gap:18px;margin-top:30px}
+/* Les trois blocs reviennent dans le fil du document, alignes sous le
+   titre. La dispersion absolue a ete abandonnee : elle obligeait a recaler
+   les positions a chaque changement de cadrage de l'illustration. Ici la
+   grille suit le flux, donc rien ne peut recouvrir les personnages, qui
+   restent sous elle. */
 .sol-list.sol-list-row{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:34px;
-  margin-top:60px;padding-top:42px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  margin-top:46px;align-items:start;
 }
-.sol-list li{display:flex;gap:16px;align-items:flex-start}
+.sol-list.sol-list-row li{
+  background:rgba(255,255,255,.86);
+  -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+  border:1px solid rgba(31,36,33,.06);border-radius:var(--radius-sm);
+  padding:18px 19px 20px;box-shadow:var(--shadow-soft);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.sol-list.sol-list-row li:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+@media (max-width:760px){
+  .sol-list.sol-list-row{grid-template-columns:1fr;gap:14px}
+  .sol-list.sol-list-row li{position:static;width:auto}
+}
+.sol-list li{display:block}
 .sol-list .tick{flex:none;width:30px;height:30px;border-radius:9px;background:var(--green-soft);display:grid;place-items:center;margin-top:2px}
 .sol-list .tick svg{width:16px;height:16px;color:var(--green-deep)}
 .sol-list strong{display:block;font-weight:600;color:var(--ink);font-size:1.02rem}
@@ -255,28 +426,168 @@ header.site.scrolled{
 /* ============================================================
    9. BÉNÉFICES (cartes)
    ============================================================ */
-.benefits{padding:104px 0;background:var(--white)}
 .section-head{max-width:680px;margin:0 auto 56px;text-align:center}
 .section-head .lead{margin:18px auto 0}
-.bene-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-.bcard{
-  background:var(--cream);border-radius:var(--radius);padding:32px 26px 30px;
-  border:1px solid rgba(0,0,0,.03);position:relative;overflow:hidden;
-  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+/* Deux colonnes de deux : les cartes portent desormais un graphique, elles
+   ont besoin de largeur. En quatre colonnes l'histogramme etait illisible. */
+/* Les quatre benefices ont rejoint la section approche le 01/09/2026 : la
+   section « Pourquoi la pratique sportive en entreprise ? » a ete
+   supprimee, ses cartes vivent maintenant sous les trois blocs de
+   l'approche, sans leurs citations de source. */
+.bene-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  max-width:1040px;margin:34px auto 0}
+/* La carte large occupe les deux colonnes et reunit les deux benefices qui
+   n'ont pas de graphique : cote a cote, ils remplissent la largeur au lieu
+   de laisser deux grands vides sous les cartes chiffrees. */
+@media (max-width:980px){
+  .bene-grid{grid-template-columns:repeat(2,1fr)}
 }
-.bcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-.bcard .ic{width:54px;height:54px;border-radius:14px;background:#fff;display:grid;place-items:center;margin-bottom:22px;box-shadow:var(--shadow-soft)}
-.bcard .ic svg{width:26px;height:26px;color:var(--green)}
+@media (max-width:560px){
+  .bene-grid{grid-template-columns:1fr}
+}
+/* Quinconce : une carte sur deux descend. Quatre cartes alignees au cordeau
+   sont le motif de mise en page le plus generique qui soit, et ce decalage
+   le casse sans toucher a la structure. Il s'annule des que la grille passe
+   a une colonne, sinon il ne serait plus qu'un trou. */
+
+/* Les cartes passent en blanc franc : sur --green-soft, un fond creme
+   se serait confondu avec la section. */
+/* Fond blanc franc : sur la section passee en --green-soft, un fond creme
+   se confondrait avec elle. */
+/* Animation reprise du composant `cards-grid` de 21st.dev (kavikatiyar),
+   releve dans son bundle le 01/09/2026 : au survol, SEULE l'ombre change,
+   de `shadow-sm` a `shadow-md`, en 300 ms. Pas d'inclinaison, pas de
+   deplacement. Les valeurs ci-dessous sont celles de Tailwind, reprises
+   telles quelles. */
+.bcard{background:var(--white);border-radius:var(--radius);padding:32px 26px 30px;
+  border:1px solid var(--line);position:relative;overflow:hidden;
+  box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);
+  transition:box-shadow .3s cubic-bezier(.4,0,.2,1);
+}
+.bcard:hover{box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
 .bcard h3{font-size:1.18rem;margin-bottom:10px}
 .bcard p{font-size:.93rem;color:var(--ink-soft)}
-.bcard .corner{position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--green-soft);opacity:.6;transition:transform .4s var(--ease)}
-.bcard:hover .corner{transform:scale(1.5)}
+
+/* --- Animation des cartes, 28/08/2026 ---------------------------------
+   Trois couches, dans l'ordre ou l'oeil les lit.
+
+   1. La carte monte ET grandit legerement. Un simple fondu-translation
+      lisait "liste qui se remplit" ; l'echelle lui donne un poids.
+   2. La pastille d'angle s'ouvre ensuite, l'icone se souleve au survol.
+
+   Un trace progressif des icones (stroke-dasharray) a ete tente puis
+   ABANDONNE le 28/08/2026. Il se heurtait a stroke-linecap:round, qui fait
+   deborder chaque tiret de stroke-width/2 et rebouche les trous du motif
+   (mesure : 604 px de trait peints au lieu de 0). Le passage en linecap
+   butt reglait ce point mais l'effet restait impossible a verifier de
+   maniere fiable, chrome-headless-shell forcant prefers-reduced-motion.
+   Mieux vaut pas d'effet qu'un effet non verifie.
+
+   Le decalage entre cartes vient des classes .d1 .d2 .d3 deja en place. */
+.solution .bcard.in{animation:rv-carte .75s var(--ease) both}
+@keyframes rv-carte{from{opacity:0;transform:translateY(30px) scale(.965)}
+                    to{opacity:1;transform:none}}
+
+/* Trace des icones, repris et cette fois verifiable.
+   Deux choses ont ete payees pour arriver la.
+   1. linecap BUTT est indispensable : en round, chaque tiret deborde de
+      stroke-width/2 a ses deux bouts et rebouche les trous du motif.
+      Mesure : 604 px de trait peints la ou il en fallait 0.
+   2. pathLength="1" sur chaque trace. Avec un dasharray en unites absolues,
+      l'icone etait entierement tracee des 22 % de la duree — un flash, pas
+      un trace — parce que chaque chemin a sa propre longueur. Normalises a
+      1, tous se comportent pareil : motif `1 2` (le trou plus long que le
+      trait, sinon le motif se repete et la forme se peint par le mauvais
+      bout), decalage de 1 a 0. */
+
+/* --- PROCESS : la ligne pointillee se deroule, puis les numeros tombent ---
+   Le conteneur .steps porte `reveal` uniquement pour etre observe : on lui
+   retire le fondu, sans quoi il masquerait ses propres enfants qui ont deja
+   le leur. */
+.steps::before{transform:scaleX(0);transform-origin:left;opacity:0}
+.steps:has(.step.in)::before{animation:rv-ligne 1s var(--ease) .15s both}
+@keyframes rv-ligne{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.5}}
+.step .n{opacity:0}
+.step.in .n{animation:rv-jeton .55s var(--ease) .2s both}
+@keyframes rv-jeton{from{opacity:0;transform:scale(.45)}to{opacity:1;transform:none}}
+
+/* --- FORMATS : meme entree que les cartes de benefices --- */
+/* Les cartes des formats ne portent plus l'entree en cascade : elles sont
+   empilees dans le carrousel, et `rv-carte` finit sur `transform:none`, ce
+   qui ecrasait leur positionnement en profondeur. C'est l'entete de section
+   qui se revele desormais. */
+.formats .section-head.in{animation:rv-carte .75s var(--ease) both}
+
+/* --- FAQ : les cinq questions arrivaient ensemble, elles se decalent --- */
+.faq-item.in{animation:rv-glisser .6s var(--ease) both}
+@keyframes rv-glisser{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* --- CONTACT : la carte monte un peu plus franchement --- */
+
+
+/* Sans ce garde-fou, tout ce qui precede s'impose aux personnes qui ont
+   desactive les animations dans leur systeme. */
+@media (prefers-reduced-motion:reduce){
+  .reveal,.reveal.in,.benefits .bcard.in{animation:none!important;opacity:1!important;transform:none!important}
+  .bcard .ic svg path,.bcard .ic svg circle{stroke-dasharray:none;stroke-dashoffset:0;animation:none!important}
+  .steps::before,.step.in .n,.formats .fcard.in,.faq-item.in{
+    animation:none!important;opacity:1;transform:none}
+  .steps::before{opacity:.5}
+}
+/* Zone visuelle chiffree, reprise de la structure du composant `animated-card`
+   (21st.dev, @badtzx0) : une zone graphique au-dessus, le corps de texte en
+   dessous. Ses couleurs sont des props chez lui, on y met donc les notres.
+   Le chiffre se compte au defilement. */
+/* ============================================================
+   GRAPHIQUES DE CARTE
+   Structure reprise du composant `animated-card-chart` (21st.dev,
+   @badtzx0) : une zone visuelle au-dessus, le corps de texte dessous,
+   sur une grille discrete. Ses couleurs sont des props chez lui, on y
+   met donc les notres : aucun orange, aucun degrade.
+   Tout est en CSS, sans bibliotheque de graphiques, et l'animation ne
+   porte que sur `transform` et `opacity`.
+   ============================================================ */
+.viz{position:relative;height:104px;margin-bottom:18px;border-radius:10px;
+  background:var(--cream);overflow:hidden;padding:12px 14px}
+.viz-grid{position:absolute;inset:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px);
+  background-size:100% 26px;opacity:.5}
+
+/* --- deux barres comparees : sans / avec --- */
+.viz-bars{position:relative;height:100%;display:flex;align-items:flex-end;
+  justify-content:flex-end;gap:22px;padding-right:6px}
+.vb{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  gap:6px;width:46px;height:100%}
+.vb-fill{width:100%;height:var(--hh);flex:none;border-radius:5px 5px 0 0;
+  background:var(--green-tint);transform:scaleY(0);transform-origin:bottom;
+  transition:transform .8s var(--ease)}
+.vb.is-on .vb-fill{background:var(--accent)}
+.bcard.in .vb-fill{transform:scaleY(1)}
+.bcard.in .vb:nth-child(2) .vb-fill{transition-delay:.18s}
+.vb-lab{font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+.viz-tag{position:absolute;left:14px;top:11px;font-family:var(--serif);
+  font-weight:600;font-size:1.45rem;color:var(--accent);line-height:1;
+  font-variant-numeric:tabular-nums}
+
+/* Chez lui, mainColor et secondaryColor sont deux oranges voisins
+   (#ff6900 et #f54900). On reprend ce rapport avec les deux variantes de
+   l'accent, plutot que deux teintes opposees qui cassaient l'effet. */
+
+/* Releve sur la video de reference : badges en haut a DROITE, panneau en
+   haut a GAUCHE, et une aire coloree sous la courbe des barres. */
+
+
+@media (prefers-reduced-motion:reduce){
+  .vb-fill{transform:none!important;transition:none}
+}
+
+
 .bcard>*{position:relative;z-index:1}
 
 /* ============================================================
    10. COMMENT ÇA MARCHE (étapes)
    ============================================================ */
-.process{padding:104px 0;background:var(--cream-deep)}
+.process{padding:104px 0;background:var(--cream)}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;position:relative;margin-top:54px}
 .step{position:relative;text-align:center}
 .step .n{
@@ -296,21 +607,65 @@ header.site.scrolled{
 /* ============================================================
    11. FORMATS DE SÉANCES (cartes)
    ============================================================ */
-.formats{padding:104px 0}
+/* Vert de section, choisi le 01/09/2026 entre le vert clair de la charte
+   (#e7ede7, trop discret) et le vert principal (#4a7a5c, ou le chapeau
+   tombait a 1,62:1). Hors charte, assume. C'est le SURTITRE en brique qui
+   plafonne la teinte : sur ce fond il ne tient qu'a 3,72:1, d'ou la brique
+   assombrie ci-dessous, propre a cette section. Titre 9,93:1, chapeau
+   5,08:1. */
+.formats{padding:104px 0;background:#F2F0E7}
+/* Brique assombrie de 14 % pour rester lisible sur ce vert : 4,66:1 contre
+   3,72:1 pour l'accent normal. Ne concerne que le surtitre de cette
+   section, l'accent de la charte n'est pas touche. */
+.formats .eyebrow{color:#903b28}
 .fmt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+
+/* ============================================================
+   DEFILEMENT A MEDIA FIXE  —  28/08/2026
+   Effet repris de 21st.dev (@felipemenezes098, MIT) et reecrit en CSS et
+   JavaScript natifs : l'original est en React + Motion.
+
+   Une colonne d'images reste FIXE pendant que le texte defile a cote ;
+   l'image change quand l'axe correspondant arrive au centre de l'ecran.
+   Choisi contre le carrousel : ici les quatre axes restent accessibles au
+   defilement, aucun n'est cache derriere une fleche.
+
+   `position:sticky` fait tout le travail, sans ecouteur de defilement :
+   c'est le navigateur qui gere, donc pas de saccade. Seul le changement
+   d'image passe par un IntersectionObserver.
+   ============================================================ */
+.sc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+    gap:56px;align-items:start;margin-top:52px}
+.sc-media{position:sticky;top:120px;aspect-ratio:4/5;border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow);background:var(--cream-deep)}
+.sc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.06);
+  transition:opacity .7s var(--ease),transform 1.1s var(--ease)}
+.sc-img.is-on{opacity:1;transform:scale(1)}
+.sc-steps{display:flex;flex-direction:column;gap:0}
+.sc-step{min-height:76vh;display:flex;align-items:center}
+.sc-step .fcard{opacity:.32;
+  transition:opacity .5s var(--ease),border-color .5s var(--ease)}
+.sc-step.is-on .fcard{opacity:1;border-color:var(--green-tint)}
+
+@media (max-width:900px){
+  /* Sur un ecran etroit, l'image fixe mangerait la moitie de la largeur :
+     chaque axe reprend alors son image au-dessus de son texte. */
+  .sc{grid-template-columns:1fr;gap:0}
+  .sc-media{display:none}
+  .sc-step{min-height:0;margin-bottom:26px}
+  .sc-step .fcard{opacity:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .sc-img{transition:none}
+  .sc-step .fcard{opacity:1}
+}
 .fcard{
   background:var(--white);border-radius:var(--radius);
   box-shadow:var(--shadow-soft);border:1px solid rgba(0,0,0,.04);
   display:flex;flex-direction:column;padding:30px 26px 28px;
   transition:transform .35s var(--ease),box-shadow .35s var(--ease);
 }
-.fcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-.fcard .chip{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin-bottom:22px}
-.fcard .chip.g1{background:linear-gradient(140deg,#6f9a7d,#4a7a5c)}
-.fcard .chip.g2{background:linear-gradient(140deg,#5b8a6c,#38614a)}
-.fcard .chip.g3{background:linear-gradient(140deg,#7aa688,#56876a)}
-.fcard .chip.g4{background:linear-gradient(140deg,#3f5d4d,#2b3a31)}
-.fcard .chip svg{width:28px;height:28px;color:#fff}
 .fcard h3{font-size:1.22rem;margin-bottom:8px;line-height:1.2}
 .fcard .pitch{font-size:.9rem;color:var(--ink-soft);margin-bottom:18px;line-height:1.5}
 .fcard ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:auto}
@@ -320,12 +675,19 @@ header.site.scrolled{
 /* ============================================================
    12. À PROPOS
    ============================================================ */
-.about{padding:104px 0;background:var(--white)}
+/* Degrade brique, decide dans Claude Design. Le texte y passe en
+   anthracite (5,02:1 au plus serre) ; le surtitre et les coches ont du
+   etre repris, ils n'y tenaient pas. */
+.about{padding:104px 0;background:linear-gradient(180deg,#D4795EEE,#D4AEA3,#D78168E1)}
 .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:center}
 .about-photo{aspect-ratio:4/5;border-radius:var(--radius)}
 .about h2{margin:16px 0 22px}
-.about p{color:var(--ink-soft);margin-bottom:18px;font-size:1.04rem}
-.about .sign{font-family:var(--serif);font-size:1.4rem;color:var(--green);font-style:italic;margin-top:8px}
+/* Texte en anthracite plein, demande du 01/09/2026 : le gris-vert
+   `--ink-soft` manquait de tenue sur le degrade brique. */
+.about p{color:var(--ink);margin-bottom:18px;font-size:1.04rem}
+/* Fragment de titre en accent brique : 5,27:1 sur creme, au-dessus du
+   seuil pour du gros texte comme pour du texte courant. */
+.em-accent{color:var(--accent)}
 .about-creds{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
 .cred{display:flex;align-items:center;gap:10px;background:var(--cream);border-radius:100px;padding:9px 18px;font-size:.88rem;font-weight:500;color:var(--ink)}
 .cred svg{width:17px;height:17px;color:var(--green)}
@@ -351,7 +713,7 @@ header.site.scrolled{
 /* ============================================================
    14. FAQ
    ============================================================ */
-.faq{padding:104px 0}
+.faq{padding:104px 0;background:var(--cream)}
 .faq-wrap{max-width:820px;margin:0 auto}
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-q{
@@ -368,49 +730,19 @@ header.site.scrolled{
 /* ============================================================
    15. CTA FINAL + FORMULAIRE
    ============================================================ */
-.contact{padding:104px 0 0;background:linear-gradient(180deg,var(--cream),var(--green-deep) 62%)}
-.contact-card{
-  background:#fff;border-radius:26px;box-shadow:var(--shadow);overflow:hidden;
-  display:grid;grid-template-columns:.85fr 1.15fr;
+/* Prise de rendez-vous Koalendar, SEUL contenu de la section depuis le
+   31/08/2026 : titre, surtitre, accroche et arguments ont ete retires a
+   la demande de Quentin. Le formulaire Web3Forms est parti avant eux.
+   Fond en APLAT : le degrade de raccord avec la FAQ a ete supprime a la
+   demande de Quentin, la rupture creme / vert est donc franche. */
+.contact{padding:104px 0 0;background:var(--green-deep)}
+.book{max-width:920px;margin:0 auto;background:#fff;border-radius:22px;
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.55);padding:10px;overflow:hidden;
+  min-height:640px}
+#inline-widget-seance-offerte{width:100%;min-height:620px}
+@media (max-width:560px){
+  .book{padding:6px;border-radius:16px}
 }
-.contact-aside{background:var(--green-deep);color:#eaf1ec;padding:54px 44px;display:flex;flex-direction:column}
-.contact-aside h2{color:#fff;font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:18px}
-.contact-aside p{color:#c5d6ca;margin-bottom:30px}
-.contact-aside .pts{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:auto}
-.contact-aside .pts li{display:flex;gap:12px;align-items:flex-start;font-size:.96rem;color:#eaf1ec}
-.contact-aside .pts svg{width:20px;height:20px;color:#a9d3b6;flex:none;margin-top:1px}
-
-.form{padding:50px 46px 54px}
-.form .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.field{margin-bottom:18px;position:relative}
-.field label{display:block;font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:7px}
-.field label .req{color:var(--green)}
-.field input,.field select,.field textarea{
-  width:100%;font-family:var(--sans);font-size:.97rem;color:var(--ink);
-  padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;background:var(--cream);
-  transition:border-color .2s,box-shadow .2s,background .2s;
-}
-.field textarea{resize:vertical;min-height:110px}
-.field input:focus,.field select:focus,.field textarea:focus{
-  outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 4px rgba(74,122,92,.12);
-}
-.field.err input,.field.err select,.field.err textarea{border-color:#c0533f;background:#fcf2ef}
-.field .msg{font-size:.78rem;color:#c0533f;margin-top:6px;display:none}
-.field.err .msg{display:block}
-.form-submit{margin-top:8px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.form-note{font-size:.8rem;color:var(--muted);max-width:34ch}
-.form-error{margin-top:14px;font-size:.86rem;color:#c0533f;background:#fcf2ef;border:1px solid #e7c4ba;border-radius:10px;padding:12px 14px}
-.form-error a{color:#c0533f;text-decoration:underline}
-/* message de confirmation */
-.form-success{
-  display:none;text-align:center;padding:40px 20px;
-}
-.form-success.show{display:block;animation:pop .5s var(--ease)}
-.form-success .ck{width:74px;height:74px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;margin:0 auto 22px}
-.form-success .ck svg{width:34px;height:34px;color:var(--green-deep)}
-.form-success h3{font-size:1.7rem;margin-bottom:12px}
-.form-success p{color:var(--ink-soft);max-width:44ch;margin:0 auto}
-@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
 
 /* ============================================================
    16. FOOTER
@@ -434,14 +766,241 @@ footer ul a:hover{color:#fff}
 /* ============================================================
    17. ANIMATIONS AU SCROLL
    ============================================================ */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-.reveal.d1{transition-delay:.08s}
-.reveal.d2{transition-delay:.16s}
-.reveal.d3{transition-delay:.24s}
-.reveal.d4{transition-delay:.32s}
+/* ============================================================
+   SOCLE D'ANIMATION  —  reecrit le 28/08/2026
+   Passe de `transition` a `@keyframes`, pour une raison de controle :
+   une transition ne peut pas etre inspectee, alors qu'une animation se
+   FIGE a un instant precis (animation-delay negatif + play-state pause),
+   ce qui permet de la verifier image par image avant de livrer. C'est
+   exactement ce qui manquait quand le trace des icones a du etre
+   abandonne faute de pouvoir le controler.
+   `both` conserve l'etat final : sans lui l'element retombe a l'etat
+   initial des la derniere image jouee.
+   ============================================================ */
+.reveal.d1.in{animation-delay:.08s}
+.reveal.d2.in{animation-delay:.16s}
+.reveal.d3.in{animation-delay:.24s}
+.reveal.d4.in{animation-delay:.32s}
+.reveal.d5.in{animation-delay:.40s}
 @media (prefers-reduced-motion: reduce){
   .reveal{opacity:1!important;transform:none!important}
+}
+
+/* ============================================================
+   COUCHE D'ANIMATION facon Spline, 01/09/2026
+   ------------------------------------------------------------
+   Regles tenues partout : on n'anime que `transform` et `opacity` ;
+   les entrees passent par @keyframes (verifiables image par image en
+   figeant l'animation) ; chaque effet a une raison. Tout s'annule
+   sous `prefers-reduced-motion`, bloc en fin de section.
+   ============================================================ */
+
+/* --- 1. VOLUMES FLOUS QUI DERIVENT ---------------------------
+   Le decor de profondeur des scenes Spline. Trois masses colorees,
+   tres floutees, qui derivent lentement derriere le contenu. Elles
+   sont en `position:absolute` dans une section en `overflow:hidden`,
+   et ne captent jamais le pointeur. */
+.scene{position:relative;isolation:isolate;overflow:hidden}
+/* On ne remonte QUE le conteneur de contenu. Un `.scene > *` generique
+   forcait `position:relative` sur `.hero-media`, qui est en absolu :
+   la video de fond rentrait dans le flux et poussait tout le hero. */
+.scene > .wrap{position:relative;z-index:1}
+.orbe{position:absolute;z-index:0;border-radius:50%;pointer-events:none;
+  filter:blur(70px);opacity:.5;will-change:transform}
+.orbe-1{width:38vw;height:38vw;left:-8vw;top:-10vw;
+  background:radial-gradient(circle at 35% 35%,var(--green-vivid),transparent 68%);
+  animation:derive-1 26s ease-in-out infinite alternate}
+.orbe-2{width:30vw;height:30vw;right:-6vw;top:18%;
+  background:radial-gradient(circle at 60% 40%,var(--accent-light),transparent 66%);
+  animation:derive-2 32s ease-in-out infinite alternate}
+.orbe-3{width:26vw;height:26vw;left:32%;bottom:-12vw;
+  background:radial-gradient(circle at 50% 50%,var(--green),transparent 70%);
+  animation:derive-3 38s ease-in-out infinite alternate}
+@keyframes derive-1{to{transform:translate3d(6vw,4vw,0) scale(1.14)}}
+@keyframes derive-2{to{transform:translate3d(-5vw,6vw,0) scale(.88)}}
+@keyframes derive-3{to{transform:translate3d(4vw,-5vw,0) scale(1.2)}}
+/* Sur fond sombre les masses doivent rester discretes, sinon elles
+   voilent le texte. */
+.problem .orbe{opacity:.30;filter:blur(84px)}
+.contact .orbe{opacity:.26;filter:blur(90px)}
+
+/* --- 2. PARALLAXE AU CURSEUR ---------------------------------
+   `--mx` et `--my` vont de -1 a 1, ecrits par le script au rythme du
+   navigateur. Chaque plan porte sa propre profondeur, donc sa propre
+   amplitude : c'est ce decalage entre les plans qui fait la 3D. */
+.par{transform:translate3d(calc(var(--mx,0) * var(--z,10px)),
+                           calc(var(--my,0) * var(--z,10px)),0)}
+.hero .orbe-1{--z:26px}
+.hero .orbe-2{--z:-20px}
+.hero .orbe-3{--z:14px}
+
+/* --- 3. CARTES QUI S'INCLINENT -------------------------------
+   La carte pivote de quelques degres vers le curseur, avec un point
+   de fuite. Retour tactile : la surface repond a la main. */
+.tilt-zone{perspective:1100px}
+.tilt{transform:rotateX(calc(var(--ty,0) * -5deg)) rotateY(calc(var(--tx,0) * 5deg))
+      translateZ(0);transform-style:preserve-3d;
+      transition:transform .5s var(--ease)}
+.tilt.actif{transition:transform .09s linear}
+/* Le contenu remonte legerement dans la profondeur au survol : c'est
+   ce detachement qui donne l'epaisseur, pas la rotation seule. */
+.tilt > *{transform:translateZ(0);transition:transform .4s var(--ease)}
+.tilt:hover > *{transform:translateZ(26px)}
+
+/* --- 4. ENTREES AVEC RECUL DANS LA PROFONDEUR ----------------
+   Les elements arrivent de l'arriere-plan au lieu de glisser a plat.
+   Motif : hierarchie, l'oeil suit ce qui avance vers lui. */
+.reveal{opacity:0}
+.reveal.in{animation:rv-profond .72s var(--ease) both}
+@keyframes rv-profond{
+  from{opacity:0;transform:translate3d(0,26px,0) scale(.965)}
+  to{opacity:1;transform:none}}
+
+/* --- 5. REACTIONS AU SURVOL ----------------------------------- */
+.btn{transition:transform .2s var(--ease),box-shadow .3s var(--ease),background-color .2s ease}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn svg{transition:transform .3s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;
+  background:var(--green);border-radius:2px;transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .32s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* --- 6. LES CHIFFRES DU CONSTAT -------------------------------
+   Le trait se tire au-dessus du chiffre quand la carte entre a
+   l'ecran, en meme temps que le compteur demarre. Sequence de
+   lecture : l'oeil suit le trait, puis lit le nombre. */
+.stat{position:relative}
+.stat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent-light);transform:scaleX(0);transform-origin:0 50%}
+.stat.in::before{animation:rv-trait .9s var(--ease) .12s both}
+@keyframes rv-trait{to{transform:scaleX(1)}}
+
+@media (prefers-reduced-motion: reduce){
+  .orbe{animation:none!important;opacity:.22}
+  .par{transform:none!important}
+  .tilt,.tilt > *,.tilt:hover > *{transform:none!important;transition:none!important}
+  .bcard,.step,.btn,.btn svg{transition:none!important}
+  .btn-primary:hover{transform:none}
+  .nav-links a::after{transition:none}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .stat::before,.stat.in::before{animation:none;transform:scaleX(1)}
+}
+
+/* --- Section A propos sur fond brique, 01/09/2026 -----------------------
+   Le degrade impose de reprendre deux couleurs. Mesures sur les trois
+   arrets du degrade (#D4795E, #D4AEA3, #D78168) :
+     texte anthracite      5,02 a 7,79:1   conforme, on n'y touche pas
+     surtitre en creme     1,80 a 2,80:1   ILLISIBLE  -> passe en anthracite
+     coches en vert        1,58 a 2,45:1   ILLISIBLE  -> passent en anthracite
+   L'anthracite est la seule teinte de la charte qui tienne sur les trois
+   arrets a la fois. */
+.about .eyebrow{color:var(--ink)}
+.about .cred{color:var(--ink)}
+.about .cred svg{color:var(--ink)}
+
+/* --- CARTES FLOTTANTES, section Solutions, 01/09/2026 -------------------
+   Les cartes levitent doucement au-dessus du fond. Deux ingredients :
+   une ombre basse et diffuse, qui creuse la distance au fond, et une
+   oscillation verticale lente.
+   Les quatre cartes sont desynchronisees par un delai NEGATIF : elles
+   demarrent chacune a un point different du cycle, sinon elles montent
+   et descendent ensemble, ce qui se lit comme un defaut de rendu.
+   Amplitude volontairement faible (7px) et cycle long : au-dela, le
+   mouvement attire l'oeil plus que le contenu de la carte. */
+.fcard{animation:flottement 7s ease-in-out infinite both;will-change:transform}
+.sc-step:nth-child(1) .fcard{animation-delay:-0.4s}
+.sc-step:nth-child(2) .fcard{animation-delay:-2.1s}
+.sc-step:nth-child(3) .fcard{animation-delay:-3.8s}
+.sc-step:nth-child(4) .fcard{animation-delay:-5.5s}
+@keyframes flottement{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-7px,0)}
+}
+/* L'ombre porte le poids de l'effet : basse, large, tres diffuse. */
+.fcard{box-shadow:0 22px 40px -26px rgba(31,36,33,.45),
+                 0 4px 10px -6px rgba(31,36,33,.10)}
+
+@media (prefers-reduced-motion: reduce){
+  .fcard{animation:none!important;transform:none!important}
+}
+
+/* --- RETARD DES BLOCS AU DEFILEMENT, 01/09/2026 -------------------------
+   Les blocs ne se contentent plus d'apparaitre : ils suivent le
+   defilement avec un temps de retard, et se posent quand ils arrivent au
+   centre de l'ecran. Dans un groupe, chaque bloc a une plage un peu plus
+   longue que son voisin : c'est ce decalage qui donne la trainee, l'oeil
+   lisant le groupe de gauche a droite.
+
+   Techniquement, ce sont des `scroll-driven animations` : le navigateur
+   lie l'animation a la position de l'element dans la fenetre, sans une
+   seule ligne de JavaScript et sans ecouteur de defilement. Tout se joue
+   sur le compositeur, donc le cout est nul meme avec vingt blocs.
+
+   `@supports` garde le repli : la ou `view()` n'existe pas encore
+   (Firefox, anciens Safari), les blocs gardent leur apparition au
+   defilement pilotee par l'IntersectionObserver, deja en place. Rien ne
+   casse, l'effet est simplement absent.
+   ------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    .bene-grid .bcard.reveal,
+    .bene-grid .bcard.reveal.in,
+    .sol-list.sol-list-row li.reveal,
+    .sol-list.sol-list-row li.reveal.in,
+    .steps .step.reveal,
+    .steps .step.reveal.in,
+    .faq .faq-item.reveal,
+    .faq .faq-item.reveal.in{
+      opacity:1;
+      animation:bloc-retard linear both;
+      animation-timeline:view();
+      animation-range:entry 4% cover 46%;
+    }
+
+    /* Le decalage : chaque voisin se pose un peu plus tard. */
+    .bene-grid .bcard:nth-child(2),
+    .sol-list.sol-list-row li:nth-child(2),
+    .steps .step:nth-child(2),
+    .faq .faq-item:nth-child(2){animation-range:entry 4% cover 54%}
+
+    .bene-grid .bcard:nth-child(3),
+    .sol-list.sol-list-row li:nth-child(3),
+    .steps .step:nth-child(3),
+    .faq .faq-item:nth-child(3){animation-range:entry 4% cover 62%}
+
+    .bene-grid .bcard:nth-child(4),
+    .steps .step:nth-child(4),
+    .faq .faq-item:nth-child(4){animation-range:entry 4% cover 70%}
+
+    .faq .faq-item:nth-child(5){animation-range:entry 4% cover 78%}
+
+    /* Les titres de section suivent aussi, plus discretement : un bloc de
+       texte qui traine autant qu'une carte se lit mal pendant le trajet. */
+    .section-head.reveal,
+    .section-head.reveal.in,
+    .problem-head.reveal,
+    .problem-head.reveal.in{
+      opacity:1;
+      animation:bloc-retard-doux linear both;
+      animation-timeline:view();
+      animation-range:entry 2% cover 40%;
+    }
+  }
+}
+
+@keyframes bloc-retard{
+  from{opacity:0;transform:translate3d(0,64px,0)}
+  60%{opacity:1}
+  to{opacity:1;transform:none}
+}
+@keyframes bloc-retard-doux{
+  from{opacity:0;transform:translate3d(0,28px,0)}
+  70%{opacity:1}
+  to{opacity:1;transform:none}
 }
 
 /* ============================================================
@@ -450,9 +1009,8 @@ footer ul a:hover{color:#fff}
 @media (max-width:1000px){
   .hero-grid,.solution-grid,.about-grid{grid-template-columns:1fr;gap:44px}
   .hero-visual{order:-1}
-  .bene-grid{grid-template-columns:repeat(2,1fr)}
+
   .fmt-grid{grid-template-columns:repeat(2,1fr)}
-  .contact-card{grid-template-columns:1fr}
 }
 @media (max-width:860px){
   .nav-links,.nav-cta .btn{display:none}
@@ -465,15 +1023,15 @@ footer ul a:hover{color:#fff}
 @media (max-width:560px){
   .hero{padding:124px 0 70px}
   .bene-grid{grid-template-columns:1fr}
+  .bene-grid .bcard:nth-child(even){margin-top:0}
   .fmt-grid{grid-template-columns:1fr}
-  .form .row{grid-template-columns:1fr}
-  .form,.contact-aside{padding:36px 26px}
   .foot-grid{grid-template-columns:1fr}
   .float-badge{left:0}
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Aller au contenu</a>
 
 <!-- ============================================================
      HEADER
@@ -487,10 +1045,9 @@ footer ul a:hover{color:#fff}
 
     <nav>
       <ul class="nav-links">
-        <li><a href="#probleme">Le constat</a></li>
+        <li><a href="#probleme">Constat</a></li>
+        <li><a href="#formats">Solutions</a></li>
         <li><a href="#solution">L'approche</a></li>
-        <li><a href="#benefices">Bénéfices</a></li>
-        <li><a href="#formats">Mes solutions</a></li>
         <li><a href="#apropos">À propos</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -505,13 +1062,14 @@ footer ul a:hover{color:#fff}
   </div>
 </header>
 
+<main id="main">
+
 <!-- Menu mobile -->
 <div class="scrim" id="scrim"></div>
 <aside class="mobile-menu" id="mobile-menu">
-  <a href="#probleme">Le constat</a>
+  <a href="#probleme">Constat</a>
+  <a href="#formats">Solutions</a>
   <a href="#solution">L'approche</a>
-  <a href="#benefices">Bénéfices</a>
-  <a href="#formats">Mes solutions</a>
   <a href="#apropos">À propos</a>
   <a href="#faq">FAQ</a>
   <a href="#contact" class="btn btn-primary">Réserver un appel découverte</a>
@@ -520,13 +1078,21 @@ footer ul a:hover{color:#fff}
 <!-- ============================================================
      HERO
      ============================================================ -->
-<section class="hero" id="hero">
+<section class="hero scene" id="hero">
+  <div class="orbe orbe-1 par" aria-hidden="true"></div>
+  <div class="orbe orbe-2 par" aria-hidden="true"></div>
+  <div class="orbe orbe-3 par" aria-hidden="true"></div>
+  <div class="hero-media" aria-hidden="true">
+    <img class="fallback" src="assets/hero-fond.jpg" alt="" />
+    <video autoplay muted loop playsinline preload="auto" poster="assets/hero-fond.jpg">
+      <source src="assets/hero-fond.mp4" type="video/mp4" />
+    </video>
+  </div>
   <div class="hero-blob"></div>
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <span class="eyebrow reveal">Coaching sportif en entreprise · Alpes-de-Haute-Provence</span>
+      <span class="eyebrow reveal">Coaching sportif en entreprise</span>
       <h1 class="h-display reveal d1">Des équipes en pleine&nbsp;forme,<br/>une entreprise <span class="serif-em">plus performante</span>.</h1>
-      <p class="lead reveal d2">Je fais bouger vos équipes, directement dans vos locaux.<br/>Moins de stress, moins d'absentéisme, plus de cohésion.</p>
       <div class="hero-trust reveal d3">
         <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Intervention sur site</span>
         <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Zéro matériel à prévoir</span>
@@ -534,10 +1100,9 @@ footer ul a:hover{color:#fff}
       </div>
       <div class="hero-ctas reveal d4">
         <a href="#contact" class="btn btn-primary">
-          Réserver un appel découverte
+          Testez votre première séance offerte !
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#solution" class="btn btn-ghost">Découvrir l'approche</a>
       </div>
     </div>
   </div>
@@ -546,10 +1111,13 @@ footer ul a:hover{color:#fff}
 <!-- ============================================================
      PROBLÈME — chiffres marquants
      ============================================================ -->
-<section class="problem" id="probleme">
+<section class="problem scene" id="probleme">
+  <div class="orbe orbe-1 par" aria-hidden="true"></div>
+  <div class="orbe orbe-2 par" aria-hidden="true"></div>
+  <div class="orbe orbe-3 par" aria-hidden="true"></div>
   <div class="wrap">
     <div class="problem-head">
-      <span class="eyebrow reveal" style="color:#a9d3b6">Le constat</span>
+      <span class="eyebrow reveal" style="color:var(--accent-light)">Constat</span>
       <h2 class="h-section reveal d1" style="margin-top:16px">La sédentarité au bureau coûte cher, <span style="color:#a9d3b6">bien plus qu'on ne l'imagine.</span></h2>
       <p class="lead reveal d2" style="margin-top:18px">Stress chronique, fatigue, douleurs liées aux postures, baisse d'énergie : les journées passées assis pèsent sur la santé de vos collaborateurs… et sur la vie de l'entreprise.</p>
     </div>
@@ -563,12 +1131,76 @@ footer ul a:hover{color:#fff}
         <p class="desc">des maladies professionnelles reconnues sont des troubles musculo-squelettiques (TMS).</p>
       </div>
       <div class="stat reveal d2">
-        <div class="big"><span data-count="7">0</span><span class="unit"> h / jour</span></div>
-        <p class="desc">de position assise en moyenne pour un salarié de bureau, bien au-delà des seuils recommandés.</p>
+        <div class="big"><span data-count="37.8" data-dec="1">0</span><span class="unit"> %</span></div>
+        <p class="desc">des arrêts de plus de 30 jours viennent de troubles psychologiques, désormais première cause d'arrêt long, en hausse de 25 % depuis 2020.</p>
       </div>
     </div>
     <p class="source reveal">
 </p>
+  </div>
+</section>
+
+<section class="formats" id="formats">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow reveal" style="justify-content:center">Solutions</span>
+      <h2 class="h-section reveal d1" style="margin-top:16px">Des solutions ciblées pour chaque enjeu.</h2>
+      <p class="lead reveal d2">Quatre axes d'intervention, combinables et adaptés aux priorités de vos équipes.</p>
+    </div>
+    <div class="sc" id="sc">
+      <div class="sc-media" aria-hidden="true">
+        <img class="sc-img is-on" src="assets/solutions/tms.jpg" alt="Une salariée s'étire à son bureau pendant une pause" loading="lazy" width="900" height="1125" />
+        <img class="sc-img" src="assets/solutions/stress.jpg" alt="Une salariée prend un moment de calme dans un espace de travail" loading="lazy" width="900" height="1125" />
+        <img class="sc-img" src="assets/solutions/energie.jpg" alt="Une équipe se félicite après une séance" loading="lazy" width="900" height="1125" />
+        <img class="sc-img" src="assets/solutions/cohesion.jpg" alt="Deux participantes sourient pendant un étirement au sol" loading="lazy" width="900" height="1125" />
+      </div>
+      <div class="sc-steps">
+      <div class="sc-step" data-i="0">
+        <div class="fcard">
+        <h3>Prévention des TMS</h3>
+        <p class="pitch">Moins de douleurs et de tensions liées au poste de travail.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réveil musculaire</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Étirements ciblés</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Posture</li>
+        </ul>
+        </div>
+      </div>
+      <div class="sc-step" data-i="1">
+        <div class="fcard">
+        <h3>Gestion du stress</h3>
+        <p class="pitch">Relâcher la pression et regagner en sérénité au quotidien.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Relaxation active</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Respiration</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Cardio basse intensité</li>
+        </ul>
+        </div>
+      </div>
+      <div class="sc-step" data-i="2">
+        <div class="fcard">
+        <h3>Énergie & productivité</h3>
+        <p class="pitch">Plus de tonus et de concentration tout au long de la journée.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Renforcement musculaire</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Mobilité</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>HIIT</li>
+        </ul>
+        </div>
+      </div>
+      <div class="sc-step" data-i="3">
+        <div class="fcard">
+        <h3>Cohésion d'équipe</h3>
+        <p class="pitch">Renforcer les liens et l'esprit collectif en s'amusant.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Ateliers collectifs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Défis bien-être</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Team building actif</li>
+        </ul>
+        </div>
+      </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -578,54 +1210,33 @@ footer ul a:hover{color:#fff}
 <section class="solution" id="solution">
   <div class="wrap">
     <div class="solution-grid">
-    <div class="sol-visual reveal">
-      <div class="frame" style="border-radius:var(--radius);overflow:hidden;background:#f6f4ee;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.04)">
-        <img src="assets/approche-seance.png" alt="Séance de sport collective animée par un coach ProActif dans les locaux d'une entreprise" style="width:100%;height:100%;object-fit:cover;display:block" />
-      </div>
-    </div>
     <div class="sol-text">
       <span class="eyebrow reveal">L'approche ProActif</span>
-      <h2 class="h-section reveal d1">Le sport-santé qui s'invite dans vos bureaux, sans bouleverser votre organisation.</h2>
-      <p class="lead reveal d2">Pas de salle de sport, pas de logistique, pas de tenue spécifique. 
-J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à tous et adaptées à votre espace.</p>
+      <h2 class="h-section reveal d1">Le sport-santé qui s'invite <span class="em-accent">dans vos bureaux</span>,<br/>sans bouleverser votre organisation.</h2>
     </div>
     </div>
     <ul class="sol-list sol-list-row">
-      <li class="reveal d2"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Directement sur site</strong><span>Dans vos locaux, sur le temps qui vous arrange : pause, début ou fin de journée.</span></div></li>
-      <li class="reveal d3"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Sur-mesure</strong><span>Un programme construit à partir de vos enjeux, de vos contraintes et du profil de vos équipes.</span></div></li>
-      <li class="reveal d4"><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></span><div><strong>Accessible à tous</strong><span>Aucune condition physique requise. Chaque séance s'adapte au rythme de chacun.</span></div></li>
+      <li class="reveal d2"><div><strong>Directement sur site</strong><span>Dans vos locaux, sur le temps qui vous arrange : pause, début ou fin de journée.</span></div></li>
+      <li class="reveal d3"><div><strong>Sur-mesure</strong><span>Un programme construit à partir de vos enjeux, de vos contraintes et du profil de vos équipes.</span></div></li>
+      <li class="reveal d4"><div><strong>Accessible à tous</strong><span>Aucune condition physique requise. Chaque séance s'adapte au rythme de chacun.</span></div></li>
     </ul>
-  </div>
-</section>
 
-<!-- ============================================================
-     BÉNÉFICES — cartes
-     ============================================================ -->
-<section class="benefits" id="benefices">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow reveal" style="justify-content:center">Pourquoi investir dans le bien-être</span>
-      <h2 class="h-section reveal d1" style="margin-top:16px">Un investissement qui se ressent dans toute l'entreprise.</h2>
-      <p class="lead reveal d2">Bouger ensemble et régulièrement transforme le quotidien de vos équipes, et les indicateurs de votre entreprise.</p>
-    </div>
+    <div class="sol-banniere reveal d1" role="presentation"></div>
+
     <div class="bene-grid">
-      <div class="bcard reveal"><div class="corner"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+      <div class="bcard reveal">
         <h3>Moins d'absentéisme</h3>
         <p>Des salariés en meilleure santé physique et mentale, présents et disponibles tout au long de l'année.</p>
       </div>
-      <div class="bcard reveal d1"><div class="corner"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 19c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 14c2.5 0 5 1.6 5 4.5"/></svg></div>
+      <div class="bcard reveal d1">
         <h3>Des équipes plus soudées</h3>
         <p>Un moment partagé hors du cadre habituel qui crée du lien, casse les silos et renforce la cohésion.</p>
       </div>
-      <div class="bcard reveal d2"><div class="corner"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg></div>
+      <div class="bcard reveal d2">
         <h3>Plus de concentration</h3>
         <p>L'activité physique régulière libère le stress, recharge l'énergie et aiguise la concentration au travail.</p>
       </div>
-      <div class="bcard reveal d3"><div class="corner"></div>
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6L12 17.8 6.6 19.6l1.2-6L3.3 9.4l6.1-.8z"/></svg></div>
+      <div class="bcard reveal d3">
         <h3>Marque employeur renforcée</h3>
         <p>Une politique bien-être concrète qui valorise votre entreprise, fidélise les talents et facilite le recrutement.</p>
       </div>
@@ -640,7 +1251,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow reveal" style="justify-content:center">Comment ça marche</span>
-      <h2 class="h-section reveal d1" style="margin: 16px auto 0; max-width: 720px; font-size: clamp(2rem, 5vw, 45px); text-align: center; font-weight: 100; font-family: Spectral; letter-spacing: -0.5px">4 étapes pour construire un programme aligné sur vos réalités</h2>
+      <h2 class="h-section reveal d1" style="margin:16px auto 0;max-width:760px;text-align:center">4 étapes pour construire un programme aligné sur vos réalités</h2>
     </div>
     <div class="steps">
       <div class="step reveal">
@@ -673,66 +1284,6 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
 <!-- ============================================================
      FORMATS DE SÉANCES — 3 cartes (aucun prix)
      ============================================================ -->
-<section class="formats" id="formats">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow reveal" style="justify-content:center">Mes solutions</span>
-      <h2 class="h-section reveal d1" style="margin-top:16px">Des solutions ciblées pour chaque enjeu.</h2>
-      <p class="lead reveal d2">Quatre axes d'intervention, combinables et adaptés aux priorités de vos équipes.</p>
-    </div>
-    <div class="fmt-grid">
-      <div class="fcard reveal">
-        <div class="chip g1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 3v6c0 4.4-3 7.4-7 9-4-1.6-7-4.6-7-9V5z"/><path d="M9 12l2 2 4-4"/></svg>
-        </div>
-        <h3>Prévention des TMS</h3>
-        <p class="pitch">Moins de douleurs et de tensions liées au poste de travail.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réveil musculaire</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Étirements ciblés</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Posture</li>
-        </ul>
-      </div>
-      <div class="fcard reveal d1">
-        <div class="chip g2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/><path d="M8 12h2.2l1-2 1.6 4 1-2H16"/></svg>
-        </div>
-        <h3>Gestion du stress</h3>
-        <p class="pitch">Relâcher la pression et regagner en sérénité au quotidien.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Relaxation active</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Respiration</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Cardio basse intensité</li>
-        </ul>
-      </div>
-      <div class="fcard reveal d2">
-        <div class="chip g3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>
-        </div>
-        <h3>Énergie & productivité</h3>
-        <p class="pitch">Plus de tonus et de concentration tout au long de la journée.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Renforcement musculaire</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Mobilité</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>HIIT</li>
-        </ul>
-      </div>
-      <div class="fcard reveal d3">
-        <div class="chip g4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2.5"/><circle cx="16" cy="8" r="2.5"/><path d="M3 19c0-3 2.2-5 5-5s5 2 5 5M13 19c0-3 2.2-5 5-5"/></svg>
-        </div>
-        <h3>Cohésion d'équipe</h3>
-        <p class="pitch">Renforcer les liens et l'esprit collectif en s'amusant.</p>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Ateliers collectifs</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Défis bien-être</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Team building actif</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============================================================
      À PROPOS — le coach
      ============================================================ -->
@@ -741,11 +1292,10 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     <div class="about-photo reveal" style="overflow:hidden;box-shadow:var(--shadow)"><img src="assets/quentin.jpg" alt="Quentin, coach sportif et fondateur de ProActif" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
     <div>
       <span class="eyebrow reveal">Le coach</span>
-      <h2 class="h-section reveal d1">Derrière ProActif, un passionné du mouvement.</h2>
-      <p class="reveal d2">Je m'appelle Quentin, j'ai 32 ans et je suis papa de trois enfants. Entraîneur de MMA depuis deux ans et coach sportif certifié, j'ai fait du sport mon métier et ma façon d'aider les autres.</p>
-      <p class="reveal d2">Ce qui m'anime, c'est de faire bouger celles et ceux qui en ont le plus besoin : les plus sédentaires. J'aime rendre l'activité physique ludique, et c'est par le jeu que je fais adhérer même les plus réticents.</p>
-      <p class="reveal d2">Ma conviction est simple : l'humain est fait pour bouger. Mon rôle, c'est de le rappeler à vos équipes, avec le sourire.</p>
-      <p class="sign reveal d2">Quentin, fondateur de ProActif</p>
+      <h2 class="h-section reveal d1">Un coach et entraineur passionné</h2>
+      <p class="reveal d2">Je m'appelle Quentin, J'ai 32 ans et je suis papa de trois enfants. Entraîneur de MMA depuis plusieurs années et coach sportif certifié, j'ai fait du sport mon métier et ma façon d'aider les autres.</p>
+      <p class="reveal d2">J'aime autant guider les débutants et leurs donner goût au mouvement, qu'amener les plus aguerris à performer. Je prends beaucoup de plaisir à me former sur de nouvelles disciplines et j'utilise souvent le jeu à travers mon enseignement pour faire adhérer même les plus réticents.</p>
+      <p class="reveal d2">Ma conviction est simple : l'humain est fait pour bouger. Mon rôle, c'est d'y donner goût à vos équipes, avec le sourire.</p>
       <div class="about-creds reveal d3">
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Coach sportif certifié</span>
         <span class="cred"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Entraîneur de MMA</span>
@@ -767,23 +1317,23 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     <div class="faq-wrap">
       <div class="faq-item reveal">
         <button class="faq-q">Faut-il prévoir du matériel ou un équipement particulier ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Non, rien à prévoir de votre côté. J'apporte tout le nécessaire et les séances sont conçues pour se pratiquer en tenue de ville. Un simple espace dégagé suffit — une salle de réunion ou un open space fonctionnent très bien.</p></div>
+        <div class="faq-a"><p>Non, rien à prévoir de votre côté. J'apporte tout le nécessaire et les séances sont conçues pour se pratiquer en tenue de ville. Un simple espace dégagé suffit, une salle de réunion ou un open space fonctionnent très bien.</p></div>
       </div>
-      <div class="faq-item reveal">
+      <div class="faq-item reveal d1">
         <button class="faq-q">Combien de temps dure une séance ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
         <div class="faq-a"><p>Les formats sont volontairement courts pour s'intégrer dans une journée de travail. La durée exacte se définit ensemble selon vos contraintes et le format choisi : un réveil musculaire ou une pause active restent brefs, un atelier de cohésion peut être plus long.</p></div>
       </div>
-      <div class="faq-item reveal">
+      <div class="faq-item reveal d2">
         <button class="faq-q">Combien de participants peut-on accueillir ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
         <div class="faq-a"><p>Des petites équipes aux groupes plus importants, les séances s'adaptent. Pour les grands effectifs, j'organise plusieurs créneaux ou plusieurs groupes afin que chacun profite pleinement de l'intervention.</p></div>
       </div>
-      <div class="faq-item reveal">
+      <div class="faq-item reveal d3">
         <button class="faq-q">Où se déroulent les séances ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
         <div class="faq-a"><p>Directement dans vos locaux, à Digne-les-Bains et dans tout le département des Alpes de Haute Provence. Je me déplace sur site : c'est tout l'intérêt de ProActif, vos équipes n'ont pas à se déplacer ni à perdre de temps.</p></div>
       </div>
-      <div class="faq-item reveal">
+      <div class="faq-item reveal d4">
         <button class="faq-q">Comment s'organise la mise en place ?<span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="faq-a"><p>Tout commence par un appel découverte. On définit ensemble vos objectifs, le format et le rythme, puis je programme une séance test. À partir de là, j'installe un programme régulier que je fais évoluer dans le temps. Vous n'avez quasiment rien à gérer.</p></div>
+        <div class="faq-a"><p>Tout commence par un appel, et si nécessaire un audit interne. On définit ensemble vos objectifs, le format et le rythme, puis je programme une séance test. À partir de là, j'installe un programme régulier que je fais évoluer dans le temps. Vous n'avez quasiment rien à gérer.</p></div>
       </div>
     </div>
   </div>
@@ -792,83 +1342,20 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
 <!-- ============================================================
      CTA FINAL + FORMULAIRE DE CONTACT
      ============================================================ -->
-<section class="contact" id="contact">
+<section class="contact scene" id="contact">
+  <div class="orbe orbe-1 par" aria-hidden="true"></div>
+  <div class="orbe orbe-2 par" aria-hidden="true"></div>
+  <div class="orbe orbe-3 par" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="contact-card reveal">
-      <!-- Colonne gauche -->
-      <div class="contact-aside">
-        <span class="eyebrow" style="color:#a9d3b6">Passons à l'action</span>
-        <h2 style="margin-top:14px">Réservez votre appel découverte.</h2>
-        <p>Un échange de quelques minutes, sans engagement, pour voir comment je peux m'adapter à votre entreprise. Je vous recontacte rapidement.</p>
-        <ul class="pts">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Réponse sous 24 à 48 h ouvrées</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Sans engagement de votre part</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg>Un échange à l'écoute de vos besoins</li>
-        </ul>
-      </div>
-
-      <!-- Colonne droite : formulaire -->
-      <div class="form-col">
-        <form class="form" id="contact-form" novalidate>
-          <!-- Anti-spam : champ piege invisible (honeypot). Invisible pour les humains ; un robot qui le coche est rejete par Web3Forms. -->
-          <input type="checkbox" name="botcheck" id="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <div class="row">
-            <div class="field">
-              <label for="f-nom">Nom & prénom <span class="req">*</span></label>
-              <input type="text" id="f-nom" name="nom" autocomplete="name" />
-              <span class="msg">Merci d'indiquer votre nom.</span>
-            </div>
-            <div class="field">
-              <label for="f-entreprise">Entreprise <span class="req">*</span></label>
-              <input type="text" id="f-entreprise" name="entreprise" autocomplete="organization" />
-              <span class="msg">Merci d'indiquer votre entreprise.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="field">
-              <label for="f-email">Email professionnel <span class="req">*</span></label>
-              <input type="email" id="f-email" name="email" autocomplete="email" />
-              <span class="msg">Merci d'indiquer un email valide.</span>
-            </div>
-            <div class="field">
-              <label for="f-tel">Téléphone</label>
-              <input type="tel" id="f-tel" name="telephone" autocomplete="tel" />
-              <span class="msg">Numéro non valide.</span>
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-effectif">Nombre de salariés</label>
-            <select id="f-effectif" name="effectif">
-              <option value="">Sélectionnez…</option>
-              <option>1 à 10</option>
-              <option>11 à 50</option>
-              <option>51 à 200</option>
-              <option>201 à 500</option>
-              <option>Plus de 500</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-message">Votre message</label>
-            <textarea id="f-message" name="message" placeholder="Parlez-moi de vos équipes, de vos enjeux, de ce que vous aimeriez mettre en place…"></textarea>
-          </div>
-          <div class="form-submit">
-            <button type="submit" class="btn btn-primary" id="contact-submit">
-              Envoyer ma demande
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-            <span class="form-note">En envoyant ce formulaire, vous acceptez d'être recontacté par ProActif.</span>
-          </div>
-          <p class="form-error" id="form-error" hidden>Une erreur est survenue lors de l'envoi. Merci de réessayer, ou de m'écrire directement à <a href="mailto:contact@proactifcoaching.fr">contact@proactifcoaching.fr</a>.</p>
-        </form>
-
-        <!-- Message de confirmation -->
-        <div class="form-success" id="form-success">
-          <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></div>
-          <h3>Demande bien reçue !</h3>
-          <p>Merci de votre confiance. Je reviens vers vous très vite pour convenir d'un créneau d'échange. À très bientôt !</p>
-        </div>
-      </div>
+    <div class="book reveal">
+      <!-- Koalendar Inline Embed Start -->
+      <div id="inline-widget-seance-offerte"></div>
+      <script>window.Koalendar=window.Koalendar||function(){(Koalendar.props=Koalendar.props||[]).push(arguments)};</script>
+      <script async src="https://koalendar.com/assets/widget.js"></script>
+      <script>Koalendar('inline', {"url":"https://koalendar.com/e/seance-offerte","selector":"#inline-widget-seance-offerte"});</script>
+      <!-- Koalendar Inline Embed End -->
     </div>
+
     <div style="height:64px"></div>
   </div>
 </section>
@@ -876,6 +1363,8 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
 <!-- ============================================================
      FOOTER
      ============================================================ -->
+</main>
+
 <footer class="site">
   <div class="wrap">
     <div class="foot-grid">
@@ -890,8 +1379,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
         <h4>Le site</h4>
         <ul>
           <li><a href="#solution">L'approche</a></li>
-          <li><a href="#benefices">Bénéfices</a></li>
-          <li><a href="#formats">Mes solutions</a></li>
+            <li><a href="#formats">Solutions</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -910,7 +1398,7 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="year">2026</span> ProActif. Tous droits réservés.</span>
+      <span>© <span id="year">2026</span> ProActif. Tous droits réservés. · SIRET 879 992 063 00021</span>
       <span><a href="#">Mentions légales</a> · <a href="confidentialite.html">Politique de confidentialité</a></span>
     </div>
   </div>
@@ -923,14 +1411,18 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
 (function(){
   "use strict";
 
-  /* ---- Header : ombre/fond au scroll ---- */
+  /* ---- Header : ombre et fond des que la page a bouge ----
+     Une sentinelle de 24 px en haut du document. Tant qu'elle est
+     visible, on est en haut de page. Remplace un handler `scroll`
+     qui tournait a chaque image. */
   var header = document.getElementById('site-header');
-  function onScroll(){
-    if(window.scrollY > 24){ header.classList.add('scrolled'); }
-    else { header.classList.remove('scrolled'); }
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
+  var sentinelle = document.createElement('div');
+  sentinelle.setAttribute('aria-hidden', 'true');
+  sentinelle.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:24px;pointer-events:none';
+  document.body.insertBefore(sentinelle, document.body.firstChild);
+  new IntersectionObserver(function (entries) {
+    header.classList.toggle('scrolled', !entries[0].isIntersecting);
+  }).observe(sentinelle);
 
   /* ---- Menu mobile ---- */
   var burger = document.getElementById('burger');
@@ -960,6 +1452,26 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     });
   });
 
+  /* ---- Defilement a media fixe : l'image suit l'axe lu ---- */
+  var sc = document.getElementById("sc");
+  if (sc && "IntersectionObserver" in window) {
+    var etapes = [].slice.call(sc.querySelectorAll(".sc-step"));
+    var imgs = [].slice.call(sc.querySelectorAll(".sc-img"));
+    /* La fenetre d'observation est reduite a une bande centrale : l'axe
+       actif est celui qui occupe le milieu de l'ecran, pas celui qui vient
+       d'y entrer par le bas. Sans cela l'image change trop tot. */
+    var io2 = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var k = +en.target.dataset.i;
+        etapes.forEach(function (e, n) { e.classList.toggle("is-on", n === k); });
+        imgs.forEach(function (im, n) { im.classList.toggle("is-on", n === k); });
+      });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+    etapes.forEach(function (e) { io2.observe(e); });
+    etapes[0].classList.add("is-on");
+  }
+
   /* ---- Révélations au scroll (IntersectionObserver) ---- */
   var reveals = document.querySelectorAll('.reveal');
   if('IntersectionObserver' in window){
@@ -978,8 +1490,12 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     var target = parseFloat(el.getAttribute('data-count'));
     var suffix = el.getAttribute('data-suffix') || '';
     var sep = el.hasAttribute('data-sep');
+    // `data-dec` : nombre de decimales. Sans lui le compteur arrondit, ce qui
+    // transformait 37,8 % en 38 % et faisait mentir la source.
+    var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
     var dur = 1400, start = null;
     function fmt(n){
+      if(dec > 0) return n.toLocaleString('fr-FR', {minimumFractionDigits: dec, maximumFractionDigits: dec});
       n = Math.round(n);
       if(sep) return n.toLocaleString('fr-FR');
       return n;
@@ -1006,17 +1522,20 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     counters.forEach(function(el){ animateCount(el); });
   }
 
-  /* ---- Scrollspy : lien de nav actif ---- */
+  /* ---- Lien de navigation actif ----
+     Observe chaque section et retient la derniere entree dans la bande
+     haute de l'ecran. Remplace un handler `scroll` qui appelait
+     `offsetTop` sur toutes les sections a chaque image. */
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
-  var sections = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); });
-  function spy(){
-    var pos = window.scrollY + 120;
-    var current = -1;
-    sections.forEach(function(sec, i){ if(sec && sec.offsetTop <= pos) current = i; });
-    navLinks.forEach(function(a, i){ a.classList.toggle('active', i===current); });
-  }
-  window.addEventListener('scroll', spy, {passive:true});
-  spy();
+  var sections = navLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var visibles = {};
+  var sio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { visibles[en.target.id] = en.isIntersecting; });
+    var courant = -1;
+    sections.forEach(function (sec, i) { if (sec && visibles[sec.id]) courant = i; });
+    navLinks.forEach(function (a, i) { a.classList.toggle('active', i === courant); });
+  }, { rootMargin: '-120px 0px -70% 0px' });
+  sections.forEach(function (sec) { if (sec) sio.observe(sec); });
 
   /* ---- FAQ accordéon ---- */
   document.querySelectorAll('.faq-item').forEach(function(item){
@@ -1033,94 +1552,68 @@ J'apporte tout le nécessaire et j'anime des séances courtes, accessibles à to
     });
   });
 
+
+
   /* ============================================================
-     ENVOI DU FORMULAIRE — via Web3Forms (aucun serveur à héberger)
+     PARALLAXE ET INCLINAISON (facon Spline)
      ------------------------------------------------------------
-     POUR ACTIVER LA RÉCEPTION DES DEMANDES :
-     1. Va sur https://web3forms.com, entre ton email professionnel,
-        tu reçois gratuitement une "access key" par email.
-     2. Colle cette clé ci-dessous, à la place de COLLE_TA_CLE_ICI.
-     Les demandes du formulaire arriveront alors directement dans ta
-     boite mail. (Offre gratuite : 250 envois par mois.)
+     Un seul ecouteur `pointermove` pour toute la page, et une seule
+     ecriture par image via requestAnimationFrame. On n'ecrit que des
+     variables CSS : c'est le compositeur qui applique la transformee,
+     rien ne repasse par la mise en page.
+     Desactive au premier chargement si l'appareil n'a pas de vrai
+     pointeur (un doigt n'a pas de position au repos) et sous
+     `prefers-reduced-motion`.
      ============================================================ */
-  var WEB3FORMS_KEY = "ca2b4be9-0e61-4951-828c-ed996cd82566";
+  var motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finPointeur = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  var form = document.getElementById('contact-form');
-  var success = document.getElementById('form-success');
-  var submitBtn = document.getElementById('contact-submit');
-  var errorBox = document.getElementById('form-error');
-  function showError(field, on){ field.classList.toggle('err', on); }
+  if (motionOK && finPointeur) {
+    var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+    var cartes = Array.prototype.slice.call(document.querySelectorAll('.tilt'));
+    var souris = { x: 0, y: 0 };
+    var enAttente = false;
+    var carteActive = null;
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    if(errorBox) errorBox.hidden = true;
-
-    var valid = true;
-    var nom = document.getElementById('f-nom');
-    var ent = document.getElementById('f-entreprise');
-    var mail = document.getElementById('f-email');
-    var tel = document.getElementById('f-tel');
-
-    var nomOk = nom.value.trim().length > 1; showError(nom.closest('.field'), !nomOk); valid = valid && nomOk;
-    var entOk = ent.value.trim().length > 0; showError(ent.closest('.field'), !entOk); valid = valid && entOk;
-    var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail.value.trim()); showError(mail.closest('.field'), !mailOk); valid = valid && mailOk;
-    // téléphone facultatif : valide seulement s'il est rempli
-    var telVal = tel.value.trim();
-    var telOk = telVal === '' || /^[+0-9 ().-]{6,}$/.test(telVal); showError(tel.closest('.field'), !telOk); valid = valid && telOk;
-
-    if(!valid){
-      var firstErr = form.querySelector('.field.err input, .field.err select');
-      if(firstErr) firstErr.focus();
-      return;
+    function appliquer() {
+      enAttente = false;
+      // Parallaxe : chaque scene visible recoit la position du curseur
+      // ramenee a l'intervalle -1 / 1 par rapport a son propre cadre.
+      scenes.forEach(function (sc) {
+        var r = sc.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight) return;   // hors ecran, on passe
+        var mx = (souris.x - (r.left + r.width / 2)) / (r.width / 2);
+        var my = (souris.y - (r.top + r.height / 2)) / (r.height / 2);
+        sc.style.setProperty('--mx', Math.max(-1, Math.min(1, mx)).toFixed(3));
+        sc.style.setProperty('--my', Math.max(-1, Math.min(1, my)).toFixed(3));
+      });
+      // Inclinaison : seule la carte sous le curseur travaille.
+      if (carteActive) {
+        var rc = carteActive.getBoundingClientRect();
+        var tx = (souris.x - (rc.left + rc.width / 2)) / (rc.width / 2);
+        var ty = (souris.y - (rc.top + rc.height / 2)) / (rc.height / 2);
+        carteActive.style.setProperty('--tx', Math.max(-1, Math.min(1, tx)).toFixed(3));
+        carteActive.style.setProperty('--ty', Math.max(-1, Math.min(1, ty)).toFixed(3));
+      }
     }
 
-    // 1. On empaquette les champs du formulaire
-    var payload = {
-      access_key: WEB3FORMS_KEY,
-      subject: "Nouvelle demande depuis le site ProActif",
-      from_name: "Site ProActif",
-      botcheck: document.getElementById('botcheck').checked,
-      nom: nom.value.trim(),
-      entreprise: ent.value.trim(),
-      email: mail.value.trim(),
-      telephone: telVal,
-      effectif: document.getElementById('f-effectif').value,
-      message: document.getElementById('f-message').value.trim()
-    };
+    addEventListener('pointermove', function (e) {
+      souris.x = e.clientX; souris.y = e.clientY;
+      if (!enAttente) { enAttente = true; requestAnimationFrame(appliquer); }
+    }, { passive: true });
 
-    // 2. État "envoi en cours" : on bloque le bouton pour éviter les doubles envois
-    var originalLabel = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Envoi en cours…";
-
-    // 3. On envoie les données à Web3Forms, qui les relaie par email
-    fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(res){
-      if(res.success){
-        // Succès : on remplace le formulaire par le message de confirmation
-        form.style.display = 'none';
-        success.classList.add('show');
-      } else {
-        throw new Error(res.message || "Echec de l'envoi");
-      }
-    })
-    .catch(function(){
-      // En cas d'échec réseau ou de clé invalide : on réaffiche le bouton + un message
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalLabel;
-      if(errorBox) errorBox.hidden = false;
+    cartes.forEach(function (c) {
+      c.addEventListener('pointerenter', function () {
+        carteActive = c; c.classList.add('actif');
+      });
+      c.addEventListener('pointerleave', function () {
+        // on relache : la carte revient a plat avec la transition longue
+        c.classList.remove('actif');
+        c.style.setProperty('--tx', 0); c.style.setProperty('--ty', 0);
+        if (carteActive === c) carteActive = null;
+      });
     });
-  });
-
-  // efface l'erreur dès que l'utilisateur corrige
-  form.querySelectorAll('input,select,textarea').forEach(function(el){
-    el.addEventListener('input', function(){ var f = el.closest('.field'); if(f) f.classList.remove('err'); });
-  });
+  }
 
   /* ---- Année dynamique ---- */
   document.getElementById('year').textContent = new Date().getFullYear();

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Manrope:wght@400;600;700&display=swap">
+  <style>
+    body{margin:0;font-family:"Manrope",system-ui,sans-serif;background:#ece9df}
+    a{color:#38614a}a:hover{color:#1f2421}
+  </style>
+</helmet>
+
+<div style="padding:56px;background:#ece9df">
+  <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:{{ecart}}px">
+
+    <div style="background:#ffffff;border:1px solid #dcdacf;border-radius:{{radius}}px;padding:32px 26px 30px;box-shadow:{{ombre}}">
+      <h3 style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:1.18rem;line-height:1.2;color:#1f2421;margin:0 0 10px">Moins d'absentéisme</h3>
+      <p style="font-size:.93rem;line-height:1.6;color:#4b524b;margin:0">Des salariés en meilleure santé physique et mentale, présents et disponibles tout au long de l'année.</p>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #dcdacf;border-radius:{{radius}}px;padding:32px 26px 30px;box-shadow:{{ombreSurvol}}">
+      <h3 style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:1.18rem;line-height:1.2;color:#1f2421;margin:0 0 10px">Des équipes plus soudées</h3>
+      <p style="font-size:.93rem;line-height:1.6;color:#4b524b;margin:0">Un moment partagé hors du cadre habituel qui crée du lien, casse les silos et renforce la cohésion.</p>
+      <p style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6f766e;margin:16px 0 0">Aperçu du survol</p>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #dcdacf;border-radius:{{radius}}px;padding:32px 26px 30px;box-shadow:{{ombre}}">
+      <h3 style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:1.18rem;line-height:1.2;color:#1f2421;margin:0 0 10px">Plus de concentration</h3>
+      <p style="font-size:.93rem;line-height:1.6;color:#4b524b;margin:0">L'activité physique régulière libère le stress, recharge l'énergie et aiguise la concentration au travail.</p>
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #dcdacf;border-radius:{{radius}}px;padding:32px 26px 30px;box-shadow:{{ombre}}">
+      <h3 style="font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-.02em;font-size:1.18rem;line-height:1.2;color:#1f2421;margin:0 0 10px">Marque employeur renforcée</h3>
+      <p style="font-size:.93rem;line-height:1.6;color:#4b524b;margin:0">Une politique bien-être concrète qui valorise votre entreprise, fidélise les talents et facilite le recrutement.</p>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1180,"height":330},"radius":{"editor":"range","default":18,"min":0,"max":32,"step":2,"unit":"px","section":"Formes"},"ecart":{"editor":"range","default":18,"min":8,"max":40,"step":2,"unit":"px","section":"Formes"},"profondeur":{"editor":"enum","default":"discrete","options":["aucune","discrete","marquee"],"section":"Formes"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    // Trois profondeurs d'ombre. La valeur "discrete" reprend exactement
+    // shadow-sm / shadow-md du composant 21st.dev pose sur le site.
+    const JEUX = {
+      aucune: {
+        repos: 'none',
+        survol: '0 4px 6px -1px rgba(31,36,33,.12), 0 2px 4px -2px rgba(31,36,33,.12)'
+      },
+      discrete: {
+        repos: '0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1)',
+        survol: '0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)'
+      },
+      marquee: {
+        repos: '0 10px 30px -22px rgba(31,36,33,.4)',
+        survol: '0 26px 54px -28px rgba(31,36,33,.55)'
+      }
+    };
+    const jeu = JEUX[this.props.profondeur] ?? JEUX.discrete;
+    return {
+      radius: this.props.radius ?? 18,
+      ecart: this.props.ecart ?? 18,
+      ombre: jeu.repos,
+      ombreSurvol: jeu.survol
+    };
+  }
+}
+</script>
+</body>
+</html>
