@@ -915,6 +915,74 @@ header.site.scrolled{
 }
 
 /* ============================================================
+   15 bis. CAS CLIENTS : carrousel des prestations
+   ============================================================ */
+/* Ajoute le 02/10/2026. Fond anthracite comme le Constat, pour que la
+   video et les photos ressortent. Le defilement est NATIF (scroll-snap) :
+   glisser au doigt, molette horizontale, clavier, sans librairie. Les
+   fleches et les points ne font que piloter ce defilement. Les cartes font
+   82 % de la largeur pour que la suivante depasse : on voit qu'il y en a
+   d'autres. N'anime que transform et opacity.
+   Ajouter une prestation = ajouter un <li class="cas"> ; les points se
+   generent tout seuls. */
+.cas-clients{padding:104px 0;background:var(--ink);color:#eef0ec;overflow:hidden}
+.cas-clients h2{color:#fff}
+.cas-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:44px}
+.cas-head .lead{color:#c7ccc6;margin-top:16px}
+.cas-nav{display:flex;gap:12px;flex:none}
+.cas-fleche{width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(244,242,234,.35);
+  background:transparent;color:#f4f2ea;display:grid;place-items:center;cursor:pointer;
+  transition:background-color .2s ease,transform .2s var(--ease),opacity .2s ease}
+.cas-fleche:hover{background:rgba(244,242,234,.1)}
+.cas-fleche:active{transform:scale(.94)}
+.cas-fleche:disabled{opacity:.3;cursor:default}
+.cas-fleche:focus-visible{outline:3px solid var(--accent-light);outline-offset:3px}
+.cas-fleche svg{width:22px;height:22px}
+.cas-piste{display:flex;gap:24px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;
+  padding:0 0 6px;margin:0}
+.cas-piste::-webkit-scrollbar{display:none}
+.cas-piste:focus-visible{outline:3px solid var(--accent-light);outline-offset:6px;border-radius:var(--radius)}
+.cas{flex:0 0 82%;scroll-snap-align:start;display:grid;grid-template-columns:1.35fr 1fr;
+  background:#2a302c;border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 30px 60px -36px rgba(0,0,0,.8)}
+/* min-width:0 : sans lui, le lecteur video impose sa largeur minimale a la
+   colonne et ecrase le texte. */
+.cas > *{min-width:0}
+.cas{min-height:460px}
+.cas-media{position:relative;background:#141815;overflow:hidden}
+.cas-media video,.cas-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* La video garde son cadre entier (son titre est incruste, un recadrage le
+   couperait) : bandes sombres au besoin, fondues dans le fond de la carte. */
+.cas-media video{object-fit:contain;z-index:1}
+.cas-media.flou::before{content:"";position:absolute;inset:-30px;z-index:0;
+  background:var(--fond) center/cover no-repeat;filter:blur(26px) brightness(.55);transform:scale(1.08)}
+.cas-texte{padding:34px 34px 36px;display:flex;flex-direction:column;gap:14px}
+.cas-logo{width:64px;height:64px;border-radius:50%;background:#f4f2ea;display:grid;place-items:center;flex:none}
+.cas-logo img{width:46px;height:auto;display:block}
+.cas-type{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-light)}
+.cas-texte h3{font-family:var(--serif);font-size:clamp(1.4rem,2vw,1.8rem);color:#fff;line-height:1.15}
+.cas-texte p{color:#c7ccc6;font-size:.98rem}
+.cas-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px}
+.cas-tags span{font-size:.8rem;font-weight:600;color:#eef0ec;border:1px solid rgba(244,242,234,.22);
+  border-radius:999px;padding:6px 12px}
+.cas-points{display:flex;justify-content:center;gap:10px;margin-top:28px}
+.cas-points button{width:10px;height:10px;border-radius:50%;border:0;padding:0;cursor:pointer;
+  background:rgba(244,242,234,.3);transition:transform .2s var(--ease),background-color .2s ease}
+.cas-points button[aria-current="true"]{background:var(--accent-light);transform:scale(1.3)}
+.cas-points button:focus-visible{outline:2px solid var(--accent-light);outline-offset:3px}
+@media (max-width:860px){
+  .cas-head{flex-direction:column;align-items:flex-start}
+  .cas-nav{display:none}
+  .cas{flex-basis:88%;grid-template-columns:1fr;min-height:0}
+  .cas-media{aspect-ratio:16/10}
+  .cas-texte{padding:24px 22px 26px}
+}
+@media (prefers-reduced-motion:reduce){
+  .cas-piste{scroll-behavior:auto}
+}
+
+/* ============================================================
    16. FOOTER
    ============================================================ */
 footer.site{background:var(--green-deep);color:#d7e4db;padding:64px 0 30px}
@@ -1217,6 +1285,7 @@ footer ul a:hover{color:#fff}
         <li><a href="#probleme">Constat</a></li>
         <li><a href="#formats">Solutions</a></li>
         <li><a href="#solution">L'approche</a></li>
+        <li><a href="#sur-le-terrain">Sur le terrain</a></li>
         <li><a href="#apropos">À propos</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -1239,6 +1308,7 @@ footer ul a:hover{color:#fff}
   <a href="#probleme">Constat</a>
   <a href="#formats">Solutions</a>
   <a href="#solution">L'approche</a>
+  <a href="#sur-le-terrain">Sur le terrain</a>
   <a href="#apropos">À propos</a>
   <a href="#faq">FAQ</a>
   <a href="#contact" class="btn btn-primary">Réserver un appel découverte</a>
@@ -1450,6 +1520,55 @@ footer ul a:hover{color:#fff}
      FORMATS DE SÉANCES — 3 cartes (aucun prix)
      ============================================================ -->
 <!-- ============================================================
+     CAS CLIENTS — carrousel des prestations
+     ============================================================ -->
+<section class="cas-clients" id="sur-le-terrain" aria-labelledby="cas-titre">
+  <div class="wrap">
+    <div class="cas-head">
+      <div>
+        <span class="eyebrow reveal" style="color:var(--accent-light)">Sur le terrain</span>
+        <h2 class="h-section reveal d1" id="cas-titre" style="margin-top:16px">Ils ont fait bouger leurs équipes</h2>
+        <p class="lead reveal d2">Des séances menées sur site, avec le matériel apporté et un format pensé pour chaque équipe.</p>
+      </div>
+      <div class="cas-nav reveal d2">
+        <button class="cas-fleche" type="button" data-sens="-1" aria-label="Prestation précédente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="cas-fleche" type="button" data-sens="1" aria-label="Prestation suivante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+
+    <ul class="cas-piste reveal d2" id="cas-piste" tabindex="0" aria-label="Prestations réalisées, faire défiler horizontalement">
+      <li class="cas" aria-roledescription="diapositive" aria-label="1 sur 2 : séance renfo chez AFE">
+        <div class="cas-media flou" style="--fond:url(assets/cas-clients/seance-renfo-afe.jpg)">
+          <video controls playsinline preload="none" poster="assets/cas-clients/seance-renfo-afe.jpg">
+            <source src="assets/cas-clients/seance-renfo-afe.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="cas-texte">
+          <div class="cas-logo"><img src="assets/clients/afe-marque.svg" alt="" style="width:44px" /></div>
+          <span class="cas-type">Renforcement musculaire</span>
+          <h3>Séance renfo chez AFE</h3>
+          <p>Une séance en extérieur pour l'équipe du cabinet d'expertise comptable : échauffement et mobilité, élastiques, kettlebells, puis gainage collectif.</p>
+          <div class="cas-tags"><span>Sur site</span><span>Matériel fourni</span><span>Tous niveaux</span></div>
+        </div>
+      </li>
+      <li class="cas" aria-roledescription="diapositive" aria-label="2 sur 2 : jeux de confrontation chez H2P">
+        <div class="cas-media">
+          <img src="assets/cas-clients/jeux-confrontation-h2p.jpg" alt="Quentin et l'équipe d'Habitations de Haute-Provence, pouces levés, sur le tapis de la séance" loading="lazy" width="1200" height="1201" style="object-position:50% 35%" />
+        </div>
+        <div class="cas-texte">
+          <div class="cas-logo"><img src="assets/clients/h2p.svg" alt="" style="width:40px" /></div>
+          <span class="cas-type">Jeux de confrontation</span>
+          <h3>Jeux de confrontation chez H2P</h3>
+          <p>Une séance ludique sur tapis pour l'équipe d'Habitations de Haute-Provence : des jeux d'opposition encadrés, pour se dépenser, rire ensemble et renforcer la cohésion.</p>
+          <div class="cas-tags"><span>Cohésion</span><span>Ludique</span><span>Tous niveaux</span></div>
+        </div>
+      </li>
+    </ul>
+    <div class="cas-points" id="cas-points" aria-label="Choisir une prestation"></div>
+  </div>
+</section>
+
+<!-- ============================================================
      À PROPOS — le coach
      ============================================================ -->
 <section class="about" id="apropos">
@@ -1524,6 +1643,7 @@ footer ul a:hover{color:#fff}
         <ul>
           <li><a href="#solution">L'approche</a></li>
             <li><a href="#formats">Solutions</a></li>
+          <li><a href="#sur-le-terrain">Sur le terrain</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -1561,7 +1681,7 @@ footer ul a:hover{color:#fff}
   <ul class="cp-list">
     <li><a class="cp-opt is-main" href="https://koalendar.com/e/seance-offerte" target="_blank" rel="noopener">
       <span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M16 2.5v4M8 2.5v4M3 10h18M9 15l2 2 4-4"/></svg></span>
-      <span><strong>Réservez un rendez-vous</strong><small>Choisissez un créneau en ligne</small></span>
+      <span><strong>Réservez une visio</strong><small>Choisissez un créneau en ligne</small></span>
     </a></li>
     <li><a class="cp-opt" href="https://wa.me/33678321380" target="_blank" rel="noopener">
       <span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.2c.2 2.6 2.2 4.6 4.8 4.8l1-1.3 2 .9c-.2 1.3-1.3 2-2.6 1.8A7 7 0 0 1 8.4 9.6C8.2 8.3 9 7.2 10.2 7l.9 2z"/></svg></span>
@@ -1635,7 +1755,7 @@ footer ul a:hover{color:#fff}
     <div class="form-success" id="form-success" role="status">
       <div class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"/></svg></div>
       <h3>Demande bien reçue !</h3>
-      <p>Merci de votre confiance. Je reviens vers vous très vite pour convenir d'un créneau d'échange. À très bientôt !</p>
+      <p>Merci de votre confiance. Je reviens vers vous au plus vite !</p>
     </div>
   </div>
 </div>
@@ -1967,6 +2087,64 @@ footer ul a:hover{color:#fff}
         if (carteActive === c) carteActive = null;
       });
     });
+  }
+
+  /* ---- Cas clients : carrousel ----
+     Le defilement est natif (scroll-snap). Ce script ajoute les fleches,
+     les points, et met en pause une video qui sort de l'ecran. La carte
+     active est celle dont le bord gauche est le plus proche de celui de
+     la piste. */
+  var piste = document.getElementById('cas-piste');
+  if (piste) {
+    var cas = Array.prototype.slice.call(piste.querySelectorAll('.cas'));
+    var points = document.getElementById('cas-points');
+    var fleches = document.querySelectorAll('.cas-fleche');
+    cas.forEach(function (c, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Prestation ' + (i + 1) + ' sur ' + cas.length);
+      b.addEventListener('click', function () { aller(i); });
+      points.appendChild(b);
+    });
+    function actif() {
+      var gauche = piste.getBoundingClientRect().left, best = 0, d = Infinity;
+      cas.forEach(function (c, i) {
+        var e = Math.abs(c.getBoundingClientRect().left - gauche);
+        if (e < d) { d = e; best = i; }
+      });
+      return best;
+    }
+    function aller(i) {
+      i = Math.max(0, Math.min(cas.length - 1, i));
+      piste.scrollTo({ left: cas[i].offsetLeft - piste.offsetLeft, behavior: motionOK ? 'smooth' : 'instant' });
+    }
+    function majCas() {
+      var a = actif();
+      points.querySelectorAll('button').forEach(function (b, i) {
+        b.setAttribute('aria-current', i === a ? 'true' : 'false');
+      });
+      var fin = piste.scrollLeft + piste.clientWidth >= piste.scrollWidth - 4;
+      fleches[0].disabled = piste.scrollLeft <= 4;
+      fleches[1].disabled = fin;
+      cas.forEach(function (c, i) {
+        var v = c.querySelector('video');
+        if (v && i !== a && !v.paused) v.pause();
+      });
+    }
+    fleches.forEach(function (f) {
+      f.addEventListener('click', function () { aller(actif() + Number(f.dataset.sens)); });
+    });
+    piste.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); aller(actif() + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); aller(actif() - 1); }
+    });
+    var attente = null;
+    piste.addEventListener('scroll', function () {
+      if (attente) cancelAnimationFrame(attente);
+      attente = requestAnimationFrame(majCas);
+    }, { passive: true });
+    window.addEventListener('resize', majCas);
+    majCas();
   }
 
   /* ---- Année dynamique ---- */
