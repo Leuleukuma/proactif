@@ -960,6 +960,9 @@ header.site.scrolled{
 .cas-texte{padding:34px 34px 36px;display:flex;flex-direction:column;gap:14px}
 .cas-logo{width:64px;height:64px;border-radius:50%;background:#f4f2ea;display:grid;place-items:center;flex:none}
 .cas-logo img{width:46px;height:auto;display:block}
+/* Logo en mot (Crédit Mutuel) : pastille allongée plutôt que ronde. */
+.cas-logo.mot{width:auto;height:52px;padding:0 20px;border-radius:999px;align-self:flex-start}
+.cas-logo.mot img{width:150px}
 .cas-type{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-light)}
 .cas-texte h3{font-family:var(--serif);font-size:clamp(1.4rem,2vw,1.8rem);color:#fff;line-height:1.15}
 .cas-texte p{color:#c7ccc6;font-size:.98rem}
@@ -1537,7 +1540,7 @@ footer ul a:hover{color:#fff}
     </div>
 
     <ul class="cas-piste reveal d2" id="cas-piste" tabindex="0" aria-label="Prestations réalisées, faire défiler horizontalement">
-      <li class="cas" aria-roledescription="diapositive" aria-label="1 sur 2 : séance renfo chez AFE">
+      <li class="cas" aria-roledescription="diapositive" aria-label="1 sur 3 : séance renfo chez AFE">
         <div class="cas-media flou" style="--fond:url(assets/cas-clients/seance-renfo-afe.jpg)">
           <video controls playsinline preload="none" poster="assets/cas-clients/seance-renfo-afe.jpg">
             <source src="assets/cas-clients/seance-renfo-afe.mp4" type="video/mp4" />
@@ -1551,7 +1554,7 @@ footer ul a:hover{color:#fff}
           <div class="cas-tags"><span>Sur site</span><span>Matériel fourni</span><span>Tous niveaux</span></div>
         </div>
       </li>
-      <li class="cas" aria-roledescription="diapositive" aria-label="2 sur 2 : jeux de confrontation chez H2P">
+      <li class="cas" aria-roledescription="diapositive" aria-label="2 sur 3 : jeux de confrontation chez H2P">
         <div class="cas-media">
           <img src="assets/cas-clients/jeux-confrontation-h2p.jpg" alt="Quentin et l'équipe d'Habitations de Haute-Provence, pouces levés, sur le tapis de la séance" loading="lazy" width="1200" height="1201" style="object-position:50% 35%" />
         </div>
@@ -1561,6 +1564,20 @@ footer ul a:hover{color:#fff}
           <h3>Jeux de confrontation chez H2P</h3>
           <p>Une séance ludique sur tapis pour l'équipe d'Habitations de Haute-Provence : des jeux d'opposition encadrés, pour se dépenser, rire ensemble et renforcer la cohésion.</p>
           <div class="cas-tags"><span>Cohésion</span><span>Ludique</span><span>Tous niveaux</span></div>
+        </div>
+      </li>
+      <li class="cas" aria-roledescription="diapositive" aria-label="3 sur 3 : séance de cohésion au Crédit Mutuel">
+        <div class="cas-media flou" style="--fond:url(assets/cas-clients/seance-cohesion-credit-mutuel.jpg)">
+          <video controls playsinline preload="none" poster="assets/cas-clients/seance-cohesion-credit-mutuel.jpg">
+            <source src="assets/cas-clients/seance-cohesion-credit-mutuel.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="cas-texte">
+          <div class="cas-logo mot"><img src="assets/clients/credit-mutuel.svg" alt="" /></div>
+          <span class="cas-type">Cohésion d'équipe</span>
+          <h3>Un jeu sur mesure au Crédit Mutuel</h3>
+          <p>Micro-team building conçu pour leur contexte, avec 4 rôles différents selon son envie de s'impliquer.</p>
+          <div class="cas-tags"><span>Cohésion</span><span>Sans transpirer</span><span>Sur mesure</span></div>
         </div>
       </li>
     </ul>
